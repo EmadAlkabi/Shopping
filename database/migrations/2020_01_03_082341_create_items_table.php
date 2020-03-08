@@ -26,7 +26,7 @@ class CreateItemsTable extends Migration
             $table->string('unit');
             $table->unsignedInteger('quantity');
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->boolean('state');
+            $table->boolean('deleted')->default(0);
             $table->date('created_at');
         });
     }

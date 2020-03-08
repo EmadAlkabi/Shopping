@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enum\ItemState;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Item\TopCollection;
 use App\Models\Item;
@@ -19,8 +18,9 @@ class ItemController extends Controller
 
 
 
+
     public function newProduct($numberOfItem = 10) {
-        $items = Item::where('state', ItemState::ACTIVE)
+        $items = Item::where('deleted', 0)
             ->latest()
             ->take($numberOfItem)
             ->get();
@@ -32,7 +32,7 @@ class ItemController extends Controller
     }
 
     public function topSell($numberOfItem = 10) {
-        $items = Item::where('state', ItemState::ACTIVE)->get();
+        $items = Item::where('deleted', 0)->get();
 
         $collection = new Collection();
         foreach($items as $item)
@@ -49,7 +49,7 @@ class ItemController extends Controller
     }
 
     public function topRating($numberOfItem = 10) {
-        $items = Item::where('state', ItemState::ACTIVE)->get();
+        $items = Item::where('deleted', 0)->get();
 
         $collection = new Collection();
         foreach($items as $item)
@@ -66,7 +66,7 @@ class ItemController extends Controller
     }
 
     public function topDiscount($numberOfItem = 10) {
-        $items = Item::where('state', ItemState::ACTIVE)->get();
+        $items = Item::where('deleted', 0)->get();
 
         $collection = new Collection();
         foreach($items as $item)

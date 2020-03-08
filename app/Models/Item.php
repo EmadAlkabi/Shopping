@@ -23,7 +23,8 @@ class Item extends Model
         'unit',
         'quantity',
         'category_id',
-        'state'
+        'deleted',
+        'created_at'
     ];
 
     public function category() {
@@ -32,6 +33,11 @@ class Item extends Model
 
     public function reviews() {
         return $this->hasMany('App\Models\Review');
+    }
+
+    public function orders() {
+        return $this->hasMany('App\Models\OrderItem')
+            ->where('cart', '=', '0');
     }
 
     public function rating() {
@@ -47,7 +53,7 @@ class Item extends Model
 
         $availableOffer = $offers->filter(function ($offer) {
             return Offer::where('id', $offer->offer_id)
-                ->where('end_date', '>' ,date('Y-m-d'))
+                ->where('end_date', '>=', date('Y-m-d'))
                 ->first();
         });
 

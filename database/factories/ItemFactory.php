@@ -20,7 +20,7 @@ $factory->define(Item::class, function (Faker $faker) {
         "unit"          => "unknown",
         "quantity"      => $faker->numberBetween(0, 1000),
         "category_id"   => Category::all()->random()->id,
-        "state"         => ItemState::ACTIVE,
+        "deleted"       => 0,
         "created_at"    => $faker->dateTimeBetween('-30years', 'now')
     ];
 });

@@ -17,11 +17,11 @@ class TopCollection extends JsonResource
         return [
             'id'            => $this->id,
             'name'          => $this->name,
-            'image'         => null,
+            'image'         => "https://lorempixel.com/640/480/?24239",
             'price'         => $this->price,
             'discount_rate' => $this->discountRate(),
             'rating'        => $this->rating(),
-            'quantity'      => $this->quantity,
+            'quantity'      => $this->quantity
         ];
     }
 }

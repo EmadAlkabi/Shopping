@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\OfferItem;
+use App\Models\OrderItem;
 use Illuminate\Database\Seeder;
 
-class OffersItemsTableSeeder extends Seeder
+class OrdersItemsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class OffersItemsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(OfferItem::class, 1000)->create();
+        factory(OrderItem::class, 1000)->create();
     }
 }
