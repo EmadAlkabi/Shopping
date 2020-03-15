@@ -15,10 +15,14 @@ class DatabaseSeeder extends Seeder
             ItemsTableSeeder::class,
             ReviewsTableSeeder::class,
             MediaItemTableSeeder::class,
+
             OffersTableSeeder::class,
             OffersItemsTableSeeder::class,
+
             OrdersTableSeeder::class,
-            OrdersItemsTableSeeder::class
+            OrdersItemsTableSeeder::class,
+
+            AnnouncementsTableSeeder::class
         ]);
     }
 }

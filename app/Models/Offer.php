@@ -20,4 +20,8 @@ class Offer extends Model
         'end_date',
         'created_at'
     ];
+
+    public function vendor() {
+        return $this->belongsTo("App\Models\Vendor");
+    }
 }

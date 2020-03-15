@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Offer::class, function (Faker $faker) {
     return [
-        "vendor_id"   => 0,
+        "vendor_id"   => $faker->numberBetween(1, 3),
         "title"       => $faker->company,
         "description" => $faker->sentence(10),
         "image"       => $faker->imageUrl(),

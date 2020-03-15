@@ -15,10 +15,12 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('type');
-            $table->string('url');
             $table->unsignedBigInteger('target_id');
+            $table->boolean('type');
             $table->boolean('state');
+            $table->string('title');
+            $table->string('description');
+            $table->string('image');
             $table->date('start_date');
             $table->date('end_date');
             $table->date('created_at');

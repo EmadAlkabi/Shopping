@@ -13,7 +13,12 @@ class CategoryController extends Controller
 
     public function index() {
         $categories = Category::all();
+
+        if (!$categories)
+            return $this->notFoundResponse();
+
         $categories = self::buildTree($categories, null);
+
         return $this->apiResponse($categories, 200, false);
     }
 

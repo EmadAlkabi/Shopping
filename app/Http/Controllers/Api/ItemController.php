@@ -3,22 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Item\SingleItemCollection;
-use App\Http\Resources\Item\TopItemsCollection;
+use App\Http\Resources\SingleItemCollection;
+use App\Http\Resources\TopItemsCollection;
 use App\Models\Item;
 use Illuminate\Support\Collection;
 
 class ItemController extends Controller
 {
     use ApiResponseTrait;
-
-    public function index() {
-        $items = Item::all();
-        return $this->apiResponse($items, 200, false);
-    }
-
-
-
 
     public function newProduct($numberOfItem = 10) {
         $items = Item::where('category_id', '!=', null)
