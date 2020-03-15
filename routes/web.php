@@ -11,6 +11,20 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard.main');
+});
+
+Route::namespace('Dashboard')
+    ->prefix('dashboard')
+    ->name('dashboard.')
+    ->group(function () {
+        // Items
+        Route::namespace('Item')
+            ->group(function () {
+                // Resource
+                Route::resource('items', 'ItemController');
+            });
 });

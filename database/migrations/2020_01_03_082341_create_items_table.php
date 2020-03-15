@@ -13,7 +13,7 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('item', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('offline_id')->nullable();
@@ -38,6 +38,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('item');
     }
 }

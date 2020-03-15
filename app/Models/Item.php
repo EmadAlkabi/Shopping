@@ -27,6 +27,10 @@ class Item extends Model
         'created_at'
     ];
 
+    public function vendor() {
+        return $this->belongsTo('App\Models\Vendor');
+    }
+
     public function category() {
         return $this->belongsTo('App\Models\Category');
     }

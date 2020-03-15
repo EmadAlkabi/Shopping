@@ -4,12 +4,13 @@ namespace App\Http\Resources\Item;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TopCollection extends JsonResource
+class TopItemsCollection extends JsonResource
 {
+
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
