@@ -27,6 +27,7 @@ class ItemController extends Controller
                 $items = Item::where('vendor_id', $vendor)
                     ->where('category_id', '!=', null)
                     ->where('deleted', 0)
+                    ->dd()
                     ->get();
                 break;
 
