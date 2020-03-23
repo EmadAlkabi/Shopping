@@ -11,11 +11,16 @@
 |
 */
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('dashboard.main');
+});
+
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
 });
 
 Route::post('/upload', function () {
