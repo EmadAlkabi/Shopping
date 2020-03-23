@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class OffersCollection extends JsonResource
 {
@@ -20,7 +21,7 @@ class OffersCollection extends JsonResource
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
-            'image'       => $this->image,
+            'image'       => asset('images/x-large' . Storage::url($this->image)),
         ];
     }
 }

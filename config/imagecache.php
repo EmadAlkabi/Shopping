@@ -51,10 +51,11 @@ return array(
     */
 
     'templates' => array(
-        'small'   => 'Intervention\Image\Templates\Small',
-        'medium'  => 'Intervention\Image\Templates\Medium',
-        'large'   => 'Intervention\Image\Templates\Large',
-        'x-large' => 'Intervention\Image\Templates\XLarge',
+        'small'    => 'Intervention\Image\Templates\Small',
+        'medium'   => 'Intervention\Image\Templates\Medium',
+        'large'    => 'Intervention\Image\Templates\Large',
+        'x-large'  => 'Intervention\Image\Templates\XLarge',
+        'xx-large' => 'Intervention\Image\Templates\XXLarge',
     ),
 
     /*
