@@ -4,7 +4,9 @@
 namespace App\Http\Resources;
 
 
+use App\Enum\AnnouncementType;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class AnnouncementsCollection extends JsonResource
 {
@@ -19,9 +21,10 @@ class AnnouncementsCollection extends JsonResource
         return [
             'title'       => $this->title,
             'description' => $this->description,
-            'image'       => $this->image,
-            'id'          => $this->target_id,
-            'type'        => $this->type,
+            'image'       => asset('images/x-large' . Storage::url($this->image)),
+            'link'        => ($this->type == AnnouncementType::OFFER)
+                                ? route('offers.show', ['offer' => $this->target_id])
+                                : route('items.show', ['item' => $this->target_id]),
         ];
     }
 }

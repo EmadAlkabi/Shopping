@@ -6,6 +6,6 @@ namespace App\Enum;
 
 class MainShowType
 {
-    const ANNOUNCEMENTS = 1;
-    const OFFERS = 2;
+    const ANNOUNCEMENT = 1;
+    const OFFER = 2;
 }

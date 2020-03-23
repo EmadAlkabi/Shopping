@@ -18,16 +18,22 @@ Route::namespace('Api')->group(function () {
     // Categories
     Route::get('categories', 'CategoryController@index');
 
-    // Top Items
-    Route::get('items/new-product', 'ItemController@newProduct');
-    Route::get('items/top-sell', 'ItemController@topSell');
-    Route::get('items/top-rating', 'ItemController@topRating');
-    Route::get('items/top-discount', 'ItemController@topDiscount');
+    // Top
+    Route::get('items/new-product', 'TopController@newProduct');
+    Route::get('items/top-sell', 'TopController@topSell');
+    Route::get('items/top-rating', 'TopController@topRating');
+    Route::get('items/top-discount', 'TopController@topDiscount');
 
     // Main Show
-    Route::get('announcements/main/{numberOfAnnouncements?}', 'AnnouncementController@mainAnnouncements');
-    Route::get('offers/main/{numberOfOffers?}', 'OfferController@mainOffers');
+    Route::get('main-show/announcements', 'MainShowController@announcements');
+    Route::get('main-show/offers', 'MainShowController@offers');
 
-    // Single Item
-    Route::get('items/{id}', 'ItemController@singleItem');
+    // Announcements
+
+
+    // Offers
+    Route::get('offers/{offer}', 'OfferController@show')->name('offers.show');
+
+    // Items
+    Route::get('items/{item}', 'ItemController@show')->name('items.show');
 });

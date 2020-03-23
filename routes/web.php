@@ -12,10 +12,21 @@
 */
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('dashboard.main');
 });
+
+Route::post('/upload', function () {
+    if (!is_null(request()->file('file')))
+    {
+        $image = Storage::put("public/announcement", request()->file('file'));
+        dd($image);
+    }
+});
+
+
 
 Route::namespace('Dashboard')
     ->prefix('dashboard')
