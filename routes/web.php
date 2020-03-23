@@ -19,9 +19,9 @@ Route::get('/', function () {
     return view('dashboard.main');
 });
 
-//Route::get('/foo', function () {
-//    Artisan::call('storage:link');
-//});
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
 
 Route::post('/upload', function () {
     if (!is_null(request()->file('file')))
