@@ -12,12 +12,12 @@ class ItemController extends Controller
 {
     use ApiResponseTrait;
 
-    public function newProduct($numberOfItem = 10) {
-        $items = Item::where('category_id', '!=', null)
-            ->where('deleted', 0)
-            ->latest()
-            ->take($numberOfItem)
-            ->get();
+    public function newProduct() {
+        $numberOfItems = request()->input('numberOfItems', 10);
+        $vendor = request()->input('vendor', null);
+
+        $items = self::getItems($vendor);
+        $items = $items->sortByDesc('created_at')->take($numberOfItems);
 
         if (!$items)
             return $this->notFoundResponse();
@@ -25,17 +25,18 @@ class ItemController extends Controller
         return $this->apiResponse(TopItemsCollection::collection($items));
     }
 
-    public function topSell($numberOfItem = 10) {
-        $items = Item::where('category_id', '!=', null)
-            ->where('deleted', 0)
-            ->get();
+    public function topSell() {
+        $numberOfItems = request()->input('numberOfItems', 10);
+        $vendor = request()->input('vendor', null);
+
+        $items = self::getItems($vendor);
 
         $collection = new Collection();
         foreach($items as $item)
             $collection->push(['item' => $item, 'count' => $item->orders->count()]);
 
         $topItems = $collection->sortByDesc('count')
-            ->take($numberOfItem)
+            ->take($numberOfItems)
             ->pluck('item');
 
         if (!$topItems)
@@ -44,17 +45,18 @@ class ItemController extends Controller
         return $this->apiResponse(TopItemsCollection::collection($topItems));
     }
 
-    public function topRating($numberOfItem = 10) {
-        $items = Item::where('category_id', '!=', null)
-            ->where('deleted', 0)
-            ->get();
+    public function topRating() {
+        $numberOfItems = request()->input('numberOfItems', 10);
+        $vendor = request()->input('vendor', null);
+
+        $items = self::getItems($vendor);
 
         $collection = new Collection();
         foreach($items as $item)
             $collection->push(['item' => $item, 'rating' => $item->reviews->avg('rating')]);
 
         $topItems = $collection->sortByDesc('rating')
-            ->take($numberOfItem)
+            ->take($numberOfItems)
             ->pluck('item');
 
         if (!$topItems)
@@ -63,17 +65,18 @@ class ItemController extends Controller
         return $this->apiResponse(TopItemsCollection::collection($topItems));
     }
 
-    public function topDiscount($numberOfItem = 10) {
-        $items = Item::where('category_id', '!=', null)
-            ->where('deleted', 0)
-            ->get();
+    public function topDiscount() {
+        $numberOfItems = request()->input('numberOfItems', 10);
+        $vendor = request()->input('vendor', null);
+
+        $items = self::getItems($vendor);
 
         $collection = new Collection();
         foreach($items as $item)
             $collection->push(['item' => $item, 'discountRate' => $item->discountRate()]);
 
         $topItems = $collection->sortByDesc('discountRate')
-            ->take($numberOfItem)
+            ->take($numberOfItems)
             ->pluck('item');
 
         if (!$topItems)
@@ -89,5 +92,19 @@ class ItemController extends Controller
             return $this->notFoundResponse();
 
         return $this->apiResponse(SingleItemCollection::collection($item));
+    }
+
+    public static function getItems($vendor) {
+        if (is_null($vendor) || $vendor == "null")
+            $items = Item::where('category_id', '!=', null)
+                ->where('deleted', 0)
+                ->get();
+        else
+            $items = Item::where('vendor_id', $vendor)
+                ->where('category_id', '!=', null)
+                ->where('deleted', 0)
+                ->get();
+
+        return $items;
     }
 }

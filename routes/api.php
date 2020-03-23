@@ -19,10 +19,10 @@ Route::namespace('Api')->group(function () {
     Route::get('categories', 'CategoryController@index');
 
     // Top Items
-    Route::get('items/new-product/{numberOfItem?}', 'ItemController@newProduct');
-    Route::get('items/top-sell/{numberOfItem?}', 'ItemController@topSell');
-    Route::get('items/top-rating/{numberOfItem?}', 'ItemController@topRating');
-    Route::get('items/top-discount/{numberOfItem?}', 'ItemController@topDiscount');
+    Route::get('items/new-product', 'ItemController@newProduct');
+    Route::get('items/top-sell', 'ItemController@topSell');
+    Route::get('items/top-rating', 'ItemController@topRating');
+    Route::get('items/top-discount', 'ItemController@topDiscount');
 
     // Main Show
     Route::get('announcements/main/{numberOfAnnouncements?}', 'AnnouncementController@mainAnnouncements');
