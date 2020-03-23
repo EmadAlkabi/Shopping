@@ -21,7 +21,7 @@ class TopItemsCollection extends JsonResource
             'image'         => "https://lorempixel.com/640/480/?24239",
             'price'         => $this->price,
             'discount_rate' => $this->discountRate(),
-            'rating'        => round((float)$this->rating(),2),
+            'rating'        => round($this->rating(),2),
             'quantity'      => $this->quantity
         ];
     }
