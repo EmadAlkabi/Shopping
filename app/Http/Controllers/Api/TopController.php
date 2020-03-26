@@ -17,10 +17,11 @@ class TopController extends Controller
         $vendor = request()->input('vendor', null);
 
         $items = self::getItems($vendor);
-        $items = $items->sortByDesc('created_at')->take($numberOfItems);
 
         if (!$items)
             return $this->notFoundResponse();
+
+        $items = self::getNewProductItems($items, $numberOfItems);
 
         return $this->apiResponse(TopItemsCollection::collection($items));
     }
@@ -31,18 +32,12 @@ class TopController extends Controller
 
         $items = self::getItems($vendor);
 
-        $collection = new Collection();
-        foreach($items as $item)
-            $collection->push(['item' => $item, 'count' => $item->orders->count()]);
-
-        $topItems = $collection->sortByDesc('count')
-            ->take($numberOfItems)
-            ->pluck('item');
-
-        if (!$topItems)
+        if (!$items)
             return $this->notFoundResponse();
 
-        return $this->apiResponse(TopItemsCollection::collection($topItems));
+        $items = self::getTopSellItems($items, $numberOfItems);
+
+        return $this->apiResponse(TopItemsCollection::collection($items));
     }
 
     public function topRating() {
@@ -51,18 +46,12 @@ class TopController extends Controller
 
         $items = self::getItems($vendor);
 
-        $collection = new Collection();
-        foreach($items as $item)
-            $collection->push(['item' => $item, 'rating' => $item->reviews->avg('rating')]);
-
-        $topItems = $collection->sortByDesc('rating')
-            ->take($numberOfItems)
-            ->pluck('item');
-
-        if (!$topItems)
+        if (!$items)
             return $this->notFoundResponse();
 
-        return $this->apiResponse(TopItemsCollection::collection($topItems));
+        $items = self::getTopRatingItems($items, $numberOfItems);
+
+        return $this->apiResponse(TopItemsCollection::collection($items));
     }
 
     public function topDiscount() {
@@ -71,18 +60,29 @@ class TopController extends Controller
 
         $items = self::getItems($vendor);
 
-        $collection = new Collection();
-        foreach($items as $item)
-            $collection->push(['item' => $item, 'discountRate' => $item->discountRate()]);
-
-        $topItems = $collection->sortByDesc('discountRate')
-            ->take($numberOfItems)
-            ->pluck('item');
-
-        if (!$topItems)
+        if (!$items)
             return $this->notFoundResponse();
 
-        return $this->apiResponse(TopItemsCollection::collection($topItems));
+        $items = self::getTopDiscountItems($items, $numberOfItems);
+
+        return $this->apiResponse(TopItemsCollection::collection($items));
+    }
+
+    public function topCollection() {
+        $numberOfItems = request()->input('numberOfItems', 10);
+        $vendor = request()->input('vendor', null);
+
+        $items = self::getItems($vendor);
+
+        if (!$items)
+            return $this->notFoundResponse();
+
+        return $this->apiResponse([
+           "new-product"  => TopItemsCollection::collection(self::getNewProductItems($items, $numberOfItems)),
+           "top-sell"     => TopItemsCollection::collection(self::getTopSellItems($items, $numberOfItems)),
+           "top-rating"   => TopItemsCollection::collection(self::getTopRatingItems($items, $numberOfItems)),
+           "top-discount" => TopItemsCollection::collection(self::getTopDiscountItems($items, $numberOfItems))
+        ]);
     }
 
     public static function getItems($vendor) {
@@ -97,5 +97,40 @@ class TopController extends Controller
                 ->get();
 
         return $items;
+    }
+
+    public static function getNewProductItems($items, $numberOfItems) {
+        return $items->sortByDesc('created_at')
+            ->take($numberOfItems);
+    }
+
+    public static function getTopSellItems($items, $numberOfItems) {
+        $collection = new Collection();
+        foreach($items as $item)
+            $collection->push(['item' => $item, 'count' => $item->orders->count()]);
+
+        return $collection->sortByDesc('count')
+            ->take($numberOfItems)
+            ->pluck('item');
+    }
+
+    public static function getTopRatingItems($items, $numberOfItems) {
+        $collection = new Collection();
+        foreach($items as $item)
+            $collection->push(['item' => $item, 'rating' => $item->reviews->avg('rating')]);
+
+        return $collection->sortByDesc('rating')
+            ->take($numberOfItems)
+            ->pluck('item');
+    }
+
+    public static function getTopDiscountItems($items, $numberOfItems) {
+        $collection = new Collection();
+        foreach($items as $item)
+            $collection->push(['item' => $item, 'discountRate' => $item->discountRate()]);
+
+        return $collection->sortByDesc('discountRate')
+            ->take($numberOfItems)
+            ->pluck('item');
     }
 }

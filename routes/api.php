@@ -23,6 +23,7 @@ Route::namespace('Api')->group(function () {
     Route::get('items/top-sell', 'TopController@topSell');
     Route::get('items/top-rating', 'TopController@topRating');
     Route::get('items/top-discount', 'TopController@topDiscount');
+    Route::get('items/top-collection', 'TopController@topCollection');
 
     // Main Show
     Route::get('main-show/announcements', 'MainShowController@announcements');
