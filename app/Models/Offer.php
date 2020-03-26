@@ -24,4 +24,8 @@ class Offer extends Model
     public function vendor() {
         return $this->belongsTo("App\Models\Vendor");
     }
+
+    public function offerItems() {
+        return $this->hasMany("App\Models\OfferItem");
+    }
 }

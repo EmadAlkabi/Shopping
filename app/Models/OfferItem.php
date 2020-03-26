@@ -17,4 +17,8 @@ class OfferItem extends Model
         'discount_rate',
         'created_at'
     ];
+
+    public function item() {
+        return $this->belongsTo("App\Models\Item");
+    }
 }

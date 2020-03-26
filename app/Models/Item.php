@@ -45,9 +45,11 @@ class Item extends Model
     }
 
     public function rating() {
-        return (float)Review::select('rating')
+        $rating = Review::select('rating')
             ->where('item_id', $this->id)
             ->avg('rating');
+
+        return round($rating, 2);
     }
 
     public function discountRate() {
