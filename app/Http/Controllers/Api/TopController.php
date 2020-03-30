@@ -85,6 +85,25 @@ class TopController extends Controller
         ]);
     }
 
+    public function bestTopCollection() {
+        $numberOfItems = request()->input('numberOfItems', 2);
+        $vendor = request()->input('vendor', null);
+
+        $items = self::getItems($vendor);
+
+        if (!$items)
+            return $this->notFoundResponse();
+
+        $topItems = collect([
+            self::getNewProductItems($items, $numberOfItems),
+            self::getTopSellItems($items, $numberOfItems),
+            self::getTopRatingItems($items, $numberOfItems),
+            self::getTopDiscountItems($items, $numberOfItems)
+        ])->collapse();
+
+        return $this->apiResponse(TopItemsCollection::collection($topItems));
+    }
+
     public static function getItems($vendor) {
         if (is_null($vendor) || $vendor == "null")
             $items = Item::where('category_id', '!=', null)
