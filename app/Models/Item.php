@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\MediaItemType;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
@@ -34,6 +35,23 @@ class Item extends Model
     public function category() {
         return $this->belongsTo('App\Models\Category');
     }
+
+    public function images() {
+        return $this->hasMany("App\Models\MediaItem")
+            ->where("type", MediaItemType::IMAGE);
+    }
+
+    public function videos() {
+        return $this->hasMany("App\Models\MediaItem")
+            ->where("type", MediaItemType::VIDEO);
+    }
+
+
+
+
+
+
+
 
     public function reviews() {
         return $this->hasMany('App\Models\Review');

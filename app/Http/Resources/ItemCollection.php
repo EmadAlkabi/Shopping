@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ItemCollection extends JsonResource
 {
@@ -25,9 +26,7 @@ class ItemCollection extends JsonResource
 
             'discount_rate'   => $this->discountRate(),
             'rating'          => $this->rating(),
-
             'numberOfReviews' => $this->reviews->count(),
-            'reviews'         => $this->reviews,
 
             'vendor' => [
                 'id'   => $this->vendor->id,
@@ -37,6 +36,13 @@ class ItemCollection extends JsonResource
             'category' => [
                 'id'   => $this->category->id,
                 'name' => $this->category->name
+            ],
+
+            'media' => [
+                'images' => $this->images->map(function ($image) {
+                    return asset('images/large' . Storage::url($image->url));
+                }),
+                'videos' => ($this->videos)->pluck("url")
             ]
         ];
     }

@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ItemCollection;
-use App\Http\Resources\TopItemsCollection;
 use App\Models\Item;
-use Illuminate\Support\Collection;
-use phpDocumentor\Reflection\Types\Resource_;
 
 class ItemController extends Controller
 {
@@ -16,11 +13,11 @@ class ItemController extends Controller
     public function show($item) {
         $item = Item::where('id', $item)
             ->where('deleted', '!=', 1)
-            ->get();
+            ->first();
 
-        if(!$item->first())
+        if(!$item)
             return $this->notFoundResponse();
 
-        return $this->apiResponse(ItemCollection::collection($item));
+        return $this->apiResponse(new ItemCollection($item));
     }
 }
