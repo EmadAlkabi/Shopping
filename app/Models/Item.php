@@ -46,16 +46,15 @@ class Item extends Model
             ->where("type", MediaItemType::VIDEO);
     }
 
-
-
-
-
-
-
-
     public function reviews() {
         return $this->hasMany('App\Models\Review');
     }
+
+
+
+
+
+
 
     public function orders() {
         return $this->hasMany('App\Models\OrderItem')
