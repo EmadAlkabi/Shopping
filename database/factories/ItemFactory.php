@@ -12,7 +12,9 @@ $factory->define(Item::class, function (Faker $faker) {
     return [
         "vendor_id"     => Vendor::all()->random()->id,
         "offline_id"    => null,
-        "name"          => $faker->company,
+        "name"          => $faker->name,
+        "company_name"  => $faker->company,
+        "tags"          => null,
         "details"       => $faker->paragraph(),
         "barcode"       => $faker->ean13,
         "code"          => $faker->ean8,
@@ -21,7 +23,7 @@ $factory->define(Item::class, function (Faker $faker) {
         "unit"          => "unknown",
         "quantity"      => $faker->numberBetween(0, 1000),
         "category_id"   => $faker->randomElement(array(null, Category::all()->random()->id)),
-        "deleted"       => $faker->numberBetween(0,1),
+        "deleted"       => $faker->numberBetween(0, 1),
         "created_at"    => $faker->dateTimeBetween('-30years', 'now')
     ];
 });

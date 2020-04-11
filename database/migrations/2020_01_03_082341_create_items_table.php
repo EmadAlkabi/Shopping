@@ -13,11 +13,13 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('item', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('offline_id')->nullable();
             $table->string('name');
+            $table->string('company_name');
+            $table->string('tags')->nullable();
             $table->text('details');
             $table->string('barcode')->nullable();
             $table->string('code')->nullable();
@@ -38,6 +40,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item');
+        Schema::dropIfExists('items');
     }
 }

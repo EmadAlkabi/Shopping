@@ -34,10 +34,12 @@ class ItemCollection extends JsonResource
                 'name' => $this->vendor->name
             ],
 
-            'category' => [
-                'id'   => $this->category->id,
-                'name' => $this->category->name
-            ],
+            'category' => (!is_null($this->category_id))
+            ? [
+                    'id'   => $this->category->id,
+                    'name' => $this->category->name
+                ]
+            : "",
 
             'media' => [
                 'images' => $this->images->map(function ($image) {

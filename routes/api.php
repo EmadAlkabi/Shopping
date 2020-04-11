@@ -36,6 +36,9 @@ Route::namespace('Api')->group(function () {
     // Items
     Route::get('items/{item}', 'ItemController@show')->name('items.show');
 
+    // Search
+    Route::get('search', 'SearchController@search');
+
     // Reviews
     Route::get('reviews', 'ReviewController@index');
     Route::post('reviews', 'ReviewController@store');

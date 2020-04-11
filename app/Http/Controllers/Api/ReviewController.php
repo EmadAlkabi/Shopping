@@ -19,11 +19,13 @@ class ReviewController extends Controller
         if(!$item)
             return $this->notFoundResponse();
 
-        $page = request()->input('page', 0);
+        $page = request()->input('page');
+        if (is_null($page) || $page < 1)
+            $page = 1;
+
         $reviews = $item->reviews->chunk(10);
 
-        return $this->apiResponse(ReviewsCollection::collection($reviews[$page]));
-
+        return $this->apiResponse(ReviewsCollection::collection($reviews[$page-1]));
     }
 
     public function store() {

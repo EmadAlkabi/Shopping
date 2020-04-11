@@ -16,6 +16,8 @@ class Item extends Model
         'vendor_id',
         'offline_id',
         'name',
+        'company_name',
+        'tags',
         'details',
         'barcode',
         'code',
@@ -47,7 +49,8 @@ class Item extends Model
     }
 
     public function reviews() {
-        return $this->hasMany('App\Models\Review');
+        return $this->hasMany('App\Models\Review')
+            ->latest();
     }
 
 
