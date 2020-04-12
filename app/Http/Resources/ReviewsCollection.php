@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ReviewsCollection extends JsonResource
 {
@@ -17,8 +18,9 @@ class ReviewsCollection extends JsonResource
     {
         return [
             'user' => [
-                "id"   => $this->user->id,
-                "name" => $this->user->name,
+                "id"    => $this->user->id,
+                "name"  => $this->user->name,
+                "image" => asset("images/small".Storage::url($this->user->image)),
             ],
             'rating' => $this->rating,
             'comment' => $this->comment,
