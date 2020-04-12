@@ -8,10 +8,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Review::class, function (Faker $faker) {
     return [
-        'user_id' => $faker->numberBetween(1, 500),
-        'item_id' => Item::all()->random()->id,
-        'rating' => $faker->numberBetween(1, 5),
-        'comment' => null,
-        'created_at' => date('Y-m-d')
+        'user_id'    => $faker->numberBetween(1, 500),
+        'item_id'    => Item::all()->random()->id,
+        'rating'     => $faker->numberBetween(1, 5),
+        'comment'    => $faker->sentence($nbWords = 6, $variableNbWords = true),
+        'created_at' => $faker->dateTime($max = 'now', $timezone = null)
     ];
 });

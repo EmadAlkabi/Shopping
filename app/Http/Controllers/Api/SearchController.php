@@ -15,14 +15,20 @@ class SearchController extends Controller
         $items = self::getItems(request()->input('vendor'), request()->input('query'));
 
         switch (request()->input('order')) {
-            // By price
+            // By alphabets
             case 1:
+                (request()->input('sort') == 2)
+                    ? $items = $items->sortByDesc("name")
+                    : $items = $items->sortBy("name");
+                break;
+            // By price
+            case 2:
                 (request()->input('sort') == 2)
                     ? $items = $items->sortByDesc("price")
                     : $items = $items->sortBy("price");
                 break;
             // By rating
-            case 2:
+            case 3:
                 $collection = new Collection();
                 foreach($items as $item)
                     $collection->push([
@@ -36,7 +42,7 @@ class SearchController extends Controller
                 $items = $collection->pluck('item');
                 break;
             // By best sell
-            case 3:
+            case 4:
                 $collection = new Collection();
                 foreach($items as $item)
                     $collection->push([
@@ -51,13 +57,18 @@ class SearchController extends Controller
                 break;
         }
 
-        $page = request()->input('page');
-        if (is_null($page) || $page < 1)
-            $page = 1;
-
         $items = $items->chunk(10);
+        $pages = $items->count();
+        $page = (integer)request()->input('page', 1);
 
-        return $this->apiResponse(SearchItemsCollection::collection($items[$page-1]));
+        if ($page < 1 || $page > $pages)
+            return $this->apiResponse(null, 200, "page number not in rang");
+
+        return $this->apiResponse([
+            "items" => SearchItemsCollection::collection($items[$page-1]),
+            "current-page" => $page,
+            "max-page"     => $pages
+        ]);
     }
 
     public static function getItems($vendor, $query) {

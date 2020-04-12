@@ -18,4 +18,8 @@ class Review extends Model
         'comment',
         'created_at'
     ];
+
+    public function user() {
+        return $this->belongsTo("App\Models\User");
+    }
 }

@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
             OrdersTableSeeder::class,
             OrdersItemsTableSeeder::class,
 
-            AnnouncementsTableSeeder::class
+            AnnouncementsTableSeeder::class,
+
+            UsersTableSeeder::class
         ]);
     }
 }

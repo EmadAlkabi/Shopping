@@ -19,13 +19,18 @@ class ReviewController extends Controller
         if(!$item)
             return $this->notFoundResponse();
 
-        $page = request()->input('page');
-        if (is_null($page) || $page < 1)
-            $page = 1;
-
         $reviews = $item->reviews->chunk(10);
+        $pages = $reviews->count();
+        $page = (integer)request()->input('page', 1);
 
-        return $this->apiResponse(ReviewsCollection::collection($reviews[$page-1]));
+        if ($page < 1 || $page > $pages)
+            return $this->apiResponse(null, 200, "page number not in rang");
+
+        return $this->apiResponse([
+            "reviews"      => ReviewsCollection::collection($reviews[$page-1]),
+            "current-page" => $page,
+            "max-page"     => $pages
+        ]);
     }
 
     public function store() {
