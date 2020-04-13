@@ -83,6 +83,6 @@ class Item extends Model
                 ->first();
         });
 
-        return $availableOffer->first()->discount_rate;
+        return $availableOffer->first()->discount_rate ?? "";
     }
 }

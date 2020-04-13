@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SearchItemsCollection;
+use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Support\Collection;
 
 class SearchController extends Controller
 {
     public function search() {
-        $items = self::getItems(request()->input('vendor'), request()->input('query'));
+        $items = self::getItems(request()->input('query'), request()->input('vendor'), request()->input('category'));
         switch (request()->input('order')) {
             // By alphabets
             case 1:
@@ -74,17 +75,41 @@ class SearchController extends Controller
         ]);
     }
 
-    public static function getItems($vendor, $query) {
+    public static function getItems($query, $vendor, $category) {
+        // Without vendor
         if (is_null($vendor) || $vendor == "null")
-            $items =  Item::where("deleted", 0)
-                ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
-                ->get();
+            // Without category
+            if (is_null($category) || $category == "null")
+                $items =  Item::where("deleted", 0)
+                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->get();
+            // With category
+            else
+                $items =  Item::whereIn("category_id", self::getCategoryChildren($category))
+                    ->where("deleted", 0)
+                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->get();
+        // With vendor
         else
-            $items = Item::where("vendor_id", $vendor)
-                ->where("deleted", 0)
-                ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
-                ->get();
-
+            // Without category
+            if (is_null($category) || $category == "null")
+                $items = Item::where("vendor_id", $vendor)
+                    ->where("deleted", 0)
+                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->get();
+            // With category
+            else
+                $items = Item::where("vendor_id", $vendor)
+                    ->whereIn("category_id", self::getCategoryChildren($category))
+                    ->where("deleted", 0)
+                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->get();
         return $items;
+    }
+
+    public static function getCategoryChildren($category) {
+        return Category::where("parent_id", $category)
+            ->pluck("id")
+            ->toArray();
     }
 }
