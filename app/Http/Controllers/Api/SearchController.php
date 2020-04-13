@@ -9,11 +9,8 @@ use Illuminate\Support\Collection;
 
 class SearchController extends Controller
 {
-    use ApiResponseTrait;
-
     public function search() {
         $items = self::getItems(request()->input('vendor'), request()->input('query'));
-
         switch (request()->input('order')) {
             // By alphabets
             case 1:
@@ -62,12 +59,18 @@ class SearchController extends Controller
         $page = (integer)request()->input('page', 1);
 
         if ($page < 1 || $page > $pages)
-            return $this->apiResponse(null, 200, "page number not in rang");
+            return response()->json([
+                "data" => null,
+                "status" => false,
+                "error" => "page number not in rang",
+            ]);
 
-        return $this->apiResponse([
-            "items" => SearchItemsCollection::collection($items[$page-1]),
+        return response()->json([
+            "data" => SearchItemsCollection::collection($items[$page-1]),
             "current-page" => $page,
-            "max-page"     => $pages
+            "max-page" => $pages,
+            "status" => true,
+            "error" => false,
         ]);
     }
 

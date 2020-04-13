@@ -8,8 +8,6 @@ use App\Models\Item;
 
 class ReviewController extends Controller
 {
-    use ApiResponseTrait;
-
     public function index() {
         $item = request()->input('item');
         $item = Item::where('id', $item)
@@ -17,19 +15,29 @@ class ReviewController extends Controller
             ->first();
 
         if(!$item)
-            return $this->notFoundResponse();
+            return response()->json([
+                "data" => null,
+                "status" => false,
+                "error" => "item not found",
+            ]);
 
         $reviews = $item->reviews->chunk(10);
         $pages = $reviews->count();
         $page = (integer)request()->input('page', 1);
 
         if ($page < 1 || $page > $pages)
-            return $this->apiResponse(null, 200, "page number not in rang");
+            return response()->json([
+                "data" => null,
+                "status" => false,
+                "error" => "page number not in rang",
+            ]);
 
-        return $this->apiResponse([
-            "reviews"      => ReviewsCollection::collection($reviews[$page-1]),
+        return response()->json([
+            "data" => ReviewsCollection::collection($reviews[$page-1]),
             "current-page" => $page,
-            "max-page"     => $pages
+            "max-page" => $pages,
+            "status" => true,
+            "error" => false,
         ]);
     }
 
