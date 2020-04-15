@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('Api')->group(function () {
     // Categories
+    Route::get('categories/tree', 'CategoryController@tree');
     Route::get('categories', 'CategoryController@index');
+
 
     // Top
     Route::get('items/new-product', 'TopController@newProduct');

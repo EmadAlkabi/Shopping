@@ -9,37 +9,42 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    use ApiResponseTrait;
-
     public function index() {
+        $category = (integer)request()->input("category", 0);
+        $childrenOfCategory = ($category == 0)
+            ? Category::where("parent_id", null)->get()
+            : Category::where("parent_id", $category)->get();
+
+        return response()->json([
+            "data" => $childrenOfCategory,
+            "status" => true,
+            "error" => false
+        ]);
+    }
+
+    public function tree() {
         $categories = Category::all();
-
-        if (!$categories)
-            return $this->notFoundResponse();
-
         $categories = self::buildTree($categories, null);
 
-        return $this->apiResponse($categories, 200, false);
+        return response()->json([
+            "data" => $categories,
+            "status" => true,
+            "error" => false
+        ]);
     }
 
     public static function buildTree (Collection $elements, $parentId = null)
     {
         $branch = new Collection();
-
         foreach ($elements as $element)
-        {
-            if ($element->parent_id == $parentId)
-            {
+            if ($element->parent_id == $parentId) {
                 $children = self::buildTree($elements, $element->id);
-                if (! $children->isEmpty())
-                {
+                if (!$children->isEmpty())
                     $element['children'] = $children;
-                }
-                $branch->push($element);
 
+                $branch->push($element);
                 $elements->forget($element->id);
             }
-        }
         return $branch;
     }
 }
