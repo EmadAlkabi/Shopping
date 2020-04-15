@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoriesCollection;
+use App\Http\Resources\CategoriesTreeCollection;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class CategoryController extends Controller
         $categories = self::buildTree($categories, null);
 
         return response()->json([
-            "data" => CategoriesCollection::collection($categories),
+            "data" => CategoriesTreeCollection::collection($categories),
             "status" => true,
             "error" => false
         ]);

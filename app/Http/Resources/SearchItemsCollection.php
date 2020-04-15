@@ -22,7 +22,7 @@ class SearchItemsCollection extends JsonResource
             'name'          => $this->name,
             'image'         => (!is_null($this->images->first()))
                 ? asset('images/large' . Storage::url($this->images->first()->url))
-                : null,
+                : "",
             'price'         => $this->price,
             'discount_rate' => $this->discountRate(),
             'rating'        => $this->rating(),
