@@ -26,7 +26,7 @@ Route::get('/foo', function () {
 Route::post('/upload', function () {
     if (!is_null(request()->file('file')))
     {
-        $image = Storage::put("public/category", request()->file('file'));
+        $image = Storage::put("public/item", request()->file('file'));
         dd($image);
     }
 });
