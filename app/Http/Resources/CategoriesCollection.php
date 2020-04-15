@@ -19,9 +19,12 @@ class CategoriesCollection extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'    => $this->id,
-            'name'  => $this->name,
-            'image' => asset('images/small' . Storage::url($this->image))
+            'id'       => $this->id,
+            'name'     => $this->name,
+            'image'    => asset('images/small' . Storage::url($this->image)),
+            'children' => (!is_null($this->children))
+                ? $this::collection($this->children)
+                : null
         ];
     }
 }
