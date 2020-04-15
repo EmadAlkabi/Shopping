@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoriesCollection;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -10,13 +11,13 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function index() {
-        $category = (integer)request()->input("category", 0);
+        $category = (integer)request()->input("category");
         $childrenOfCategory = ($category == 0)
             ? Category::where("parent_id", null)->get()
             : Category::where("parent_id", $category)->get();
 
         return response()->json([
-            "data" => $childrenOfCategory,
+            "data" => CategoriesCollection::collection($childrenOfCategory),
             "status" => true,
             "error" => false
         ]);
@@ -27,7 +28,7 @@ class CategoryController extends Controller
         $categories = self::buildTree($categories, null);
 
         return response()->json([
-            "data" => $categories,
+            "data" => CategoriesCollection::collection($categories),
             "status" => true,
             "error" => false
         ]);

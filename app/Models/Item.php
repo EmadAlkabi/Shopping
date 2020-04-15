@@ -10,7 +10,6 @@ class Item extends Model
     protected $table = 'items';
     protected $primaryKey = 'id';
     public $timestamps = false;
-
     protected $fillable = [
         'id',
         'vendor_id',
@@ -52,12 +51,6 @@ class Item extends Model
         return $this->hasMany('App\Models\Review')
             ->latest();
     }
-
-
-
-
-
-
 
     public function orders() {
         return $this->hasMany('App\Models\OrderItem')

@@ -19,7 +19,6 @@ Route::namespace('Api')->group(function () {
     Route::get('categories/tree', 'CategoryController@tree');
     Route::get('categories', 'CategoryController@index');
 
-
     // Top
     Route::get('items/new-product', 'TopController@newProduct');
     Route::get('items/top-sell', 'TopController@topSell');
