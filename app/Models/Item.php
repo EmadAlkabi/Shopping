@@ -39,12 +39,14 @@ class Item extends Model
 
     public function images() {
         return $this->hasMany("App\Models\MediaItem")
-            ->where("type", MediaItemType::IMAGE);
+            ->where("type", MediaItemType::IMAGE)
+            ->oldest("id");
     }
 
     public function videos() {
         return $this->hasMany("App\Models\MediaItem")
-            ->where("type", MediaItemType::VIDEO);
+            ->where("type", MediaItemType::VIDEO)
+            ->oldest("id");
     }
 
     public function reviews() {
