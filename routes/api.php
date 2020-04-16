@@ -43,4 +43,8 @@ Route::namespace('Api')->group(function () {
     // Reviews
     Route::get('reviews', 'ReviewController@index');
     Route::post('reviews', 'ReviewController@store');
+
+    // User
+    Route::get('users/store', 'UserController@store');
+    Route::get('users/update', 'UserController@update');
 });

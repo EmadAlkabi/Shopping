@@ -16,12 +16,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->string('image');
             $table->text('address_1');
             $table->text('address_2');
-            $table->float('lat', 16,6);
-            $table->float('lng', 16,6);
+            $table->string('gps');
+            $table->boolean('state');
             $table->date('created_at');
         });
     }
