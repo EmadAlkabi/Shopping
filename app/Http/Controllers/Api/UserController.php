@@ -90,4 +90,22 @@ class UserController extends Controller
             "error" => false
         ]);
     }
+
+    public function getByPhone() {
+        $user = User::where("phone", request()->input("phone"))
+            ->first();
+
+        if (!$user)
+            return response()->json([
+                "data" => null,
+                "state" => false,
+                "error" => "The user is not exist."
+            ]);
+
+        return response()->json([
+            "data" => new UserCollection($user),
+            "state" => true,
+            "error" => false
+        ]);
+    }
 }
