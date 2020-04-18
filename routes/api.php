@@ -47,5 +47,5 @@ Route::namespace('Api')->group(function () {
     // User
     Route::get('users/store', 'UserController@store');
     Route::get('users/update', 'UserController@update');
-    Route::get('users/getByPhone', 'UserController@getByPhone');
+    Route::get('users/get-by-phone', 'UserController@getByPhone');
 });
