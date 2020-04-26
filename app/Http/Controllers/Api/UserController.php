@@ -16,34 +16,34 @@ class UserController extends Controller
 
         if ($user)
             return response()->json([
-                "data" => null,
-                "state" => false,
-                "error" => "The phone number is used."
+                "data"   => null,
+                "status" => false,
+                "error"  => "The phone number is used."
             ]);
 
         $user = User::create([
-            "name"        => request()->input("name"),
-            "phone"       => request()->input("phone"),
-            "image"       => null,
-            "address_1"   => request()->input("address_1"),
-            "address_2"   => null,
-            "gps"         => request()->input("gps"),
-            "state"       => UserState::ACTIVE,
+            "name"       => request()->input("name"),
+            "phone"      => request()->input("phone"),
+            "image"      => null,
+            "address_1"  => request()->input("address_1"),
+            "address_2"  => null,
+            "gps"        => request()->input("gps"),
+            "state"      => UserState::ACTIVE,
             "created_at" => date("Y-m-d")
         ]);
 
-        if ($user)
+        if (!$user)
             return response()->json([
-                "data" => new UserCollection($user),
-                "state" => true,
-                "error" => false
+                "data"   => null,
+                "status" => false,
+                "error"  => "User not created, try again."
             ]);
-        else
-            return response()->json([
-                "data" => null,
-                "state" => false,
-                "error" => "User not created, try again."
-            ]);
+
+        return response()->json([
+            "data"   => new UserCollection($user),
+            "status" => true,
+            "error"  => false
+        ]);
     }
 
     public function update() {
@@ -51,9 +51,9 @@ class UserController extends Controller
 
         if (!$user)
             return response()->json([
-                "data" => null,
-                "state" => false,
-                "error" => "The user is not exist."
+                "data"   => null,
+                "status" => false,
+                "error"  => "The user is not exist."
             ]);
 
         switch (request()->input("update")) {
@@ -79,33 +79,32 @@ class UserController extends Controller
 
         if (!$user)
             return response()->json([
-                "data" => null,
-                "state" => false,
-                "error" => "The user is not updated, try again."
+                "data"   => null,
+                "status" => false,
+                "error"  => "The user is not updated, try again."
             ]);
 
         return response()->json([
-            "data" => new UserCollection($user),
-            "state" => true,
-            "error" => false
+            "data"   => new UserCollection($user),
+            "status" => true,
+            "error"  => false
         ]);
     }
 
     public function getByPhone() {
-        $user = User::where("phone", request()->input("phone"))
-            ->first();
+        $user = User::where("phone", request()->input("phone"))->first();
 
         if (!$user)
             return response()->json([
-                "data" => null,
-                "state" => false,
-                "error" => "The user is not exist."
+                "data"   => null,
+                "status" => false,
+                "error"  => "The user is not exist."
             ]);
 
         return response()->json([
-            "data" => new UserCollection($user),
-            "state" => true,
-            "error" => false
+            "data"   => new UserCollection($user),
+            "status" => true,
+            "error"  => false
         ]);
     }
 }
