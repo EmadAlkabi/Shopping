@@ -45,7 +45,6 @@ class OrderItemController extends Controller
     }
 
     public function delete() {
-
         $orderItem = OrderItem::find(request()->input("id"));
 
         if (!$orderItem)
