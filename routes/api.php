@@ -48,4 +48,9 @@ Route::namespace('Api')->group(function () {
     Route::get('users/store', 'UserController@store');
     Route::get('users/update', 'UserController@update');
     Route::get('users/get-by-phone', 'UserController@getByPhone');
+
+    // Order Item
+    Route::post('order-item/store', 'OrderItemController@store');
+    Route::post('order-item/update', 'OrderItemController@update');
+    Route::post('order-item/delete', 'OrderItemController@delete');
 });
