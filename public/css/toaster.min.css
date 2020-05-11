@@ -1,0 +1,1 @@
+#toast-container{position:sticky;z-index:1055;top:0}[lang=ar] #toast-wrapper{position:absolute;top:0;left:0;margin:5px}[lang=en] #toast-wrapper{position:absolute;top:0;right:0;margin:5px}#toast-container>#toast-wrapper>.toast{min-width:150px}#toast-container>#toast-wrapper>.toast>.toast-header strong{padding:10px}

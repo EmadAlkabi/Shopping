@@ -20,29 +20,29 @@ class ItemController extends Controller
     public function index()
     {
         $q = \request()->input('q');
-        $vendor = 0;
-
+        $vendor = 1;
         switch ($q) {
+            case "all":
+                $items = Item::where('vendor_id', $vendor)->get();
+                break;
             case "categorized":
                 $items = Item::where('vendor_id', $vendor)
-                    ->where('category_id', '!=', null)
+                    ->whereNotNull('category_id')
                     ->where('deleted', 0)
-                    ->dd()
                     ->get();
                 break;
-
             case "un-categorized":
                 $items = Item::where('vendor_id', $vendor)
-                    ->where('category_id', null)
+                    ->whereNull('category_id')
                     ->where('deleted', 0)
-                ->get();
+                    ->get();
                 break;
-
             case "deleted":
                 $items = Item::where('vendor_id', $vendor)
                     ->where('deleted', 1)
                     ->get();
                 break;
+            default: $items = array();
         }
 
         return view('dashboard.item.index')->with([

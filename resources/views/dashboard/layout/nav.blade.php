@@ -4,10 +4,10 @@
     </a>
     <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id="navbar-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user"></i>
             </a>
-            <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropdown-menu dropdown-default" aria-labelledby="navbar-dropdown">
                 <a class="dropdown-item" href="#">Action</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <a class="dropdown-item" href="#">Something else here</a>
@@ -15,49 +15,44 @@
         </li>
 
         <li class="nav-item mt-1 d-lg-none d-block">
-            <a class="nav-link d-block" id="showSidenav">
+            <a class="nav-link d-block" id="show-sidenav">
                 <i class="fas fa-bars"></i>
             </a>
-
-            <a class="nav-link d-none" id="hideSidenav">
+            <a class="nav-link d-none" id="hide-sidenav">
                 <i class="fas fa-times"></i>
             </a>
         </li>
     </ul>
 </nav>
 
-<script>
-    @if(app()->getLocale() == \App\Enum\Language::ARABIC)
-        $("#showSidenav").click(function () {
-            $("#mySidenav").removeClass("fadeOutRight")
-                .addClass("d-block animated fadeInRight");
-            // document.body.style.backgroundColor = "rgba(33,150,243,0.24)";
-            $(this).addClass("d-none").removeClass("d-block");
-            $("#hideSidenav").addClass("d-block").removeClass("d-none");
-        });
-
-        $("#hideSidenav").click(function () {
-            $("#mySidenav").removeClass("fadeInRight")
-                .addClass("d-none animated fadeOutRight");
-            // document.body.style.backgroundColor = "rgb(255, 255, 255)";
-            $(this).addClass("d-none").removeClass("d-block");
-            $("#showSidenav").addClass("d-block").removeClass("d-none");
-        });
-    @else
-        $("#showSidenav").click(function () {
-            $("#mySidenav").removeClass("fadeOutLeft")
-                .addClass("d-block animated fadeInLeft");
-            // document.body.style.backgroundColor = "rgba(33,150,243,0.24)";
-            $(this).addClass("d-none").removeClass("d-block");
-            $("#hideSidenav").addClass("d-block").removeClass("d-none");
-        });
-
-        $("#hideSidenav").click(function () {
-            $("#mySidenav").removeClass("fadeInLeft")
-                .addClass("d-none animated fadeOutLeft");
-            // document.body.style.backgroundColor = "rgb(255, 255, 255)";
-            $(this).addClass("d-none").removeClass("d-block");
-            $("#showSidenav").addClass("d-block").removeClass("d-none");
-        });
-    @endif
-</script>
+@section("script")
+    @parent
+    <script>
+        @switch(app()->getLocale())
+            @case(\App\Enum\Language::ARABIC)
+                $('#show-sidenav').on('click', function () {
+                    $('#my-sidenav').removeClass('fadeOutRight').addClass('d-block animated fadeInRight');
+                    $(this).addClass('d-none').removeClass('d-block');
+                    $('#hide-sidenav').addClass('d-block').removeClass('d-none');
+                });
+                $('#hide-sidenav').on('click', function () {
+                    $('#my-sidenav').removeClass('fadeInRight').addClass('d-none animated fadeOutRight');
+                    $(this).addClass('d-none').removeClass('d-block');
+                    $("#show-sidenav").addClass('d-block').removeClass('d-none');
+                });
+            @break
+            @case(\App\Enum\Language::ENGLISH)
+                $('#show-sidenav').on('click', function () {
+                    $('#my-sidenav').removeClass('fadeOutLeft').addClass('d-block animated fadeInLeft');
+                    $(this).addClass('d-none').removeClass('d-block');
+                    $('#hide-sidenav').addClass('d-block').removeClass('d-none');
+                });
+                $('#hide-sidenav').on('click', function () {
+                    $('#my-sidenav').removeClass('fadeInLeft').addClass('d-none animated fadeOutLeft');
+                    $(this).addClass('d-none').removeClass('d-block');
+                    $("#show-sidenav").addClass('d-block').removeClass('d-none');
+                });
+            @break
+        @endswitch
+    </script>
+@endsection

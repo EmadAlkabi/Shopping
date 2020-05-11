@@ -1,16 +1,17 @@
 <?php
 
 return [
-    'nav' => [
+    "nav" => [
         "brand" => "شركة الفصول"
     ],
 
-    'side-nav' => [
-        'block-item' => [
-            'header' => 'المواد',
-            'categorized-item' => 'المواد المصنفه',
-            'un-categorized-item' => 'المواد غير المصنفه',
-            'deleted-item' => 'المواد المحذوفه (المؤرشفة)',
+    "side-nav" => [
+        "block-items" => [
+            "header"               => "المواد",
+            "all-items"            => "جميع المواد",
+            "categorized-items"    => "المواد المصنفه",
+            "un-categorized-items" => "المواد غير المصنفه",
+            "deleted-items"        => "المواد المحذوفه (المؤرشفة)"
         ],
     ]
 ];

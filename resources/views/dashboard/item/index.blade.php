@@ -1,24 +1,17 @@
 @extends("dashboard.layout.app")
 
-@section("title")
-    @lang("dashboard/item.index.title-$q")
-@endsection
+@section("title", __("dashboard/item.index.title"))
 
-@section("style")
+@section("head")
+    @include("dashboard.layout.head.datatable")
 @endsection
 
 @section("content")
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                @include("dashboard.item.components.datatable", ["items" => $items, "q" => $q])
+                @include("dashboard.item.components.datatable", ["q" => $q, "items" => $items])
             </div>
         </div>
     </div>
-@endsection
-
-@section("extra-content")
-@endsection
-
-@section("script")
 @endsection

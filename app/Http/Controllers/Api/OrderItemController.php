@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
 {
+    public function index() {
+        $order_items = OrderItem::where("user_id", \request()->input("user_id"));
+    }
+
     public function store() {
         $orderItem = OrderItem::updateOrCreate(
             [
