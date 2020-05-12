@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TopItemsCollection;
 use App\Models\Item;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class TopController extends Controller

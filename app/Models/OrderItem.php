@@ -21,4 +21,8 @@ class OrderItem extends Model
         'order_id',
         'created_at'
     ];
+
+    public function item() {
+        return $this->belongsTo('App/Models/Items');
+    }
 }
