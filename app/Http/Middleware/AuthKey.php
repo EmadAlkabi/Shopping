@@ -2,23 +2,24 @@
 
 namespace App\Http\Middleware;
 
+
 use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use Illuminate\Http\JsonResponse;
 
 class AuthKey
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     *
+     * @param $request
+     * @param Closure $next
+     * @return JsonResponse|mixed|void
      */
     public function handle($request, Closure $next)
     {
-        $appKey = $request->header('APP_KEY');
-        if(is_null($appKey) || $appKey != config("app.key")){
+        $apiKey = $request->header('x-api-key');
+        if(is_null($apiKey) || $apiKey != config("app.key")){
             return response()->json(['error'=>'App key not found'],401);
         }
         return $next($request);
