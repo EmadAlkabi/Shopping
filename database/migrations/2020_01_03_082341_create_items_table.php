@@ -18,7 +18,7 @@ class CreateItemsTable extends Migration
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('offline_id')->nullable();
             $table->string('name');
-            $table->string('company_name');
+            $table->string('company');
             $table->string('tags')->nullable();
             $table->text('details');
             $table->string('barcode')->nullable();

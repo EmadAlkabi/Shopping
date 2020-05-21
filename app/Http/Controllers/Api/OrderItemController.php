@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CartCollection;
 use App\Http\Resources\CartItemCollection;
 use App\Models\Item;
 use App\Models\OrderItem;

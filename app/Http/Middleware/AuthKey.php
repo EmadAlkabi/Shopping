@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class AuthKey
 {
@@ -16,7 +17,8 @@ class AuthKey
      */
     public function handle($request, Closure $next)
     {
-        if($request->header('APP_KEY')!=env('APP_KEY')){
+        $appKey = $request->header('APP_KEY');
+        if(is_null($appKey) || $appKey != config("app.key")){
             return response()->json(['error'=>'App key not found'],401);
         }
         return $next($request);

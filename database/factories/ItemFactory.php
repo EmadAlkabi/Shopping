@@ -13,7 +13,7 @@ $factory->define(Item::class, function (Faker $faker) {
         "vendor_id"     => Vendor::all()->random()->id,
         "offline_id"    => null,
         "name"          => $faker->name,
-        "company_name"  => $faker->company,
+        "company"       => $faker->company,
         "tags"          => null,
         "details"       => $faker->paragraph(),
         "barcode"       => $faker->ean13,

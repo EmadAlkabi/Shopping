@@ -38,9 +38,11 @@ Route::namespace('Dashboard')
     ->name('dashboard.')
     ->group(function () {
         // Items
-        Route::namespace('Item')
-            ->group(function () {
-                // Resource
-                Route::resource('items', 'ItemController');
-            });
-});
+        Route::namespace('Item')->group(function () {
+            // Resource
+            Route::resource('items', 'ItemController');
+            Route::post("items/change-deleted","ItemController@changeDeleted");
+            // Api
+            Route::post("api/items/change-deleted","ApiItemController@changeDeleted");
+        });
+    });

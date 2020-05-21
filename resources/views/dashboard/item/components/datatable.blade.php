@@ -27,7 +27,11 @@
     @foreach($items as $item)
         <tr>
             <td>{{$item->id}}</td>
-            <td>{{$item->name}}</td>
+            <td>
+                <a href="{{route("dashboard.items.show",["item" => $item->id])}}">
+                    {{$item->name}}
+                </a>
+            </td>
             <td>{{$item->barcode}}</td>
             <td>{{$item->code}}</td>
             <td>{{$item->price}}</td>
@@ -35,20 +39,17 @@
             <td>
                 <div class="d-flex justify-content-center" data-content="{{$item->id}}">
                     <a class="btn-floating btn-sm secondary-color mx-2" data-action="btn-show">
-                        <i class="far fa-address-card"></i>
-                    </a>
-                    <a class="btn-floating btn-sm info-color mx-2" href="{{route("dashboard.items.show",["item" => $item->id])}}">
-                        <i class="far fa-eye"></i>
+                        <i class="fa fa-images"></i>
                     </a>
                     <a class="btn-floating btn-sm primary-color mx-2" href="{{route("dashboard.items.edit",["item" => $item->id])}}">
                         <i class="far fa-edit"></i>
                     </a>
-                    @if($item->deleted == 0)
-                        <a class="btn-floating success-color btn-sm mx-2" data-action="btn-change-state">
+                    @if($item->deleted == \App\Enum\ItemDeleted::FALSE)
+                        <a class="btn-floating success-color btn-sm mx-2" data-action="btn-change-deleted">
                             <i class="fas fa-check"></i>
                         </a>
                     @else
-                        <a class="btn-floating btn-sm danger-color mx-2" data-action="btn-change-state">
+                        <a class="btn-floating btn-sm danger-color mx-2" data-action="btn-change-deleted">
                             <i class="fas fa-times"></i>
                         </a>
                     @endif
@@ -58,6 +59,11 @@
     @endforeach
     </tbody>
 </table>
+
+@section("extra-content")
+    @parent
+    <div id="modal-change-deleted"></div>
+@endsection
 
 @section("script")
     @parent
@@ -69,6 +75,33 @@
             language: {url: 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json'},
             @endif
         } );
+        $('[data-action="btn-change-deleted"]').on('click', function () {
+            let item = $(this).parent().data('content');
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                type: 'post',
+                url: '/dashboard/api/items/change-deleted',
+                data: {item: item},
+                datatype: 'json',
+                encode: true,
+                success: function(result) {
+                    $('#modal-change-deleted').html(result.data.html)
+                },
+                error: function() {
+                    console.log('error');
+                } ,
+                complete : function() {
+                    $('#modal-change-deleted .modal').modal('show');
+                }
+            });
+        });
+        @if(session()->has("message"))
+        $.toast({
+            title: '{{session()->get("message")}}',
+            type:  '{{session()->get("type")}}',
+            delay: 2500
+        });
+        @endif
     </script>
 @endsection
 
