@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoriesCollection;
 use App\Http\Resources\CategoriesTreeCollection;
 use App\Models\Category;
+use http\Env\Response;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,14 @@ class CategoryController extends Controller
 {
     public function index() {
         $category = (integer)request()->input("category");
-        $childrenOfCategory = ($category == 0)
+        $categories = ($category == 0)
             ? Category::where("parent_id", null)->get()
             : Category::where("parent_id", $category)->get();
 
         return response()->json([
-            "data" => CategoriesCollection::collection($childrenOfCategory),
+            "data" => ($categories->isEmpty())
+                ? null
+                : CategoriesCollection::collection($categories),
             "status" => true,
             "error" => false
         ]);
