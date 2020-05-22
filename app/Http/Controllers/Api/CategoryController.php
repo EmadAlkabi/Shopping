@@ -17,11 +17,11 @@ class CategoryController extends Controller
             : Category::where("parent_id", $category)->get();
 
         return response()->json([
-            "data" => ($categories->isEmpty())
-                ? null
-                : CategoriesCollection::collection($categories),
+            "data" => (!$categories->isEmpty())
+                ? CategoriesCollection::collection($categories)
+                : null,
             "status" => true,
-            "error" => false
+            "error" => null
         ]);
     }
 
@@ -32,7 +32,7 @@ class CategoryController extends Controller
         return response()->json([
             "data" => CategoriesTreeCollection::collection($categories),
             "status" => true,
-            "error" => false
+            "error" => null
         ]);
     }
 
@@ -44,7 +44,6 @@ class CategoryController extends Controller
                 $children = self::buildTree($elements, $element->id);
                 if (!$children->isEmpty())
                     $element['children'] = $children;
-
                 $branch->push($element);
                 $elements->forget($element->id);
             }
