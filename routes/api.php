@@ -50,7 +50,7 @@ Route::namespace('Api')->group(function () {
     Route::get('users/get-by-phone', 'UserController@getByPhone');
 
     // Order Item (cart)
-    Route::post('order-items', 'OrderItemController@index');
+    Route::get('order-items', 'OrderItemController@index');
     Route::post('order-items/store', 'OrderItemController@store');
     Route::post('order-items/delete', 'OrderItemController@delete');
 });
