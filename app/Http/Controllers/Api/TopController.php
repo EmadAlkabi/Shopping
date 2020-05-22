@@ -10,6 +10,8 @@ use Illuminate\Support\Collection;
 
 class TopController extends Controller
 {
+    use ApiResponseTrait;
+
     public function newProduct() {
         $numberOfItems = request()->input('numberOfItems', 10);
         $vendor = request()->input('vendor', null);
@@ -76,17 +78,25 @@ class TopController extends Controller
         $vendor = request()->input('vendor', null);
         $items = self::getItems($vendor);
 
-        return response()->json([
-            "data"   => (!$items->isEmpty())
-                ? [
-                    "new-product"  => TopItemsCollection::collection(self::getNewProductItems($items, $numberOfItems)),
-                    "top-sell"     => TopItemsCollection::collection(self::getTopSellItems($items, $numberOfItems)),
-                    "top-rating"   => TopItemsCollection::collection(self::getTopRatingItems($items, $numberOfItems)),
-                    "top-discount" => TopItemsCollection::collection(self::getTopDiscountItems($items, $numberOfItems))
-                ]
-                : null,
-            "status" => true,
-            "error"  => null
+//        return response()->json([
+//            "data"   => (!$items->isEmpty())
+//                ? [
+//                    "new-product"  => TopItemsCollection::collection(self::getNewProductItems($items, $numberOfItems)),
+//                    "top-sell"     => TopItemsCollection::collection(self::getTopSellItems($items, $numberOfItems)),
+//                    "top-rating"   => TopItemsCollection::collection(self::getTopRatingItems($items, $numberOfItems)),
+//                    "top-discount" => TopItemsCollection::collection(self::getTopDiscountItems($items, $numberOfItems))
+//                ]
+//                : null,
+//            "status" => true,
+//            "error"  => null
+//        ]);
+
+
+        return $this->apiResponse([
+           "new-product"  => TopItemsCollection::collection(self::getNewProductItems($items, $numberOfItems)),
+           "top-sell"     => TopItemsCollection::collection(self::getTopSellItems($items, $numberOfItems)),
+           "top-rating"   => TopItemsCollection::collection(self::getTopRatingItems($items, $numberOfItems)),
+           "top-discount" => TopItemsCollection::collection(self::getTopDiscountItems($items, $numberOfItems))
         ]);
     }
 
