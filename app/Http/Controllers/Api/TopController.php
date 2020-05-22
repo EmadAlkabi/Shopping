@@ -30,53 +30,53 @@ class TopController extends Controller
     public function topSell() {
         $numberOfItems = request()->input('numberOfItems', 10);
         $vendor = request()->input('vendor', null);
-
         $items = self::getItems($vendor);
-
-        if (!$items)
-            return $this->notFoundResponse();
-
         $items = self::getTopSellItems($items, $numberOfItems);
 
-        return $this->apiResponse(TopItemsCollection::collection($items));
+        return response()->json([
+            "data"   => (!$items->isEmpty())
+                ? TopItemsCollection::collection($items)
+                : null,
+            "status" => true,
+            "error"  => null
+        ]);
+
     }
 
     public function topRating() {
         $numberOfItems = request()->input('numberOfItems', 10);
         $vendor = request()->input('vendor', null);
-
         $items = self::getItems($vendor);
-
-        if (!$items)
-            return $this->notFoundResponse();
-
         $items = self::getTopRatingItems($items, $numberOfItems);
 
-        return $this->apiResponse(TopItemsCollection::collection($items));
+        return response()->json([
+            "data"   => (!$items->isEmpty())
+                ? TopItemsCollection::collection($items)
+                : null,
+            "status" => true,
+            "error"  => null
+        ]);
     }
 
     public function topDiscount() {
         $numberOfItems = request()->input('numberOfItems', 10);
         $vendor = request()->input('vendor', null);
-
         $items = self::getItems($vendor);
-
-        if (!$items)
-            return $this->notFoundResponse();
-
         $items = self::getTopDiscountItems($items, $numberOfItems);
 
-        return $this->apiResponse(TopItemsCollection::collection($items));
+        return response()->json([
+            "data"   => (!$items->isEmpty())
+                ? TopItemsCollection::collection($items)
+                : null,
+            "status" => true,
+            "error"  => null
+        ]);
     }
 
     public function topCollection() {
         $numberOfItems = request()->input('numberOfItems', 10);
         $vendor = request()->input('vendor', null);
-
         $items = self::getItems($vendor);
-
-        if (!$items)
-            return $this->notFoundResponse();
 
         return $this->apiResponse([
            "new-product"  => TopItemsCollection::collection(self::getNewProductItems($items, $numberOfItems)),
@@ -89,12 +89,7 @@ class TopController extends Controller
     public function bestTopCollection() {
         $numberOfItems = request()->input('numberOfItems', 2);
         $vendor = request()->input('vendor', null);
-
         $items = self::getItems($vendor);
-
-        if (!$items)
-            return $this->notFoundResponse();
-
         $topItems = collect([
             self::getNewProductItems($items, $numberOfItems),
             self::getTopSellItems($items, $numberOfItems),
@@ -102,7 +97,13 @@ class TopController extends Controller
             self::getTopDiscountItems($items, $numberOfItems)
         ])->collapse();
 
-        return $this->apiResponse(TopItemsCollection::collection($topItems));
+        return response()->json([
+            "data"   => (!$topItems->isEmpty())
+                ? TopItemsCollection::collection($topItems)
+                : null,
+            "status" => true,
+            "error"  => null
+        ]);
     }
 
     public static function getItems($vendor) {
