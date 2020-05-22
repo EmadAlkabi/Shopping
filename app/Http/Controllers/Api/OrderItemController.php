@@ -45,7 +45,7 @@ class OrderItemController extends Controller
         return response()->json([
             "data"   => $collection,
             "status" => true,
-            "error"  => false
+            "error"  => null
         ]);
     }
 
@@ -87,7 +87,7 @@ class OrderItemController extends Controller
         return response()->json([
             "data"   => null,
             "status" => true,
-            "error"  => false
+            "error"  => null
         ]);
     }
 
@@ -111,7 +111,7 @@ class OrderItemController extends Controller
         return response()->json([
             "data"   => null,
             "status" => true,
-            "error"  => false
+            "error"  => null
         ]);
     }
 }
