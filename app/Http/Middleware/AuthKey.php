@@ -20,7 +20,7 @@ class AuthKey
     {
         $apiKey = $request->header('x-api-key');
         if(is_null($apiKey) || $apiKey != config("app.key")){
-            return response()->json(['error'=>'App key not found'],401);
+            return response()->json(['error'=>'api key not found'],401);
         }
         return $next($request);
     }
