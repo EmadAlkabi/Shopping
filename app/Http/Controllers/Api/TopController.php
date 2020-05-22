@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enum\ItemDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TopItemsCollection;
 use App\Models\Item;
@@ -14,15 +15,16 @@ class TopController extends Controller
     public function newProduct() {
         $numberOfItems = request()->input('numberOfItems', 10);
         $vendor = request()->input('vendor', null);
-
         $items = self::getItems($vendor);
-
-        if (!$items)
-            return $this->notFoundResponse();
-
         $items = self::getNewProductItems($items, $numberOfItems);
 
-        return $this->apiResponse(TopItemsCollection::collection($items));
+        return response()->json([
+            "data"   => (!$items->isEmpty())
+                ? TopItemsCollection::collection($items)
+                : null,
+            "status" => true,
+            "error"  => null
+        ]);
     }
 
     public function topSell() {
@@ -104,17 +106,12 @@ class TopController extends Controller
     }
 
     public static function getItems($vendor) {
-        if (is_null($vendor) || $vendor == "null")
-            $items = Item::where('category_id', '!=', null)
-                ->where('deleted', 0)
+        return (is_null($vendor) || $vendor == "null")
+            ? Item::where('deleted', ItemDeleted::FALSE)
+                ->get()
+            : Item::where('vendor_id', $vendor)
+                ->where('deleted', ItemDeleted::FALSE)
                 ->get();
-        else
-            $items = Item::where('vendor_id', $vendor)
-                ->where('category_id', '!=', null)
-                ->where('deleted', 0)
-                ->get();
-
-        return $items;
     }
 
     public static function getNewProductItems($items, $numberOfItems) {
