@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class TopItemsCollection extends JsonResource
 {
@@ -10,7 +12,7 @@ class TopItemsCollection extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -18,7 +20,9 @@ class TopItemsCollection extends JsonResource
         return [
             'id'            => $this->id,
             'name'          => $this->name,
-            'image'         => "https://lorempixel.com/640/480/?24239",
+            'image'         => (is_null($this->mainImage()))
+                ? asset('images/large' . Storage::url("public/item/default.png"))
+                : asset('images/large' . Storage::url($this->mainImage()->url)),
             'price'         => $this->price,
             'discount_rate' => $this->discountRate(),
             'rating'        => $this->rating(),

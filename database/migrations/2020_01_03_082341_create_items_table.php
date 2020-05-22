@@ -24,7 +24,7 @@ class CreateItemsTable extends Migration
             $table->string('barcode')->nullable();
             $table->string('code')->nullable();
             $table->string('currency');
-            $table->decimal('price');
+            $table->float('price');
             $table->string('unit');
             $table->unsignedInteger('quantity');
             $table->unsignedBigInteger('category_id')->nullable();

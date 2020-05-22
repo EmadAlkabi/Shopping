@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enum\MediaItemType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Item extends Model
 {
@@ -35,6 +36,11 @@ class Item extends Model
 
     public function category() {
         return $this->belongsTo('App\Models\Category');
+    }
+
+    public function mainImage() {
+        $image = $this->images()->where("main","=", 1)->first();
+        return is_null($image) ? $this->images()->first() : $image;
     }
 
     public function images() {
