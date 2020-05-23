@@ -41,8 +41,8 @@ Route::namespace('Api')->group(function () {
     Route::get('search', 'SearchController@search');
 
     // User
-    Route::get('users/store', 'UserController@store');
-    Route::get('users/update', 'UserController@update');
+    Route::post('users/store', 'UserController@store');
+    Route::post('users/update', 'UserController@update');
     Route::get('users/get-by-phone/{phone}', 'UserController@getByPhone');
 
     // Reviews

@@ -14,7 +14,7 @@ class UserController extends Controller
     public function store() {
         $user = User::create([
             "name"       => request()->input("name"),
-            "phone"      => request()->input("phone"),
+            "phone"      => substr(str_replace(' ', '', request()->input("phone")), -10),
             "image"      => null,
             "address_1"  => request()->input("address_1"),
             "address_2"  => null,
@@ -27,7 +27,7 @@ class UserController extends Controller
             return response()->json([
                 "data"   => null,
                 "status" => false,
-                "error"  => "User not created, try again."
+                "error"  => __("api.user.created-failed")
             ]);
 
         return response()->json([
@@ -44,7 +44,7 @@ class UserController extends Controller
             return response()->json([
                 "data"   => null,
                 "status" => false,
-                "error"  => "The user is not exist."
+                "error"  => __("api.user.not-found")
             ]);
 
         switch (request()->input("update")) {
@@ -66,19 +66,19 @@ class UserController extends Controller
             default: $data = array();
         }
 
-        $user->update($data);
+        $success = $user->update($data);
 
-        if (!$user)
+        if (!$success)
             return response()->json([
                 "data"   => null,
                 "status" => false,
-                "error"  => "The user is not updated, try again."
+                "error"  => __("api.user.updated-failed")
             ]);
 
         return response()->json([
             "data"   => new UserCollection($user),
             "status" => true,
-            "error"  => false
+            "error"  => null
         ]);
     }
 

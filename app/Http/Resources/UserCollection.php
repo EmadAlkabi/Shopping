@@ -20,9 +20,9 @@ class UserCollection extends JsonResource
             "id"         => $this->id,
             "name"       => $this->name,
             "phone"      => $this->phone,
-            "image"      => (!is_null($this->image))
-                ? asset("images/large" . Storage::url($this->image))
-                : asset('images/large' . Storage::url("public/user/default.png")),
+            "image"      => (is_null($this->image))
+                ? asset('images/large' . Storage::url("public/user/default.png"))
+                : asset("images/large" . Storage::url($this->image)),
             "address_1"  => $this->address_1,
             "address_2"  => $this->address_2,
             "gps"        => $this->gps,
