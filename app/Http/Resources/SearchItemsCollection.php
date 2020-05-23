@@ -20,9 +20,9 @@ class SearchItemsCollection extends JsonResource
         return [
             'id'            => $this->id,
             'name'          => $this->name,
-            'image'         => (!is_null($this->images->first()))
-                ? asset('images/large' . Storage::url($this->images->first()->url))
-                : asset('images/large' . Storage::url("public/item/default.png")),
+            'image'         => (is_null($this->mainImage()))
+                ? asset('images/large' . Storage::url("public/item/default.png"))
+                : asset('images/large' . Storage::url($this->mainImage()->url)),
             'price'         => $this->price,
             'discount_rate' => $this->discountRate(),
             'rating'        => $this->rating(),

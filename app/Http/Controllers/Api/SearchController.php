@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enum\ItemDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SearchItemsCollection;
 use App\Models\Category;
@@ -61,17 +62,17 @@ class SearchController extends Controller
 
         if ($page < 1 || $page > $pages)
             return response()->json([
-                "data" => null,
+                "data"   => null,
                 "status" => false,
-                "error" => "page number not in rang",
+                "error"  => __("api.search-item.out-range"),
             ]);
 
         return response()->json([
-            "data" => SearchItemsCollection::collection($items[$page-1]),
+            "data"         => SearchItemsCollection::collection($items[$page-1]),
             "current-page" => $page,
-            "max-page" => $pages,
-            "status" => true,
-            "error" => null,
+            "max-page"     => $pages,
+            "status"       => true,
+            "error"        => null,
         ]);
     }
 
@@ -80,13 +81,13 @@ class SearchController extends Controller
         if (is_null($vendor) || $vendor == "null")
             // Without category
             if (is_null($category) || $category == "null")
-                $items =  Item::where("deleted", 0)
+                $items =  Item::where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
             // With category
             else
                 $items =  Item::whereIn("category_id", self::getCategoryChildren($category))
-                    ->where("deleted", 0)
+                    ->where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
         // With vendor
@@ -94,14 +95,14 @@ class SearchController extends Controller
             // Without category
             if (is_null($category) || $category == "null")
                 $items = Item::where("vendor_id", $vendor)
-                    ->where("deleted", 0)
+                    ->where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
             // With category
             else
                 $items = Item::where("vendor_id", $vendor)
                     ->whereIn("category_id", self::getCategoryChildren($category))
-                    ->where("deleted", 0)
+                    ->where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
         return $items;
