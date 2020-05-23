@@ -71,7 +71,7 @@ class SearchController extends Controller
             "current-page" => $page,
             "max-page" => $pages,
             "status" => true,
-            "error" => false,
+            "error" => null,
         ]);
     }
 
@@ -81,13 +81,13 @@ class SearchController extends Controller
             // Without category
             if (is_null($category) || $category == "null")
                 $items =  Item::where("deleted", 0)
-                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
             // With category
             else
                 $items =  Item::whereIn("category_id", self::getCategoryChildren($category))
                     ->where("deleted", 0)
-                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
         // With vendor
         else
@@ -95,14 +95,14 @@ class SearchController extends Controller
             if (is_null($category) || $category == "null")
                 $items = Item::where("vendor_id", $vendor)
                     ->where("deleted", 0)
-                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
             // With category
             else
                 $items = Item::where("vendor_id", $vendor)
                     ->whereIn("category_id", self::getCategoryChildren($category))
                     ->where("deleted", 0)
-                    ->whereRaw("(name like '%$query%' or company_name like '%$query%' or tags like '%$query%')")
+                    ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
                     ->get();
         return $items;
     }
