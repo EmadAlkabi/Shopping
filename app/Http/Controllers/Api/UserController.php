@@ -7,20 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use function GuzzleHttp\Psr7\str;
 
 class UserController extends Controller
 {
     public function store() {
-        $user = User::where("phone", request()->input("phone"))
-            ->first();
-
-        if ($user)
-            return response()->json([
-                "data"   => null,
-                "status" => false,
-                "error"  => "The phone number is used."
-            ]);
-
         $user = User::create([
             "name"       => request()->input("name"),
             "phone"      => request()->input("phone"),
@@ -42,7 +33,7 @@ class UserController extends Controller
         return response()->json([
             "data"   => new UserCollection($user),
             "status" => true,
-            "error"  => false
+            "error"  => null
         ]);
     }
 
@@ -91,8 +82,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function getByPhone() {
-        $user = User::where("phone", request()->input("phone"))->first();
+    public function getByPhone($phone){
+        $phone = substr(str_replace(' ', '', $phone), -10);
+        $user = User::where("phone", $phone)->first();
 
         if (!$user)
             return response()->json([
