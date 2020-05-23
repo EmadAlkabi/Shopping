@@ -40,14 +40,14 @@ Route::namespace('Api')->group(function () {
     // Search
     Route::get('search', 'SearchController@search');
 
-    // Reviews
-    Route::get('reviews', 'ReviewController@index');
-    Route::post('reviews', 'ReviewController@store');
-
     // User
     Route::get('users/store', 'UserController@store');
     Route::get('users/update', 'UserController@update');
     Route::get('users/get-by-phone', 'UserController@getByPhone');
+
+    // Reviews
+    Route::get('reviews', 'ReviewController@index');
+    Route::post('reviews', 'ReviewController@store');
 
     // Order Item (cart)
     Route::get('order-items', 'OrderItemController@index');

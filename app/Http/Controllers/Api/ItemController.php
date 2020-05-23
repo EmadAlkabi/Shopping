@@ -9,8 +9,6 @@ use App\Models\Item;
 
 class ItemController extends Controller
 {
-    use ApiResponseTrait;
-
     public function show($item) {
         $item = Item::where('id', $item)
             ->where('deleted', '=', ItemDeleted::FALSE)
