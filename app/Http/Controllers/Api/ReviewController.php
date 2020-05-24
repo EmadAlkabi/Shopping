@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enum\ItemDeleted;
+use App\Enum\UserState;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewsCollection;
-use App\Models\Item;
 use App\Models\Review;
+use App\Models\User;
 
 class ReviewController extends Controller
 {
@@ -49,6 +49,16 @@ class ReviewController extends Controller
     }
 
     public function store() {
+        $user = User::find(request()->input("user"));
+
+        if ($user->state == UserState::INACTIVE)
+            return response()->json([
+                "data"   => null,
+                "status" => true,
+                "error"  => __("api.user.blocked")
+            ]);
+
+
         $review = Review::updateOrCreate(
             [
                 "user_id" => request()->input("user"),
