@@ -57,7 +57,7 @@ class ReviewController extends Controller
             [
                 "rating"  => request()->input("rating"),
                 "comment" => request()->input("comment"),
-                "created_at" => date_default_timezone_get()
+                "created_at" => date("Y-m-d", time())
             ]
         );
 
