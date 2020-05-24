@@ -58,7 +58,6 @@ class ReviewController extends Controller
                 "error"  => __("api.user.blocked")
             ]);
 
-
         $review = Review::updateOrCreate(
             [
                 "user_id" => request()->input("user"),
