@@ -51,8 +51,8 @@ class ReviewController extends Controller
     public function store() {
         $review = Review::updateOrCreate(
             [
-                "user_id" => request()->input("user_id"),
-                "item_id" => request()->input("item_id"),
+                "user_id" => request()->input("user"),
+                "item_id" => request()->input("item"),
             ],
             [
                 "rating"  => request()->input("rating"),
@@ -60,5 +60,11 @@ class ReviewController extends Controller
                 "created_at" => date_default_timezone_get()
             ]
         );
+
+        return response()->json([
+            "data"   => $review,
+            "status" => true,
+            "error"  => null
+        ]);
     }
 }
