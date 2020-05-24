@@ -2,42 +2,49 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enum\ItemDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewsCollection;
 use App\Models\Item;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
-    public function index() {
-        $item = request()->input('item');
-        $item = Item::where('id', $item)
-            ->where('deleted', '!=', 1)
-            ->first();
-
-        if(!$item)
-            return response()->json([
-                "data" => null,
-                "status" => false,
-                "error" => "item not found",
-            ]);
-
-        $reviews = $item->reviews->chunk(10);
+    public function allReviews() {
+        $reviews = Review::where("item_id", request()->input("item"))->get();
+        $reviews = $reviews->chunk(10);
         $pages = $reviews->count();
         $page = (integer)request()->input('page', 1);
 
-        if ($page < 1 || $page > $pages)
+        if (!$reviews->isEmpty() && ($page < 1 || $page > $pages))
             return response()->json([
                 "data" => null,
                 "status" => false,
-                "error" => "page number not in rang",
+                "error" => __("api.review.out-range"),
             ]);
 
         return response()->json([
-            "data" => ReviewsCollection::collection($reviews[$page-1]),
+            "data"         => ($reviews->isEmpty())
+                ? null
+                : ReviewsCollection::collection($reviews[$page-1]),
             "current-page" => $page,
-            "max-page" => $pages,
-            "status" => true,
-            "error" => false,
+            "max-page"     => $pages,
+            "status"       => true,
+            "error"        => null,
+        ]);
+    }
+
+    public function singleReview() {
+        $review = Review::where("item_id", request()->input("item"))
+            ->where("user_id", request()->input("user"))
+            ->first();
+
+        return response()->json([
+            "data"         => (is_null($review))
+                ? null
+                : new ReviewsCollection($review),
+            "status"       => true,
+            "error"        => null,
         ]);
     }
 

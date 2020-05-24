@@ -46,7 +46,8 @@ Route::namespace('Api')->group(function () {
     Route::get('users/get-by-phone/{phone}', 'UserController@getByPhone');
 
     // Reviews
-    Route::get('reviews', 'ReviewController@index');
+    Route::get('all-reviews', 'ReviewController@allReviews');
+    Route::get('single-review', 'ReviewController@singleReview');
     Route::post('reviews', 'ReviewController@store');
 
     // Order Item (cart)
