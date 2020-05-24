@@ -49,6 +49,7 @@ Route::namespace('Api')->group(function () {
     Route::get('reviews/all', 'ReviewController@allReviews');
     Route::get('reviews/single', 'ReviewController@singleReview');
     Route::post('reviews/store', 'ReviewController@store');
+    Route::post('reviews/delete', 'ReviewController@delete');
 
     // Order Item (cart)
     Route::get('order-items', 'OrderItemController@index');

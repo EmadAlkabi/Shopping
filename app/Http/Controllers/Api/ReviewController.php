@@ -35,8 +35,8 @@ class ReviewController extends Controller
     }
 
     public function singleReview() {
-        $review = Review::where("item_id", request()->input("item"))
-            ->where("user_id", request()->input("user"))
+        $review = Review::where("user_id", request()->input("user"))
+            ->where("item_id", request()->input("item"))
             ->first();
 
         return response()->json([
@@ -76,6 +76,30 @@ class ReviewController extends Controller
     }
 
     public function delete() {
+        $review = Review::where("user_id", request()->input("user"))
+            ->where("item_id", request()->input("item"))
+            ->first();
 
+        if (!$review)
+            return response()->json([
+                "data" => null,
+                "status" => false,
+                "error" => __("api.review.not-found")
+            ]);
+
+        $review = $review->delete();
+
+        if (!$review)
+            return response()->json([
+                "data" => null,
+                "status" => false,
+                "error" => __("api.review.deleted-failed")
+            ]);
+
+        return response()->json([
+            "data"   => null,
+            "status" => true,
+            "error"  => null
+        ]);
     }
 }
