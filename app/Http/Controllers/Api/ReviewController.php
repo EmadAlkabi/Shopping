@@ -57,14 +57,25 @@ class ReviewController extends Controller
             [
                 "rating"  => request()->input("rating"),
                 "comment" => request()->input("comment"),
-                "created_at" => date("Y-m-d", time())
+                "created_at" => date("Y-m-d h:i:s")
             ]
         );
+
+        if (!$review)
+            return response()->json([
+                "data"   => null,
+                "status" => true,
+                "error"  => __("api.review.stored-failed")
+            ]);
 
         return response()->json([
             "data"   => $review,
             "status" => true,
             "error"  => null
         ]);
+    }
+
+    public function delete() {
+
     }
 }
