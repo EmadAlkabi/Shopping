@@ -16,7 +16,7 @@ class OrderItemController extends Controller
         $result = DB::table('order_item')
             ->join('items', 'order_item.item_id', '=', 'items.id')
             ->select("order_item.*", "items.name as item_name", "items.quantity as item_quantity", "items.vendor_id as item_vendor")
-            ->where('order_item.user_id', request()->input("user_id"))
+            ->where('order_item.user_id', request()->input("user"))
             ->where('order_item.cart', 1)
             ->get()
             ->groupBy("item_vendor");
