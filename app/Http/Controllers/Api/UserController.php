@@ -18,7 +18,7 @@ class UserController extends Controller
             "image"      => null,
             "address_1"  => request()->input("address_1"),
             "address_2"  => null,
-            "gps"        => request()->input("gps"),
+            "gps"        => null,
             "state"      => UserState::ACTIVE,
             "created_at" => date("Y-m-d")
         ]);

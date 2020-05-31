@@ -38,7 +38,7 @@
             <td>{{$item->quantity}}</td>
             <td>
                 <div class="d-flex justify-content-center" data-content="{{$item->id}}">
-                    <a class="btn-floating btn-sm secondary-color mx-2" data-action="btn-show">
+                    <a class="btn-floating btn-sm secondary-color mx-2" href="{{route("dashboard.media.index",["item" => $item->id])}}">
                         <i class="fa fa-images"></i>
                     </a>
                     <a class="btn-floating btn-sm primary-color mx-2" href="{{route("dashboard.items.edit",["item" => $item->id])}}">

@@ -15,6 +15,7 @@ class MediaItem extends Model
         'item_id',
         'type',
         'url',
+        'main',
         'created_at'
     ];
 }

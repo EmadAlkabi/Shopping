@@ -45,4 +45,12 @@ Route::namespace('Dashboard')
             // Api
             Route::post("api/items/change-deleted","ApiItemController@changeDeleted");
         });
+
+        // Media
+        Route::namespace("Media")->group(function () {
+            Route::get("media","MediaController@index")->name("media.index");
+            Route::post("media-images/store","MediaController@imageStore")->name("media-images.store");
+            Route::put("media-images/select","MediaController@imageSelect")->name("media-images.select");
+            Route::delete("media-images/delete","MediaController@imageDelete")->name("media-images.delete");
+        });
     });
