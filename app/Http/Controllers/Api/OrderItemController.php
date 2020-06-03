@@ -43,7 +43,7 @@ class OrderItemController extends Controller
         }
 
         return response()->json([
-            "data"   => $collection,
+            "data"   => (is_null($collection)) ? $collection : null,
             "status" => true,
             "error"  => null
         ]);
