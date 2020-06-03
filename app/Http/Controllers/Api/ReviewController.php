@@ -18,9 +18,11 @@ class ReviewController extends Controller
 
         if (!$reviews->isEmpty() && ($page < 1 || $page > $pages))
             return response()->json([
-                "data" => null,
-                "status" => false,
-                "error" => __("api.review.out-range"),
+                "data"         => null,
+                "current-page" => null,
+                "max-page"     => null,
+                "status"       => false,
+                "error"        => __("api.review.out-range")
             ]);
 
         return response()->json([
@@ -30,7 +32,7 @@ class ReviewController extends Controller
             "current-page" => $page,
             "max-page"     => $pages,
             "status"       => true,
-            "error"        => null,
+            "error"        => null
         ]);
     }
 

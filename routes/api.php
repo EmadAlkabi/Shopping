@@ -55,4 +55,7 @@ Route::namespace('Api')->group(function () {
     Route::get('order-items', 'OrderItemController@index');
     Route::post('order-items/store', 'OrderItemController@store');
     Route::post('order-items/delete', 'OrderItemController@delete');
+
+    // Order
+    Route::post('orders/store', 'OrderController@store');
 });

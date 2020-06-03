@@ -1,6 +1,10 @@
 <?php
 
 return [
+    "vendor" => [
+        "not-found" => "الفرع غير موجود.",
+    ],
+
     "item" => [
         "not-found" => "العنصر غير موجود.",
     ],
@@ -22,10 +26,13 @@ return [
         "deleted-failed" => "فشل الحذف، اعد المحاولة.",
         "not-found"      => "التعليق غير موجود."
     ],
+    "order" => [
+        "stored-failed"  => "اعد محاولة الاضافة"
+    ],
 
     "order-item" => [
-        "store-try-again"  => "اعد محاولة الاضافة",
-        "not-found"        => "العنصر غير موجود في السلة",
-        "delete-try-again" => "اعد محاولة الحذف"
+        "stored-failed"  => "اعد محاولة الاضافة",
+        "not-found"      => "العنصر غير موجود في السلة",
+        "deleted-failed" => "اعد محاولة الحذف"
     ]
 ];

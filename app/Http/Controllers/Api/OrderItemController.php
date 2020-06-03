@@ -7,6 +7,7 @@ use App\Http\Resources\CartItemCollection;
 use App\Models\Item;
 use App\Models\OrderItem;
 use App\Models\Vendor;
+use http\Env\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -43,7 +44,7 @@ class OrderItemController extends Controller
         }
 
         return response()->json([
-            "data"   => (!is_null($collection)) ? $collection : null,
+            "data"   => ($collection->isEmpty()) ? null : $collection,
             "status" => true,
             "error"  => null
         ]);
@@ -81,7 +82,7 @@ class OrderItemController extends Controller
             return response()->json([
                 "data"   => null,
                 "status" => false,
-                "error"  => __("api.order-item.store-try-again")
+                "error"  => __("api.order-item.stored-failed")
             ]);
 
         return response()->json([
@@ -105,7 +106,7 @@ class OrderItemController extends Controller
             return response()->json([
                 "data"   => null,
                 "status" => false,
-                "error"  => __("api.order-item.delete-try-again")
+                "error"  => __("api.order-item.delete-failed")
             ]);
 
         return response()->json([
