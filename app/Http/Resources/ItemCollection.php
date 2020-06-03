@@ -30,7 +30,7 @@ class ItemCollection extends JsonResource
             'vendor'          => ['id' => $this->vendor->id, 'name' => $this->vendor->name],
             'category'        => (!is_null($this->category_id))
                 ? ['id' => $this->category->id, 'name' => $this->category->name]
-                : "",
+                : null,
             'media' => [
                 'images' => $this->images->map(function ($image) {
                     return asset('images/large' . Storage::url($image->url));
