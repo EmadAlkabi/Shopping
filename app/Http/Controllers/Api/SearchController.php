@@ -60,15 +60,19 @@ class SearchController extends Controller
         $pages = $items->count();
         $page = (integer)request()->input('page', 1);
 
-        if ($page < 1 || $page > $pages)
+        if (!$items->isEmpty() && ($page < 1 || $page > $pages))
             return response()->json([
-                "data"   => null,
-                "status" => false,
-                "error"  => __("api.search-item.out-range"),
+                "data"         => null,
+                "status"       => false,
+                "current-page" => $page,
+                "max-page"     => $pages,
+                "error"        => __("api.search-item.out-range"),
             ]);
 
         return response()->json([
-            "data"         => SearchItemsCollection::collection($items[$page-1]),
+            "data"         => $items->isEmpty()
+                ? null
+                : SearchItemsCollection::collection($items[$page-1]),
             "current-page" => $page,
             "max-page"     => $pages,
             "status"       => true,

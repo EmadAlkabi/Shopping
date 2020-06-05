@@ -27,7 +27,8 @@ return [
         "not-found"      => "التعليق غير موجود."
     ],
     "order" => [
-        "stored-failed"  => "اعد محاولة الاضافة"
+        "stored-failed"  => "اعد محاولة الاضافة",
+        "out-range"      => "رقم الصفحة ليس في النطاق."
     ],
 
     "order-item" => [

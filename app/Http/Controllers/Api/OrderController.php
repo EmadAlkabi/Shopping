@@ -4,14 +4,64 @@ namespace App\Http\Controllers\Api;
 
 use App\Enum\OrderState;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrdersCollection;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Vendor;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function index() {
+        switch (request()->input("state")) {
+            case OrderState::REVIEW:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->where("state", OrderState::REVIEW)
+                    ->orderBy("request_at", "DESC")
+                    ->get();
+                break;
+            case OrderState::ACCEPT:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->where("state", OrderState::ACCEPT)
+                    ->orderBy("response_at", "DESC")
+                    ->get();
+                break;
+            case OrderState::REJECT:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->where("state", OrderState::REJECT)
+                    ->orderBy("response_at", "DESC")
+                    ->get();
+                break;
+            default:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->orderBy("request_at", "DESC")
+                    ->get();
+        }
+
+        $orders = $orders->chunk(10);
+        $pages = $orders->count();
+        $page = (integer)request()->input('page', 1);
+
+        if (!$orders->isEmpty() && ($page < 1 || $page > $pages))
+            return response()->json([
+                "data"         => null,
+                "current-page" => $page,
+                "max-page"     => $pages,
+                "status"       => false,
+                "error"        => __("api.order.out-range"),
+            ]);
+
+        return response()->json([
+            "data"         => $orders->isEmpty()
+                ? null
+                : OrdersCollection::collection($orders[$page-1]),
+            "current-page" => $page,
+            "max-page"     => $pages,
+            "status"       => true,
+            "error"        => null
+        ]);
+    }
+
     public function store() {
         $vendor = Vendor::find(request()->input("vendor"));
         if (!$vendor)
