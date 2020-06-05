@@ -23,6 +23,7 @@ class TopItemsCollection extends JsonResource
             'image'         => (is_null($this->mainImage()))
                 ? asset('images/large' . Storage::url("public/item/default.png"))
                 : asset('images/large' . Storage::url($this->mainImage()->url)),
+            'currency'      => $this->currency,
             'price'         => $this->price,
             'discount_rate' => $this->discountRate(),
             'rating'        => $this->rating(),
