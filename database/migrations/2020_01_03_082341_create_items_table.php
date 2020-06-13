@@ -18,18 +18,14 @@ class CreateItemsTable extends Migration
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('offline_id')->nullable();
             $table->string('name');
-            $table->string('company');
+            $table->string('company')->nullable();
             $table->string('tags')->nullable();
-            $table->text('details');
+            $table->text('details')->nullable();
             $table->string('barcode')->nullable();
             $table->string('code')->nullable();
             $table->string('currency');
-            $table->float('price');
-            $table->string('unit');
-            $table->unsignedInteger('quantity');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->boolean('deleted')->default(0);
-            $table->date('created_at');
         });
     }
 

@@ -20,8 +20,6 @@ $factory->define(Item::class, function (Faker $faker) {
         "code"          => $faker->ean8,
         "currency"      => $faker->randomKey(array("IQD" => "Dinar", "USD" => "Dollar")),
         "price"         => $faker->randomFloat(8,100, 200000),
-        "unit"          => "unknown",
-        "quantity"      => $faker->numberBetween(0, 1000),
         "category_id"   => $faker->randomElement(array(null, Category::all()->random()->id)),
         "deleted"       => $faker->numberBetween(0, 1),
         "created_at"    => $faker->dateTimeBetween('-30years', 'now')

@@ -22,12 +22,8 @@ class Item extends Model
         'barcode',
         'code',
         'currency',
-        'price',
-        'unit',
-        'quantity',
         'category_id',
-        'deleted',
-        'created_at'
+        'deleted'
     ];
 
     public function vendor() {
