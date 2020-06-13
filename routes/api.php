@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::namespace('Api')->group(function () {
+    // Service
+    Route::post('service', 'ServiceController@index');
+//    Route::get('service', 'ServiceController@index');
+
     // Categories
     Route::get('categories/tree', 'CategoryController@tree');
     Route::get('categories', 'CategoryController@index');
