@@ -12,6 +12,7 @@
             <div class="col-sm-8">
                 <form method="post" action="{{route("dashboard.items.store")}}">
                     @csrf()
+                    {{-- Item --}}
                     <div class="form-group row">
                         <div class="col-12">
                             <label class="col-form-label" for="name" >
@@ -102,33 +103,81 @@
                             <input type="text" class="form-control" name="price" id="price" value="{{old("price")}}">
                             @error("price") <div class="text-warning">{{$message}}</div> @enderror
                         </div>
-                        <div class="col-12">
-                            <label class="col-form-label" for="unit" >
-                                @lang("dashboard/item.label.unit")
-                                <span class="text-danger">*</span>
-                            </label>
-                            <div class="dropdown">
-                                <input type="text" class="form-control" id="unit" value="{{App\Enum\Unit::getUnitName(old("unit"))}}"
-                                       placeholder="@lang("dashboard/item.placeholder.unit")"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="hidden" name="unit" value="{{old("unit")}}">
-                                @error("unit") <div class="text-warning">{{$message}}</div> @enderror
-                                <div class="dropdown-menu dropdown-default w-100" aria-labelledby="unit" id="dropdown-unit">
-                                    @foreach(\App\Enum\Unit::getUnits() as $unit)
-                                        <div class="dropdown-item" data-value="{{$unit}}">
-                                            {{App\Enum\Unit::getUnitName($unit)}}
-                                        </div>
-                                    @endforeach
-                                </div>
+                    </div>
+                    {{-- Units --}}
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <div class="custom-control custom-checkbox mt-2">
+                                <input type="checkbox" class="custom-control-input" name="unit-1" id="unit-1" {{(old("unit-1"))? "checked" : ""}}>
+                                <label class="custom-control-label" for="unit-1">
+                                    @lang("dashboard/unit.fill.unit-1")
+                                </label>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <label class="col-form-label" for="quantity" >
-                                @lang("dashboard/item.label.quantity")
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" class="form-control" name="quantity" id="quantity" value="{{old("quantity")}}">
-                            @error("quantity") <div class="text-warning">{{$message}}</div> @enderror
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="quantity-1" value="{{old("quantity-1")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.quantity")">
+                            @error("quantity-1") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="name-1" value="{{old("name-1")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.name")">
+                            @error("name-1") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="price-1" value="{{old("price-1")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.price")">
+                            @error("price-1") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <div class="custom-control custom-checkbox mt-2">
+                                <input type="checkbox" class="custom-control-input" name="unit-2" id="unit-2" {{(old("unit-2"))? "checked" : ""}}>
+                                <label class="custom-control-label" for="unit-2">
+                                    @lang("dashboard/unit.fill.unit-2")
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="quantity-2" value="{{old("quantity-2")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.quantity")">
+                            @error("quantity-2") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="name-2" value="{{old("name-2")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.name")">
+                            @error("name-2") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="price-2" value="{{old("price-2")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.price")">
+                            @error("price-2") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <div class="custom-control custom-checkbox mt-2">
+                                <input type="checkbox" class="custom-control-input" name="unit-3" id="unit-3" {{(old("unit-3"))? "checked" : ""}}>
+                                <label class="custom-control-label" for="unit-3">
+                                    @lang("dashboard/unit.fill.unit-3")
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="quantity-3" value="{{old("quantity-3")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.quantity")">
+                            @error("quantity-3") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="name-3" value="{{old("name-3")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.name")">
+                            @error("name-3") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="price-3" value="{{old("price-3")}}"
+                                   placeholder="@lang("dashboard/unit.placeholder.price")">
+                            @error("price-3") <div class="text-warning">{{$message}}</div> @enderror
                         </div>
                     </div>
                     <div class="text-center mt-4">
@@ -162,10 +211,6 @@
             $('input#currency').val($(this).html().trim());
             $('input[name="currency"]').val($(this).data('value'));
         });
-        $('#dropdown-unit .dropdown-item').on('click', function () {
-            $('input#unit').val($(this).html().trim());
-            $('input[name="unit"]').val($(this).data('value'));
-        });
         $('#dropdown-category .dropdown-item').on('click', function () {
             $('input#category').val($(this).html().trim());
             $('input[name="category"]').val($(this).data('value'));
@@ -182,8 +227,6 @@
                     item.classList.add('d-block');
             });
         });
-
-
         @if(session()->has("message"))
         $.toast({
             title: '{{session()->get("message")}}',

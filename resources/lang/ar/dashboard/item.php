@@ -41,10 +41,7 @@ return [
             "column"               => [
                 "number"   => "رقم",
                 "name"     => "الاسم",
-                "barcode"  => "Barcode",
-                "code"     => "Code",
-                "price"    => "السعر",
-                "quantity" => "العدد"
+                "quantity&price" => "الكمية والسعر"
             ]
         ],
 
@@ -66,12 +63,9 @@ return [
         "barcode"    => "Barcode",
         "code"       => "Code",
         "currency"   => "العملة",
-        "price"      => "السعر",
-        "unit"       => "التعبة",
-        "quantity"   => "الكمية",
+        "price"      => "السعر العام",
         "category"   => "الصنف",
-        "deleted"    => "Deleted",
-        "created_at" => "تاريخ الانشاء"
+        "deleted"    => "Deleted"
     ],
 
     "placeholder" => [
@@ -80,7 +74,6 @@ return [
         "tags"     => "اكتب بعض الاسماء الاخرى للمادة لغرض تسهيل عملية البحث",
         "details"  => "بعض التفاصيل حول المادة",
         "currency" => "اختر العملة",
-        "unit"     => "اختر التعبة",
         "category" => "اختر الصنف"
     ]
 ];

@@ -4,8 +4,8 @@
         <th rowspan="2">
             @lang("dashboard/item.components.datatable.column.number")
         </th>
-        <th colspan="5" class="align-middle text-capitalize">
-            @lang("dashboard/item.components.datatable.title-$q")
+        <th colspan="2" class="align-middle text-capitalize">
+            @lang("dashboard/item.components.datatable.title-$f")
         </th>
         <th colspan="1">
             <a class="btn btn-flat waves-effect waves-light" type="button" href="{{route("dashboard.items.create")}}">
@@ -16,27 +16,35 @@
     </tr>
     <tr>
         <th class="th-sm">@lang("dashboard/item.components.datatable.column.name")</th>
-        <th class="th-sm">@lang("dashboard/item.components.datatable.column.barcode")</th>
-        <th class="th-sm">@lang("dashboard/item.components.datatable.column.code")</th>
-        <th class="th-sm">@lang("dashboard/item.components.datatable.column.price")</th>
-        <th class="th-sm">@lang("dashboard/item.components.datatable.column.quantity")</th>
-        <th class="th-sm"></th>
+        <th class="th-sm">@lang("dashboard/item.components.datatable.column.quantity&price")</th>
+        <th class="th-sm">---</th>
     </tr>
     </thead>
     <tbody>
     @foreach($items as $item)
         <tr>
-            <td>{{$item->id}}</td>
-            <td>
+            <td class="align-middle">{{$item->id}}</td>
+            <td class="align-middle">
                 <a href="{{route("dashboard.items.show",["item" => $item->id])}}">
                     {{$item->name}}
                 </a>
             </td>
-            <td>{{$item->barcode}}</td>
-            <td>{{$item->code}}</td>
-            <td>{{$item->price}}</td>
-            <td>{{$item->quantity}}</td>
-            <td>
+            <td class="align-middle">
+                <table class="table table-borderless text-center mb-0">
+                    @forelse($item->units as $unit)
+                        <tr>
+                            <td class="th-sm">{{$unit->quantity . " " . $unit->name}}</td>
+                            <td class="th-sm">{{$unit->price . " " . $item->currency}}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="th-sm">---</td>
+                            <td class="th-sm">---</td>
+                        </tr>
+                    @endforelse
+                </table>
+            </td>
+            <td class="align-middle">
                 <div class="d-flex justify-content-center" data-content="{{$item->id}}">
                     <a class="btn-floating btn-sm secondary-color mx-2" href="{{route("dashboard.media.index",["item" => $item->id])}}">
                         <i class="fa fa-images"></i>
@@ -70,7 +78,7 @@
     <script>
         $('#items').DataTable( {
             order: [],
-            columnDefs: [{targets: [6], orderable: false}],
+            columnDefs: [{targets: [3], orderable: false}],
             @if(app()->getLocale() == App\Enum\Language::ARABIC)
             language: {url: 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json'},
             @endif

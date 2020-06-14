@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Dashboard\Item;
 use App\Enum\ItemDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\CreateItemRequest;
+use App\Http\Requests\Dashboard\CreateUnitRequest;
 use App\Http\Requests\Dashboard\UpdateItemRequest;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Unit;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use function Sodium\randombytes_uniform;
 
 class ItemController extends Controller
 {
@@ -23,12 +27,12 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $q = \request()->input('q');
+        $f = \request()->input('f');
         $vendor = 1;
-        switch ($q) {
+        switch ($f) {
             case "all":
                 $items = Item::where('vendor_id', $vendor)
-                    ->latest()
+                    ->latest("id")
                     ->get();
                 break;
             case "categorized":
@@ -51,11 +55,13 @@ class ItemController extends Controller
                     ->latest()
                     ->get();
                 break;
-            default: $items = array();
+            default: $items = Item::where('vendor_id', $vendor)
+                ->latest("id")
+                ->get();
         }
 
         return view('dashboard.item.index')->with([
-            "q" => $q,
+            "f" => $f,
             "items" => $items
         ]);
     }
@@ -80,32 +86,33 @@ class ItemController extends Controller
      */
     public function store(CreateItemRequest $request)
     {
-        $item = Item::create([
-            'vendor_id'   => 1,
-            'offline_id'  => null,
-            'name'        => $request->input("name"),
-            'company'     => $request->input("company"),
-            'tags'        => $request->input("tags"),
-            'details'     => $request->input("details"),
-            'barcode'     => $request->input("barcode"),
-            'code'        => $request->input("code"),
-            'currency'    => $request->input("currency"),
-            'price'       => $request->input("price"),
-            'unit'        => $request->input("unit"),
-            'quantity'    => $request->input("quantity"),
-            'category_id' => $request->input("category"),
-            'deleted'     => ItemDeleted::FALSE,
-            'created_at'  => date("Y-m-d")
-        ]);
+        DB::transaction(function () use ($request) {
+            $item = Item::create([
+                'vendor_id'   => 1,
+                'offline_id'  => null,
+                'name'        => $request->input("name"),
+                'company'     => $request->input("company"),
+                'tags'        => $request->input("tags"),
+                'details'     => $request->input("details"),
+                'barcode'     => $request->input("barcode"),
+                'code'        => $request->input("code"),
+                'currency'    => $request->input("currency"),
+                'price'       => $request->input("price"),
+                'category_id' => $request->input("category"),
+                'deleted'     => ItemDeleted::FALSE
+            ]);
 
-        if (!$item)
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with([
-                    "message" => __("dashboard/item.store.failed"),
-                    "type"    => "warning"
-                ]);
+            for ($i=1; $i<4; $i++)
+                if ($request->input("unit-$i"))
+                    Unit::create([
+                        "item_id"    => $item->id,
+                        "offline_id" => null,
+                        "quantity"   => $request->input("quantity-$i"),
+                        "name"       => $request->input("name-$i"),
+                        "price"      => $request->input("price-$i"),
+                        "deleted"    => 0
+                    ]);
+        });
 
         return redirect()
             ->back()
@@ -123,7 +130,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        return "OK";
     }
 
     /**

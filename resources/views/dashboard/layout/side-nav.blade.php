@@ -17,16 +17,16 @@
                     </div>
                     <div class="list-item-body collapse" id="collapse-items" aria-labelledby="heading-items" data-parent="#accordion-side-nav">
                         <div class="sup-list">
-                            <a class="list-item" href="{{route("dashboard.items.index", ["q" => "all"])}}">
+                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "all"])}}">
                                 @lang("dashboard/layout.side-nav.block-items.all-items")
                             </a>
-                            <a class="list-item" href="{{route("dashboard.items.index", ["q" => "categorized"])}}">
+                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "categorized"])}}">
                                 @lang("dashboard/layout.side-nav.block-items.categorized-items")
                             </a>
-                            <a class="list-item" href="{{route("dashboard.items.index", ["q" => "un-categorized"])}}">
+                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "un-categorized"])}}">
                                 @lang("dashboard/layout.side-nav.block-items.un-categorized-items")
                             </a>
-                            <a class="list-item" href="{{route("dashboard.items.index", ["q" => "deleted"])}}">
+                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "deleted"])}}">
                                 @lang("dashboard/layout.side-nav.block-items.deleted-items")
                             </a>
                         </div>

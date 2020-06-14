@@ -13,6 +13,7 @@
                 <form method="post" action="{{route("dashboard.items.update", ["item" => $item->id])}}">
                     @csrf()
                     @method("PUT")
+                    {{-- Item --}}
                     <div class="form-group row">
                         <div class="col-12">
                             <label class="col-form-label" for="name" >

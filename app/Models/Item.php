@@ -22,6 +22,7 @@ class Item extends Model
         'barcode',
         'code',
         'currency',
+        'price',
         'category_id',
         'deleted'
     ];
@@ -32,11 +33,6 @@ class Item extends Model
 
     public function category() {
         return $this->belongsTo('App\Models\Category');
-    }
-
-    public function mainImage() {
-        $image = $this->images()->where("main","=", 1)->first();
-        return is_null($image) ? $this->images()->first() : $image;
     }
 
     public function images() {
@@ -51,6 +47,15 @@ class Item extends Model
             ->where("type", MediaItemType::VIDEO)
             ->orderBy("main", "DESC")
             ->orderBy("id", "ASC");
+    }
+
+    public function mainImage() {
+        $image = $this->images()->where("main","=", 1)->first();
+        return is_null($image) ? $this->images()->first() : $image;
+    }
+
+    public function units() {
+        return $this->hasMany("App\\Models\\Unit");
     }
 
     public function reviews() {

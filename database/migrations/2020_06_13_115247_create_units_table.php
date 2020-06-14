@@ -16,9 +16,11 @@ class CreateUnitsTable extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger("item_id");
+            $table->unsignedBigInteger("offline_id")->nullable();
             $table->string("name");
             $table->integer("quantity");
-            $table->float("price");
+            $table->double('price', 16,2);
+            $table->boolean("deleted");
         });
     }
 
