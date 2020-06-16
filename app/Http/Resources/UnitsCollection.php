@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Http\Resources;
 
-
-use App\Enum\AnnouncementType;
+use App\Http\Requests\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class CategoriesTreeCollection extends JsonResource
+class UnitsCollection extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -19,11 +17,10 @@ class CategoriesTreeCollection extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'       => $this->id,
             'name'     => $this->name,
-            'children' => (!is_null($this->children))
-                ? $this::collection($this->children)
-                : null
+            'price'    => $this->price,
+            'quantity' => $this->quantity,
+            'main'     => $this->main
         ];
     }
 }

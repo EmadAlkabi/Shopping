@@ -20,10 +20,7 @@ class CategoriesCollection extends JsonResource
     {
         return [
             'id'       => $this->id,
-            'name'     => $this->name,
-            'image'    => (!is_null($this->image))
-                ? asset('images/small' . Storage::url($this->image))
-                : asset('images/small' . Storage::url("public/category/default.png"))
+            'name'     => $this->name
         ];
     }
 }

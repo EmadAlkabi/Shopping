@@ -21,16 +21,16 @@ class ItemCollection extends JsonResource
             'name'            => $this->name,
             'details'         => $this->details,
             'currency'        => $this->currency,
-            'price'           => $this->price,
-            'unit'            => $this->unit,
-            'quantity'        => $this->quantity,
             'discount_rate'   => $this->discountRate(),
             'rating'          => $this->rating(),
             'numberOfReviews' => $this->reviews->count(),
             'vendor'          => ['id' => $this->vendor->id, 'name' => $this->vendor->name],
-            'category'        => (!is_null($this->category_id))
-                ? ['id' => $this->category->id, 'name' => $this->category->name]
-                : null,
+            'units'           => $this->units->isEmpty()
+                ? null
+                : UnitsCollection::collection($this->units),
+            'category'        => is_null($this->category)
+                ? null
+                : new CategoriesCollection($this->category),
             'media' => [
                 'images' => $this->images->map(function ($image) {
                     return asset('images/large' . Storage::url($image->url));
