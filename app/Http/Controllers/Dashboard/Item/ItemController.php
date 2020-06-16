@@ -95,7 +95,6 @@ class ItemController extends Controller
                 'barcode'     => $request->input("barcode"),
                 'code'        => $request->input("code"),
                 'currency'    => $request->input("currency"),
-                'price'       => $request->input("price"),
                 'category_id' => $request->input("category"),
                 'deleted'     => ItemDeleted::FALSE
             ]);
@@ -108,6 +107,7 @@ class ItemController extends Controller
                         "quantity"   => $request->input("quantity-$i"),
                         "name"       => $request->input("name-$i"),
                         "price"      => $request->input("price-$i"),
+                        "main"       => 0,
                         "deleted"    => 0
                     ]);
         });
@@ -139,6 +139,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        return "OK";
+
         return view('dashboard.item.edit')->with([
             "categories" => Category::all(),
             "item" => $item

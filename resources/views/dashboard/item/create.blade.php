@@ -95,14 +95,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <label class="col-form-label" for="price" >
-                                @lang("dashboard/item.label.price")
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" class="form-control" name="price" id="price" value="{{old("price")}}">
-                            @error("price") <div class="text-warning">{{$message}}</div> @enderror
-                        </div>
                     </div>
                     {{-- Units --}}
                     <div class="row mb-3">
