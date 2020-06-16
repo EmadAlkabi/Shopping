@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard\Item;
 use App\Enum\ItemDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\CreateItemRequest;
-use App\Http\Requests\Dashboard\CreateUnitRequest;
 use App\Http\Requests\Dashboard\UpdateItemRequest;
 use App\Models\Category;
 use App\Models\Item;
@@ -16,7 +15,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use function Sodium\randombytes_uniform;
 
 class ItemController extends Controller
 {

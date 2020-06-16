@@ -54,7 +54,13 @@ class Item extends Model
     }
 
     public function units() {
-        return $this->hasMany("App\\Models\\Unit");
+        return $this->hasMany("App\\Models\\Unit")
+            ->orderBy("main", "DESC")
+            ->orderBy("id", "ASC");
+    }
+
+    public function mainUnit() {
+        return $this->units()->where("main","=", 1)->first();
     }
 
     public function reviews() {

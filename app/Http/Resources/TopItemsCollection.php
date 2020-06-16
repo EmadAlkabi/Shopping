@@ -17,6 +17,7 @@ class TopItemsCollection extends JsonResource
      */
     public function toArray($request)
     {
+        $mainUnit = $this->mainUnit();
         return [
             'id'            => $this->id,
             'name'          => $this->name,
@@ -24,10 +25,10 @@ class TopItemsCollection extends JsonResource
                 ? asset('images/large' . Storage::url("public/item/default.png"))
                 : asset('images/large' . Storage::url($this->mainImage()->url)),
             'currency'      => $this->currency,
-            'price'         => $this->price,
+            'quantity'      => $mainUnit->quantity ?? 0,
+            'price'         => $mainUnit->price ?? 0,
             'discount_rate' => $this->discountRate(),
-            'rating'        => $this->rating(),
-            'quantity'      => $this->quantity
+            'rating'        => $this->rating()
         ];
     }
 }
