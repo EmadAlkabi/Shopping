@@ -16,6 +16,7 @@ class Unit extends Model
         'name',
         'quantity',
         'price',
+        'main',
         'deleted'
     ];
 }

@@ -27,7 +27,6 @@ class ServiceController extends Controller
                    "barcode"    => null,
                    "code"       => null,
                    "currency"   => ($item["currency"] == 1) ? Currency::IQD : Currency::USD,
-                   "price"      => (double)$item["price"],
                    "deleted"    => 0
                ]
             );
@@ -42,6 +41,7 @@ class ServiceController extends Controller
                        "name"     => $unit["name"],
                        "quantity" => (integer)$unit["quantity"],
                        "price"    => (double)$unit["price"],
+                       "main"     => (integer)$unit["isMain"],
                        "deleted"  => 0
                    ]
                );

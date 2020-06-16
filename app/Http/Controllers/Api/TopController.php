@@ -120,7 +120,7 @@ class TopController extends Controller
     }
 
     public static function getNewProductItems($items, $numberOfItems) {
-        return $items->sortByDesc('created_at')
+        return $items->sortByDesc('id')
             ->take($numberOfItems);
     }
 

@@ -18,6 +18,7 @@ class CreateMediaItemTable extends Migration
             $table->unsignedBigInteger('item_id');
             $table->boolean('type');
             $table->string('url');
+            $table->boolean('main');
             $table->date('created_at');
         });
     }

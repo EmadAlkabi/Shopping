@@ -20,6 +20,7 @@ class CreateUnitsTable extends Migration
             $table->string("name");
             $table->integer("quantity");
             $table->double('price', 16,2);
+            $table->boolean("main");
             $table->boolean("deleted");
         });
     }

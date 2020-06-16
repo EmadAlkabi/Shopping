@@ -22,7 +22,6 @@ class Item extends Model
         'barcode',
         'code',
         'currency',
-        'price',
         'category_id',
         'deleted'
     ];
