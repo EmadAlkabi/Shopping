@@ -25,7 +25,7 @@
         <tr>
             <td class="align-middle">{{$item->id}}</td>
             <td class="align-middle">
-                <a href="{{route("dashboard.items.show",["item" => $item->id])}}">
+                <a href="{{route("dashboard.items.show",["item" => $item->id])}}" target="_blank">
                     {{$item->name}}
                 </a>
             </td>
@@ -46,10 +46,10 @@
             </td>
             <td class="align-middle">
                 <div class="d-flex justify-content-center" data-content="{{$item->id}}">
-                    <a class="btn-floating btn-sm secondary-color mx-2" href="{{route("dashboard.media.index",["item" => $item->id])}}">
+                    <a class="btn-floating btn-sm secondary-color mx-2" href="{{route("dashboard.media.index",["item" => $item->id])}}" target="_blank">
                         <i class="fa fa-images"></i>
                     </a>
-                    <a class="btn-floating btn-sm primary-color mx-2" href="{{route("dashboard.items.edit",["item" => $item->id])}}">
+                    <a class="btn-floating btn-sm primary-color mx-2" href="{{route("dashboard.items.edit",["item" => $item->id])}}" target="_blank">
                         <i class="far fa-edit"></i>
                     </a>
                     @if($item->deleted == \App\Enum\ItemDeleted::FALSE)
