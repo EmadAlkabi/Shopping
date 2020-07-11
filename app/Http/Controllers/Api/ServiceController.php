@@ -6,6 +6,7 @@ use App\Enum\Currency;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\Unit;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -13,6 +14,7 @@ class ServiceController extends Controller
         ini_set("max_execution_time", 300);
         $vendor = request()->input("vendor");
         $items = collect(json_decode(file_get_contents(request()->file("file")), true));
+
         $items->map(function ($item) use ($vendor) {
             $newItem = Item::updateOrCreate(
                [
@@ -31,6 +33,7 @@ class ServiceController extends Controller
                ]
             );
             $units = collect($item["units"]);
+            if (!$units->isEmpty())
             $units->map(function ($unit) use ($newItem) {
                 Unit::updateOrCreate(
                    [
