@@ -54,9 +54,7 @@ class Item extends Model
     }
 
     public function units() {
-        return $this->hasMany("App\\Models\\Unit")
-            ->orderBy("main", "DESC")
-            ->orderBy("id", "ASC");
+        return $this->hasMany("App\\Models\\Unit");
     }
 
     public function mainUnit() {
@@ -70,7 +68,7 @@ class Item extends Model
 
     public function orders() {
         return $this->hasMany('App\Models\OrderItem')
-            ->where('cart', '=', '0');
+            ->where('cart', '=', 0);
     }
 
     public function rating() {
@@ -80,6 +78,9 @@ class Item extends Model
 
         return round($rating, 2);
     }
+
+
+
 
     public function discountRate() {
         $offers = OfferItem::where('item_id', $this->id)

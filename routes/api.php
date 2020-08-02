@@ -44,10 +44,7 @@ Route::namespace('Api')->group(function () {
     // Search
     Route::get('search', 'SearchController@search');
 
-    // User
-    Route::post('users/store', 'UserController@store');
-    Route::post('users/update', 'UserController@update');
-    Route::get('users/get-by-phone/{phone}', 'UserController@getByPhone');
+
 
     // Reviews
     Route::get('reviews/all', 'ReviewController@allReviews');
@@ -55,12 +52,27 @@ Route::namespace('Api')->group(function () {
     Route::post('reviews/store', 'ReviewController@store');
     Route::post('reviews/delete', 'ReviewController@delete');
 
-    // Order Item (cart)
-    Route::get('order-items', 'OrderItemController@index');
-    Route::post('order-items/store', 'OrderItemController@store');
-    Route::post('order-items/delete', 'OrderItemController@delete');
+
 
     // Order
     Route::get('orders', 'OrderController@index');
     Route::post('orders/store', 'OrderController@store');
+
+
+
+
+
+
+
+
+
+    // User
+    Route::post('users/store', 'UserController@store');
+    Route::post('users/update', 'UserController@update');
+    Route::get('users/get-by-phone/{phone}', 'UserController@getByPhone');
+
+    // Order Item (cart)
+    Route::get('order-items', 'OrderItemController@index');
+    Route::post('order-items/create-or-update', 'OrderItemController@createOrUpdate');
+    Route::post('order-items/delete', 'OrderItemController@delete');
 });

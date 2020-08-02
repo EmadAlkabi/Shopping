@@ -21,7 +21,8 @@ class CreateUnitsTable extends Migration
             $table->integer("quantity");
             $table->double('price', 16,2);
             $table->boolean("main");
-            $table->boolean("deleted");
+            $table->integer("content")->nullable();
+            $table->unsignedBigInteger("child_id")->nullable();
         });
     }
 

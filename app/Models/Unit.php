@@ -17,6 +17,14 @@ class Unit extends Model
         'quantity',
         'price',
         'main',
-        'deleted'
+        "content",
+        "child_id"
     ];
+
+    public function child()
+    {
+        return Unit::where("item_id", $this->item_id)
+            ->where("offline_id", $this->child_id)
+            ->first();
+    }
 }

@@ -19,7 +19,8 @@ class OrderItem extends Model
         'quantity',
         'cart',
         'order_id',
-        'created_at'
+        'created_at',
+        'updated_at'
     ];
 
     public function item() {

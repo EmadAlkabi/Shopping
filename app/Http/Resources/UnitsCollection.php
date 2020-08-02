@@ -17,10 +17,13 @@ class UnitsCollection extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'     => $this->name,
-            'price'    => $this->price,
-            'quantity' => $this->quantity,
-            'main'     => $this->main
+            'name'          => $this->name,
+            'price'         => $this->price,
+            'quantity'      => $this->quantity,
+            'main'          => $this->main,
+            'content'       => $this->content,
+            'child'         => $this->child()->name ?? null,
+            'discount_rate' => 0
         ];
     }
 }

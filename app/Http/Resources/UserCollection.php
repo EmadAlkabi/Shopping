@@ -27,7 +27,8 @@ class UserCollection extends JsonResource
             "address_2"  => $this->address_2,
             "gps"        => $this->gps,
             "state"      => $this->state,
-            "created_at" => $this->created_at
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at
         ];
     }
 }

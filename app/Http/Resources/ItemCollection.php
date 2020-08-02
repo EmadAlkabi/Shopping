@@ -21,7 +21,6 @@ class ItemCollection extends JsonResource
             'name'            => $this->name,
             'details'         => $this->details,
             'currency'        => $this->currency,
-            'discount_rate'   => $this->discountRate(),
             'rating'          => $this->rating(),
             'numberOfReviews' => $this->reviews->count(),
             'vendor'          => ['id' => $this->vendor->id, 'name' => $this->vendor->name],

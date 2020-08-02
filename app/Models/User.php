@@ -18,6 +18,7 @@ class User extends Model
         "address_2",
         "gps",
         "state",
-        "created_at"
+        "created_at",
+        "updated_at"
     ];
 }

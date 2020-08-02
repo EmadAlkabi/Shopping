@@ -16,46 +16,45 @@ class ServiceController extends Controller
         $items = collect(json_decode(file_get_contents(request()->file("file")), true));
 
         $items->map(function ($item) use ($vendor) {
-            $newItem = Item::updateOrCreate(
-               [
-                   "vendor_id"  => $vendor,
-                   "offline_id" => $item["id"]
-               ],
-               [
-                   "name"       => $item["name"],
-                   "company"    => null,
-                   "tags"       => null,
-                   "details"    => null,
-                   "barcode"    => null,
-                   "code"       => null,
-                   "currency"   => ($item["currency"] == 1) ? Currency::IQD : Currency::USD,
-                   "deleted"    => 0
-               ]
-            );
+            $newItem = Item::updateOrCreate([
+                "vendor_id"  => $vendor,
+                "offline_id" => $item["id"]
+            ], [
+                "name"       => $item["name"],
+               "company"    => null,
+               "tags"       => null,
+               "details"    => null,
+               "barcode"    => null,
+               "code"       => null,
+               "currency"   => ($item["currency"] == 1) ? Currency::IQD : Currency::USD,
+               "deleted"    => 0
+            ]);
+
             $units = collect($item["units"]);
             if (!$units->isEmpty())
-            $units->map(function ($unit) use ($newItem) {
-                Unit::updateOrCreate(
-                   [
+                $units->map(function ($unit) use ($newItem) {
+                    Unit::updateOrCreate([
                        "item_id"    => $newItem->id,
                        "offline_id" => $unit["id"]
-                   ],
-                   [
-                       "name"     => $unit["name"],
-                       "quantity" => (integer)$unit["quantity"],
-                       "price"    => (double)$unit["price"],
-                       "main"     => (integer)$unit["isMain"],
-                       "deleted"  => 0
-                   ]
-               );
+                    ], [
+                        "name"     => $unit["name"],
+                        "quantity" => (integer)$unit["quantity"],
+                        "price"    => (double)$unit["price"],
+                        "main"     => (integer)$unit["isMain"],
+                        "content"  => (integer)$unit["content"],
+                        "child_id" => $unit["childId"]
+                    ]);
             });
+
             Unit::where("item_id", $newItem->id)
                 ->whereNotIn("offline_id", $units->pluck("id"))
-                ->update(["deleted" => 1]);
+                ->delete();
         });
+
         Item::where("vendor_id", $vendor)
             ->whereNotIn("offline_id", $items->pluck("id"))
             ->update(["deleted" => 1]);
+
         return "OK";
     }
 }

@@ -15,12 +15,7 @@ class UserController extends Controller
         $user = User::create([
             "name"       => request()->input("name"),
             "phone"      => substr(str_replace(' ', '', request()->input("phone")), -10),
-            "image"      => null,
             "address_1"  => request()->input("address_1"),
-            "address_2"  => null,
-            "gps"        => null,
-            "state"      => UserState::ACTIVE,
-            "created_at" => date("Y-m-d")
         ]);
 
         if (!$user)
@@ -29,6 +24,9 @@ class UserController extends Controller
                 "status" => false,
                 "error"  => __("api.user.created-failed")
             ]);
+
+        // For get all info from db.
+        $user = User::find($user->id);
 
         return response()->json([
             "data"   => new UserCollection($user),
@@ -74,6 +72,9 @@ class UserController extends Controller
                 "status" => false,
                 "error"  => __("api.user.updated-failed")
             ]);
+
+        // For get all info from db.
+        $user = User::find($user->id);
 
         return response()->json([
             "data"   => new UserCollection($user),

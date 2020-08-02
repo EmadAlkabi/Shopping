@@ -17,7 +17,6 @@ class SearchItemsCollection extends JsonResource
      */
     public function toArray($request)
     {
-        $mainUnit = $this->mainUnit();
         return [
             'id'            => $this->id,
             'name'          => $this->name,
@@ -25,9 +24,7 @@ class SearchItemsCollection extends JsonResource
                 ? asset('images/large' . Storage::url("public/item/default.png"))
                 : asset('images/large' . Storage::url($this->mainImage()->url)),
             'currency'      => $this->currency,
-            'quantity'      => $mainUnit->quantity ?? 0,
-            'price'         => $mainUnit->price ?? 0,
-            'discount_rate' => $this->discountRate(),
+            'unit'          => new UnitsCollection($this->mainUnit()),
             'rating'        => $this->rating()
         ];
     }

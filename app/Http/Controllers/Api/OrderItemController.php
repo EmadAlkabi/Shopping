@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enum\UserState;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartItemCollection;
 use App\Models\Item;
 use App\Models\OrderItem;
+use App\Models\User;
 use App\Models\Vendor;
 use http\Env\Response;
 use Illuminate\Support\Collection;
@@ -50,8 +52,24 @@ class OrderItemController extends Controller
         ]);
     }
 
-    public function store() {
-        $item = Item::where("id", request()->input("item_id"))
+    public function createOrUpdate() {
+        $user = User::find(request()->input("user"));
+
+        if (!$user)
+            return response()->json([
+                "data"   => null,
+                "status" => false,
+                "error"  => __("api.user.not-found")
+            ]);
+
+        if ($user->state == UserState::INACTIVE)
+            return response()->json([
+                "data"   => null,
+                "status" => false,
+                "error"  => __("api.user.blocked")
+            ]);
+
+        $item = Item::where("id", request()->input("item"))
             ->where("deleted", 0)
             ->first();
 
@@ -62,21 +80,27 @@ class OrderItemController extends Controller
                 "error"  => __("api.item.not-found")
             ]);
 
+        $unit = $item->units->filter(function ($unit) {
+            return ($unit->id == request()->input("unit"));
+        });
 
-        $orderItem = OrderItem::updateOrCreate(
-            [
-                "user_id" => request()->input("user_id"),
-                "item_id" => request()->input("item_id"),
-                "cart"    => 1
-            ],
-            [
-                "currency"   => request()->input("currency"),
-                "price"      => request()->input("price"),
-                "quantity"   => request()->input("quantity"),
-                "order_id"   => null,
-                "created_at" => date("Y-m-d")
-            ]
-        );
+        if ($unit->isEmpty())
+            return response()->json([
+                "data"   => null,
+                "status" => false,
+                "error"  => __("api.unit.not-found")
+            ]);
+
+        $orderItem = OrderItem::updateOrCreate([
+            "user_id"  => $user->id,
+            "item_id"  => $item->id,
+            "cart"     => 1
+        ], [
+            "currency" => $item->currency,
+            "price"    => $unit->price,
+            "quantity" => 1,
+            "order_id" => null
+        ]);
 
         if (!$orderItem)
             return response()->json([
