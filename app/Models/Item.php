@@ -8,31 +8,69 @@ use Illuminate\Support\Facades\Storage;
 
 class Item extends Model
 {
-    protected $table = 'items';
-    protected $primaryKey = 'id';
+    protected $table = "items";
+    protected $primaryKey = "id";
     public $timestamps = false;
     protected $fillable = [
-        'id',
-        'vendor_id',
-        'offline_id',
-        'name',
-        'company',
-        'tags',
-        'details',
-        'barcode',
-        'code',
-        'currency',
-        'category_id',
-        'deleted'
+        "vendor_id",
+        "offline_id",
+        "name",
+        "company",
+        "tags",
+        "details",
+        "barcode",
+        "code",
+        "currency",
+        "category_id",
+        "deleted",
+        "created_at",
+        "updated_at"
     ];
 
-    public function vendor() {
+    public function vendor()
+    {
         return $this->belongsTo('App\Models\Vendor');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo('App\Models\Category');
     }
+
+    public function orders()
+    {
+        return $this->hasMany("App\\Models\\OrderItem")
+            ->where("cart", "=", 0);
+    }
+    public function reviews()
+    {
+        return $this->hasMany("App\\Models\\Review")
+            ->latest();
+    }
+
+    public function rating()
+    {
+        return round($this->reviews()->avg("rate"), 2);
+    }
+
+    public function units()
+    {
+        return $this->hasMany("App\\Models\\Unit");
+    }
+
+    public function mainUnit()
+    {
+        return $this->units()
+            ->where("main","=", 1)
+            ->first();
+    }
+
+
+
+
+
+
+
 
     public function images() {
         return $this->hasMany("App\Models\MediaItem")
@@ -53,31 +91,7 @@ class Item extends Model
         return is_null($image) ? $this->images()->first() : $image;
     }
 
-    public function units() {
-        return $this->hasMany("App\\Models\\Unit");
-    }
 
-    public function mainUnit() {
-        return $this->units()->where("main","=", 1)->first();
-    }
-
-    public function reviews() {
-        return $this->hasMany('App\Models\Review')
-            ->latest();
-    }
-
-    public function orders() {
-        return $this->hasMany('App\Models\OrderItem')
-            ->where('cart', '=', 0);
-    }
-
-    public function rating() {
-        $rating = Review::select('rating')
-            ->where('item_id', $this->id)
-            ->avg('rating');
-
-        return round($rating, 2);
-    }
 
 
 

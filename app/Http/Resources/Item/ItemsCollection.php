@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Item;
 
+use App\Http\Resources\Unit\UnitsCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class SearchItemsCollection extends JsonResource
+class ItemsCollection extends JsonResource
 {
-
     /**
      * Transform the resource collection into an array.
      *
@@ -18,14 +18,14 @@ class SearchItemsCollection extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'            => $this->id,
-            'name'          => $this->name,
-            'image'         => (is_null($this->mainImage()))
+            "id"            => $this->id,
+            "name"          => $this->name,
+            "currency"      => $this->currency,
+            "image"         => (is_null($this->mainImage()))
                 ? asset('images/large' . Storage::url("public/item/default.png"))
                 : asset('images/large' . Storage::url($this->mainImage()->url)),
-            'currency'      => $this->currency,
-            'unit'          => new UnitsCollection($this->mainUnit()),
-            'rating'        => $this->rating()
+            "unit"          => new UnitsCollection($this->mainUnit()),
+            "rating"        => $this->rating()
         ];
     }
 }

@@ -10,15 +10,17 @@ class Unit extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
     protected $fillable = [
-        'id',
-        'item_id',
-        'offline_id',
-        'name',
-        'quantity',
-        'price',
-        'main',
+        "id",
+        "item_id",
+        "offline_id",
+        "name",
+        "quantity",
+        "price",
+        "main",
         "content",
-        "child_id"
+        "child_id",
+        "created_at",
+        "updated_at"
     ];
 
     public function child()

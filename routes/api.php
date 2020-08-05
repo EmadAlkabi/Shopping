@@ -14,49 +14,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::namespace('Api')->group(function () {
+Route::namespace("Api")->group(function () {
     // Service
-    Route::post('service', 'ServiceController@index');
-//    Route::get('service', 'ServiceController@index');
+    Route::post("service", "ServiceController@index");
 
     // Categories
-    Route::get('categories/tree', 'CategoryController@tree');
-    Route::get('categories', 'CategoryController@index');
-
-    // Top
-    Route::get('items/new-product', 'TopController@newProduct');
-    Route::get('items/top-sell', 'TopController@topSell');
-    Route::get('items/top-rating', 'TopController@topRating');
-    Route::get('items/top-discount', 'TopController@topDiscount');
-    Route::get('items/top-collection', 'TopController@topCollection');
-    Route::get('items/best-top-collection', 'TopController@bestTopCollection');
-
-    // Main Show
-    Route::get('main-show/announcements', 'MainShowController@announcements');
-    Route::get('main-show/offers', 'MainShowController@offers');
-
-    // Offers
-    Route::get('offers/{offer}', 'OfferController@show')->name('offers.show');
+    Route::get("categories", "CategoryController@index");
+    Route::get("categories/tree", "CategoryController@tree");
 
     // Items
-    Route::get('items/{item}', 'ItemController@show')->name('items.show');
+    Route::get("items", "ItemController@index");
+    Route::get("items/{item}/show", "ItemController@show")->name("items.show");
+    Route::get("items/new-product", "ItemController@newProduct");
+    Route::get("items/top-sell", "ItemController@topSell");
+    Route::get("items/top-rating", "ItemController@topRating");
+    Route::get("items/top-discount", "ItemController@topDiscount");
+    Route::get("items/top-collection", "ItemController@topCollection");
+    Route::get("items/best-top-collection", "ItemController@bestTopCollection");
 
-    // Search
-    Route::get('search', 'SearchController@search');
+    // Main Show
+    Route::get("main-show/announcements", "MainShowController@announcements");
+    Route::get("main-show/offers", "MainShowController@offers");
 
-
+    // Offers
+    Route::get("offers/{offer}", "OfferController@show")->name("offers.show");
 
     // Reviews
-    Route::get('reviews/all', 'ReviewController@allReviews');
-    Route::get('reviews/single', 'ReviewController@singleReview');
-    Route::post('reviews/store', 'ReviewController@store');
-    Route::post('reviews/delete', 'ReviewController@delete');
+    Route::get("reviews/all", "ReviewController@allReviews");
+    Route::get("reviews/single", "ReviewController@singleReview");
+    Route::post("reviews/store", "ReviewController@store");
+    Route::post("reviews/delete", "ReviewController@delete");
 
 
 
     // Order
-    Route::get('orders', 'OrderController@index');
-    Route::post('orders/store', 'OrderController@store');
+    Route::get("orders", "OrderController@index");
+    Route::post("orders/store", "OrderController@store");
 
 
 
@@ -67,12 +60,12 @@ Route::namespace('Api')->group(function () {
 
 
     // User
-    Route::post('users/store', 'UserController@store');
-    Route::post('users/update', 'UserController@update');
-    Route::get('users/get-by-phone/{phone}', 'UserController@getByPhone');
+    Route::post("users/store", "UserController@store");
+    Route::post("users/update", "UserController@update");
+    Route::get("users/get-by-phone/{phone}", "UserController@getByPhone");
 
     // Order Item (cart)
-    Route::get('order-items', 'OrderItemController@index');
-    Route::post('order-items/create-or-update', 'OrderItemController@createOrUpdate');
-    Route::post('order-items/delete', 'OrderItemController@delete');
+    Route::get("order-items", "OrderItemController@index");
+    Route::post("order-items/create-or-update", "OrderItemController@createOrUpdate");
+    Route::post("order-items/delete", "OrderItemController@delete");
 });

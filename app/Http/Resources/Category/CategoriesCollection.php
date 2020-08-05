@@ -1,12 +1,9 @@
 <?php
 
+namespace App\Http\Resources\Category;
 
-namespace App\Http\Resources;
-
-
-use App\Enum\AnnouncementType;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class CategoriesCollection extends JsonResource
 {
@@ -19,8 +16,8 @@ class CategoriesCollection extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'       => $this->id,
-            'name'     => $this->name
+            "id"   => $this->id,
+            "name" => $this->name
         ];
     }
 }

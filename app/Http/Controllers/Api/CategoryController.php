@@ -3,37 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoriesCollection;
-use App\Http\Resources\CategoriesTreeCollection;
+use App\Http\Resources\Category\CategoriesCollection;
+use App\Http\Resources\Category\CategoriesCollectionTree;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 
 class CategoryController extends Controller
 {
+    use ResponseTrait;
+
     public function index() {
-        $category = (integer)request()->input("category");
+        $category = request()->input("category");
         $categories = ($category == 0)
             ? Category::where("parent_id", null)->get()
             : Category::where("parent_id", $category)->get();
 
-        return response()->json([
-            "data" => (!$categories->isEmpty())
-                ? CategoriesCollection::collection($categories)
-                : null,
-            "status" => true,
-            "error" => null
-        ]);
+        return $this->simpleResponse(CategoriesCollection::collection($categories));
     }
 
     public function tree() {
         $categories = Category::all();
         $categories = self::buildTree($categories, null);
 
-        return response()->json([
-            "data" => CategoriesTreeCollection::collection($categories),
-            "status" => true,
-            "error" => null
-        ]);
+        return $this->simpleResponse(CategoriesCollectionTree::collection($categories));
     }
 
     public static function buildTree (Collection $elements, $parentId = null)
@@ -43,7 +35,7 @@ class CategoryController extends Controller
             if ($element->parent_id == $parentId) {
                 $children = self::buildTree($elements, $element->id);
                 if (!$children->isEmpty())
-                    $element['children'] = $children;
+                    $element["children"] = $children;
                 $branch->push($element);
                 $elements->forget($element->id);
             }
