@@ -32,16 +32,31 @@ Route::namespace("Api")->group(function () {
     Route::get("items/top-collection", "ItemController@topCollection");
     Route::get("items/best-top-collection", "ItemController@bestTopCollection");
 
+
+
+
+
     // User
     Route::post("users/store", "UserController@store");
     Route::post("users/update", "UserController@update");
     Route::get("users/get-by-phone/{phone}", "UserController@getByPhone");
-    
+
     // Reviews
     Route::get("reviews/all", "ReviewController@all");
     Route::get("reviews/single", "ReviewController@single");
     Route::post("reviews/store", "ReviewController@createOrUpdate");
     Route::post("reviews/delete", "ReviewController@delete");
+
+
+
+
+
+    // Order Item (cart)
+    Route::get("order-items/my-cart", "OrderItemController@myCart");
+    Route::post("order-items/create-or-update", "OrderItemController@createOrUpdate");
+    Route::get("order-items/{orderItem}/delete", "OrderItemController@delete");
+
+
 
 
 
@@ -72,8 +87,5 @@ Route::namespace("Api")->group(function () {
 
 
 
-    // Order Item (cart)
-    Route::get("order-items", "OrderItemController@index");
-    Route::post("order-items/create-or-update", "OrderItemController@createOrUpdate");
-    Route::post("order-items/delete", "OrderItemController@delete");
+
 });
