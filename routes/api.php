@@ -32,6 +32,21 @@ Route::namespace("Api")->group(function () {
     Route::get("items/top-collection", "ItemController@topCollection");
     Route::get("items/best-top-collection", "ItemController@bestTopCollection");
 
+    // User
+    Route::post("users/store", "UserController@store");
+    Route::post("users/update", "UserController@update");
+    Route::get("users/get-by-phone/{phone}", "UserController@getByPhone");
+    
+    // Reviews
+    Route::get("reviews/all", "ReviewController@all");
+    Route::get("reviews/single", "ReviewController@single");
+    Route::post("reviews/store", "ReviewController@createOrUpdate");
+    Route::post("reviews/delete", "ReviewController@delete");
+
+
+
+
+
     // Main Show
     Route::get("main-show/announcements", "MainShowController@announcements");
     Route::get("main-show/offers", "MainShowController@offers");
@@ -39,11 +54,7 @@ Route::namespace("Api")->group(function () {
     // Offers
     Route::get("offers/{offer}", "OfferController@show")->name("offers.show");
 
-    // Reviews
-    Route::get("reviews/all", "ReviewController@allReviews");
-    Route::get("reviews/single", "ReviewController@singleReview");
-    Route::post("reviews/store", "ReviewController@store");
-    Route::post("reviews/delete", "ReviewController@delete");
+
 
 
 
@@ -59,10 +70,7 @@ Route::namespace("Api")->group(function () {
 
 
 
-    // User
-    Route::post("users/store", "UserController@store");
-    Route::post("users/update", "UserController@update");
-    Route::get("users/get-by-phone/{phone}", "UserController@getByPhone");
+
 
     // Order Item (cart)
     Route::get("order-items", "OrderItemController@index");

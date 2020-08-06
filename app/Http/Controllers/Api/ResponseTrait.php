@@ -7,9 +7,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 trait ResponseTrait{
     public function simpleResponse($data) {
         return response()->json([
-            'data'    => ($data instanceof AnonymousResourceCollection && $data->isEmpty()) ? null : $data,
-            'status'  => true,
-            'message' => null
+            "data"    => ($data instanceof AnonymousResourceCollection && $data->isEmpty()) ? null : $data,
+            "status"  => true,
+            "message" => null
         ]);
     }
 

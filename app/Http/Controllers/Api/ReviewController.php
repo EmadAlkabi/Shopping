@@ -4,53 +4,34 @@ namespace App\Http\Controllers\Api;
 
 use App\Enum\UserState;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ReviewsCollection;
+use App\Http\Resources\Review\ReviewsCollection;
 use App\Models\Review;
 use App\Models\User;
 
 class ReviewController extends Controller
 {
-    public function allReviews() {
-        $reviews = Review::where("item_id", request()->input("item"))->get();
-        $reviews = $reviews->chunk(10);
-        $pages = $reviews->count();
-        $page = (integer)request()->input('page', 1);
+    use ResponseTrait;
 
-        if (!$reviews->isEmpty() && ($page < 1 || $page > $pages))
-            return response()->json([
-                "data"         => null,
-                "current-page" => $page,
-                "max-page"     => $pages,
-                "status"       => false,
-                "error"        => __("api.review.out-range")
-            ]);
+    public function all() {
+        $reviews = Review::where("item_id", request()->input("item"))
+            ->paginate(10);
+        ReviewsCollection::collection($reviews);
 
-        return response()->json([
-            "data"         => $reviews->isEmpty()
-                ? null
-                : ReviewsCollection::collection($reviews[$page-1]),
-            "current-page" => $page,
-            "max-page"     => $pages,
-            "status"       => true,
-            "error"        => null
-        ]);
+        return $this->paginateResponse($reviews);
     }
 
-    public function singleReview() {
+    public function single() {
         $review = Review::where("user_id", request()->input("user"))
             ->where("item_id", request()->input("item"))
             ->first();
 
-        return response()->json([
-            "data"         => (is_null($review))
-                ? null
-                : new ReviewsCollection($review),
-            "status"       => true,
-            "error"        => null,
-        ]);
+        return $this->simpleResponse(($review)
+            ? new ReviewsCollection($review)
+            : null
+        );
     }
 
-    public function store() {
+    public function createOrUpdate() {
         $user = User::find(request()->input("user"));
 
         if ($user->state == UserState::INACTIVE)
