@@ -19,29 +19,31 @@ class OrderItemController extends Controller
     use ResponseTrait;
 
     public function myCart() {
-        $result = DB::table('order_item')
-            ->join('items', 'order_item.item_id', '=', 'items.id')
-            ->select("order_item.*", "items.name as item_name", "items.currency as item_currency", "items.vendor_id as item_vendor")
+        $result = DB::table("order_item")
+            ->join("items",  "items.id", "=" ,"order_item.item_id")
+            ->join("units", "units.id", "=", "order_item.unit_id")
+            ->select("items.id as item_id", "items.vendor_id as item_vendor", "items.name as item_name", "items.currency as item_currency",
+            "units.name as unit_name", "units.quantity as unit_quantity", "units.price as unit_price",
+            "order_item.id as order_item_id", "order_item.quantity as order_item_quantity")
             ->where('order_item.user_id', request()->input("user"))
             ->where('order_item.cart', 1)
             ->get()
             ->groupBy("item_vendor");
 
         $collection = new Collection();
-        foreach ($result as $vendor_id => $order_items){
-            $vendor = Vendor::find($vendor_id);
+        foreach ($result as $vendor => $items){
             $collection->push([
-                'vendor'          => new SingleVendor($vendor),
-                'total_items'     => $order_items->count(),
-                'total_price_IQD' => $order_items->map(function ($order_item){
-                    if ($order_item->item_currency == "IQD")
-                        return $order_item->price * $order_item->quantity;
+                "vendor"          => new SingleVendor(Vendor::find($vendor)),
+                "total_items"     => $items->count(),
+                "total_price_IQD" => $items->map(function ($item){
+                    if ($item->item_currency == "IQD")
+                        return $item->unit_price * $item->order_item_quantity;
                 })->sum(),
-                'total_price_USD' => $order_items->map(function ($order_item){
-                    if ($order_item->item_currency == "USD")
-                        return $order_item->price * $order_item->quantity;
+                "total_price_USD" => $items->map(function ($item){
+                    if ($item->item_currency == "USD")
+                        return $item->unit_price * $item->order_item_quantity;
                 })->sum(),
-                'order_items'     => CartItemCollection::collection($order_items)
+                "order_items"     => CartItemCollection::collection($items)
             ]);
         }
 
