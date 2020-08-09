@@ -68,8 +68,6 @@ class ItemController extends Controller
                     : $items->sortBy("name");
         }
 
-
-
         $items = $items->chunk(10);
         $currentPage = (integer)request()->input("page", 1);
         $maxPage = $items->count();
@@ -87,6 +85,8 @@ class ItemController extends Controller
     }
 
     public static function getItemsWithQuery($query, $vendor, $category) {
+
+        dd($query, $vendor, $category);
         // Without vendor
         if ($vendor == 0)
             // Without category
