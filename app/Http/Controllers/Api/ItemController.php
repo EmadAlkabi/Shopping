@@ -91,12 +91,14 @@ class ItemController extends Controller
             if ($category == 0)
                 $items =  Item::where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
+                    ->dd()
                     ->get();
             // With category
             else
                 $items =  Item::whereIn("category_id", array($category, self::getCategories($category)))
                     ->where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
+                    ->dd()
                     ->get();
         // With vendor
         else
@@ -105,6 +107,7 @@ class ItemController extends Controller
                 $items = Item::where("vendor_id", $vendor)
                     ->where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
+                    ->dd()
                     ->get();
             // With category
             else
@@ -112,9 +115,12 @@ class ItemController extends Controller
                     ->whereIn("category_id", self::getCategories($category))
                     ->where("deleted", ItemDeleted::FALSE)
                     ->whereRaw("(name like '%$query%' or company like '%$query%' or tags like '%$query%')")
+                    ->dd()
                     ->get();
 
-        return $items;
+//        return $items;
+
+        return Item::all();
     }
 
     public static function getCategories($category) {
