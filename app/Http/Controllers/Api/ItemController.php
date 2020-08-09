@@ -72,7 +72,7 @@ class ItemController extends Controller
         $maxPage = $items->count();
         $status = ($maxPage != 0 && $currentPage >= $maxPage);
         $message = ($status) ? "out of range" : null;
-        $data = ($status) ? ItemsCollection::collection($items[$currentPage-1]) : null;
+        $data = ($status) ? null :ItemsCollection::collection($items[$currentPage-1]);
 
         return response()->json([
             "data"         => $data,

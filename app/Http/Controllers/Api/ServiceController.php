@@ -21,29 +21,28 @@ class ServiceController extends Controller
                 "offline_id" => $item["id"]
             ], [
                 "name"       => $item["name"],
-               "company"    => null,
-               "tags"       => null,
-               "details"    => null,
-               "barcode"    => null,
-               "code"       => null,
-               "currency"   => ($item["currency"] == 1) ? Currency::IQD : Currency::USD,
-               "deleted"    => 0
+                "company"    => null,
+                "tags"       => null,
+                "details"    => null,
+                "barcode"    => null,
+                "code"       => null,
+                "currency"   => ($item["currency"] == 1) ? Currency::IQD : Currency::USD,
+                "deleted"    => 0
             ]);
 
             $units = collect($item["units"]);
-            if (!$units->isEmpty())
-                $units->map(function ($unit) use ($newItem) {
-                    Unit::updateOrCreate([
-                       "item_id"    => $newItem->id,
-                       "offline_id" => $unit["id"]
-                    ], [
-                        "name"     => $unit["name"],
-                        "quantity" => (integer)$unit["quantity"],
-                        "price"    => (double)$unit["price"],
-                        "main"     => (integer)$unit["isMain"],
-                        "content"  => (integer)$unit["content"],
-                        "child_id" => $unit["childId"]
-                    ]);
+            $units->map(function ($unit) use ($newItem) {
+                Unit::updateOrCreate([
+                    "item_id"    => $newItem->id,
+                    "offline_id" => $unit["id"]
+                ], [
+                    "name"      => $unit["name"],
+                    "quantity"  => (integer)$unit["quantity"],
+                    "price"     => (double)$unit["price"],
+                    "main"      => (integer)$unit["isMain"],
+                    "content"   => (integer)$unit["content"],
+                    "child_id"  => $unit["childId"]
+                ]);
             });
 
             Unit::where("item_id", $newItem->id)
