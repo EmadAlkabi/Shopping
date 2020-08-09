@@ -16,7 +16,7 @@ class ItemController extends Controller
     use ResponseTrait;
 
     public function index() {
-        $items = self::getItemsWithQuery(request()->input("query"), request()->input("vendor"), request()->input("category"));
+        $items = self::getItemsWithQuery(request()->input("query"), (integer)request()->input("vendor"), (integer)request()->input("category"));
 
         dd($items);
 
