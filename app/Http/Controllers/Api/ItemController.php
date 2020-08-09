@@ -18,54 +18,53 @@ class ItemController extends Controller
     public function index() {
         $items = self::getItemsWithQuery(request()->input("query"), (integer)request()->input("vendor"), (integer)request()->input("category"));
 
-        if (!$items->isEmpty())
-            switch (request()->input("order")) {
-                // By alphabets
-                case 1:
-                    $items = (request()->input("sort") == 2)
-                        ? $items->sortByDesc("name")
-                        : $items->sortBy("name");
-                    break;
-                // By price
-                case 2:
-                    $items = (request()->input("sort") == 2)
-                        ? $items->sortByDesc("price")
-                        : $items->sortBy("price");
-                    break;
-                // By rating
-                case 3:
-                    $collection = new Collection();
-                    foreach($items as $item)
-                        $collection->push([
-                            "item" => $item,
-                            "rating" => $item->rating()
-                        ]);
+        switch (request()->input("order")) {
+            // By alphabets
+            case 1:
+                $items = (request()->input("sort") == 2)
+                    ? $items->sortByDesc("name")
+                    : $items->sortBy("name");
+                break;
+            // By price
+            case 2:
+                $items = (request()->input("sort") == 2)
+                    ? $items->sortByDesc("price")
+                    : $items->sortBy("price");
+                break;
+            // By rating
+            case 3:
+                $collection = new Collection();
+                foreach($items as $item)
+                    $collection->push([
+                        "item" => $item,
+                        "rating" => $item->rating()
+                    ]);
 
-                    $collection = (request()->input("sort") == 2)
-                        ? $collection->sortByDesc("rating")
-                        : $collection->sortBy("rating");
-                    $items = $collection->pluck("item");
-                    break;
-                // By best sell
-                case 4:
-                    $collection = new Collection();
-                    foreach($items as $item)
-                        $collection->push([
-                            "item" => $item,
-                            "count" => $item->orders->count()
-                        ]);
+                $collection = (request()->input("sort") == 2)
+                    ? $collection->sortByDesc("rating")
+                    : $collection->sortBy("rating");
+                $items = $collection->pluck("item");
+                break;
+            // By best sell
+            case 4:
+                $collection = new Collection();
+                foreach($items as $item)
+                    $collection->push([
+                        "item" => $item,
+                        "count" => $item->orders->count()
+                    ]);
 
-                    $collection = (request()->input("sort") == 2)
-                        ? $collection->sortByDesc("count")
-                        : $collection->sortBy("count");
-                    $items = $collection->pluck("item");
-                    break;
-                // Default by alphabets
-                default:
-                    $items = (request()->input("sort") == 2)
-                        ? $items->sortByDesc("name")
-                        : $items->sortBy("name");
-            }
+                $collection = (request()->input("sort") == 2)
+                    ? $collection->sortByDesc("count")
+                    : $collection->sortBy("count");
+                $items = $collection->pluck("item");
+                break;
+            // Default by alphabets
+            default:
+                $items = (request()->input("sort") == 2)
+                    ? $items->sortByDesc("name")
+                    : $items->sortBy("name");
+        }
 
         $items = $items->chunk(10);
         $currentPage = (integer)request()->input("page", 1);
