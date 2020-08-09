@@ -71,7 +71,7 @@ class ItemController extends Controller
         $currentPage = (integer)request()->input("page", 1);
         $maxPage = $items->count();
         $status = ($currentPage > $maxPage && $maxPage >= 1) ? false : true;
-        $message = ($status) ? null : "out of range";
+        $message = ($status) ? "out of range" : null;
 
 
         dd($items, $currentPage, $maxPage, $status, $message);
