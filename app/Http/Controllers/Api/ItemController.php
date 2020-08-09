@@ -70,7 +70,7 @@ class ItemController extends Controller
         $items = $items->chunk(10);
         $currentPage = (integer)request()->input("page", 1);
         $maxPage = $items->count();
-        $status = (!$items->isEmpty()) && ($currentPage>=$maxPage);
+        $status = ($maxPage != 0) && ($currentPage>=$maxPage);
         $message = ($status) ? "out of range" : null;
 
 
