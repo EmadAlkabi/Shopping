@@ -85,8 +85,6 @@ class ItemController extends Controller
     }
 
     public static function getItemsWithQuery($query, $vendor, $category) {
-
-        dd($query, $vendor, $category);
         // Without vendor
         if ($vendor == 0)
             // Without category
