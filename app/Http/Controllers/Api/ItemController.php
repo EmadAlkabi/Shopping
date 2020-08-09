@@ -17,6 +17,9 @@ class ItemController extends Controller
 
     public function index() {
         $items = self::getItemsWithQuery(request()->input("query"), request()->input("vendor"), request()->input("category"));
+
+        dd($items);
+
         switch (request()->input("order")) {
             // By alphabets
             case 1:
@@ -64,6 +67,8 @@ class ItemController extends Controller
                     ? $items->sortByDesc("name")
                     : $items->sortBy("name");
         }
+
+
 
         $items = $items->chunk(10);
         $currentPage = (integer)request()->input("page", 1);
