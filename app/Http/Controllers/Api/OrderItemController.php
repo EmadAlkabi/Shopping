@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enum\Currency;
+use App\Enum\ItemDeleted;
 use App\Enum\UserState;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartItemCollection;
@@ -36,11 +38,11 @@ class OrderItemController extends Controller
                 "vendor"          => new SingleVendor(Vendor::find($vendor)),
                 "total_items"     => $items->count(),
                 "total_price_IQD" => $items->map(function ($item){
-                    if ($item->item_currency == "IQD")
+                    if ($item->item_currency == Currency::IQD)
                         return $item->unit_price * $item->order_item_quantity;
                 })->sum(),
                 "total_price_USD" => $items->map(function ($item){
-                    if ($item->item_currency == "USD")
+                    if ($item->item_currency == Currency::USD)
                         return $item->unit_price * $item->order_item_quantity;
                 })->sum(),
                 "order_items"     => CartItemCollection::collection($items)
@@ -63,13 +65,13 @@ class OrderItemController extends Controller
             return $this->simpleResponseWithMessage(false, "user is blocked");
 
         $item = Item::where("id", request()->input("item"))
-            ->where("deleted", 0)
+            ->where("deleted", ItemDeleted::FALSE)
             ->first();
 
         if (!$item)
             return $this->simpleResponseWithMessage(false, "item not found");
 
-        $unit = $item->units
+        $unit = $item->units()
             ->where("id", request()->input("unit"))
             ->first();
 
