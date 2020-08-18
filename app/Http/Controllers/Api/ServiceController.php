@@ -10,10 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
+    use ResponseTrait;
+
     public function index() {
         ini_set("max_execution_time", 300);
         $vendor = request()->input("vendor");
         $items = collect(json_decode(file_get_contents(request()->file("file")), true));
+
+        if ($items->isEmpty())
+            return $this->simpleResponseWithMessage(false, "file is empty");
 
         $items->map(function ($item) use ($vendor) {
             $newItem = Item::updateOrCreate([
@@ -54,6 +59,6 @@ class ServiceController extends Controller
             ->whereNotIn("offline_id", $items->pluck("id"))
             ->update(["deleted" => 1]);
 
-        return "OK";
+        return $this->simpleResponseWithMessage(true, "success");
     }
 }
