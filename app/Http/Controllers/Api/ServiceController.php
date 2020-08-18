@@ -6,14 +6,15 @@ use App\Enum\Currency;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\Unit;
-use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
     use ResponseTrait;
 
-    public function index() {
+    public function index()
+    {
         ini_set("max_execution_time", 300);
+
         $vendor = request()->input("vendor");
         $items = collect(json_decode(file_get_contents(request()->file("file")), true));
 
@@ -36,6 +37,7 @@ class ServiceController extends Controller
             ]);
 
             $units = collect($item["units"]);
+
             $units->map(function ($unit) use ($newItem) {
                 Unit::updateOrCreate([
                     "item_id"    => $newItem->id,

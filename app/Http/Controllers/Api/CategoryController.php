@@ -12,7 +12,8 @@ class CategoryController extends Controller
 {
     use ResponseTrait;
 
-    public function index() {
+    public function index()
+    {
         $category = request()->input("category");
         $categories = ($category == 0)
             ? Category::where("parent_id", null)->get()
@@ -21,7 +22,8 @@ class CategoryController extends Controller
         return $this->simpleResponse(CategoriesCollection::collection($categories));
     }
 
-    public function tree() {
+    public function tree()
+    {
         $categories = Category::all();
         $categories = self::buildTree($categories, null);
 
