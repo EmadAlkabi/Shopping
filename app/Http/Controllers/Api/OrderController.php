@@ -16,6 +16,37 @@ class OrderController extends Controller
 {
     use ResponseTrait;
 
+    public function myOrders() {
+        switch (request()->input("state")) {
+            case OrderState::REVIEW:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->where("state", OrderState::REVIEW)
+                    ->orderBy("request_at", "DESC")
+                    ->paginate(10);
+                break;
+            case OrderState::ACCEPT:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->where("state", OrderState::ACCEPT)
+                    ->orderBy("response_at", "DESC")
+                    ->paginate(10);
+                break;
+            case OrderState::REJECT:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->where("state", OrderState::REJECT)
+                    ->orderBy("response_at", "DESC")
+                    ->paginate(10);
+                break;
+            default:
+                $orders = Order::where("user_id", request()->input("user"))
+                    ->orderBy("request_at", "DESC")
+                    ->paginate(10);
+        }
+
+        OrdersCollection::collection($orders);
+
+        return $this->paginateResponse($orders);
+    }
+
     public function store() {
         $vendor = Vendor::find(request()->input("vendor"));
 
@@ -56,36 +87,5 @@ class OrderController extends Controller
             return $this->simpleResponseWithMessage(false, "try again");
 
         return $this->simpleResponseWithMessage(true, "success");
-    }
-
-    public function myOrders() {
-        switch (request()->input("state")) {
-            case OrderState::REVIEW:
-                $orders = Order::where("user_id", request()->input("user"))
-                    ->where("state", OrderState::REVIEW)
-                    ->orderBy("request_at", "DESC")
-                    ->paginate(10);
-                break;
-            case OrderState::ACCEPT:
-                $orders = Order::where("user_id", request()->input("user"))
-                    ->where("state", OrderState::ACCEPT)
-                    ->orderBy("response_at", "DESC")
-                    ->paginate(10);
-                break;
-            case OrderState::REJECT:
-                $orders = Order::where("user_id", request()->input("user"))
-                    ->where("state", OrderState::REJECT)
-                    ->orderBy("response_at", "DESC")
-                    ->paginate(10);
-                break;
-            default:
-                $orders = Order::where("user_id", request()->input("user"))
-                    ->orderBy("request_at", "DESC")
-                    ->paginate(10);
-        }
-
-        OrdersCollection::collection($orders);
-
-        return $this->paginateResponse($orders);
     }
 }

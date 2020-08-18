@@ -54,6 +54,7 @@ Route::namespace("Api")->group(function () {
     // Order Item (cart)
     Route::get("order-items/my-cart", "OrderItemController@myCart");
     Route::post("order-items/create-or-update", "OrderItemController@createOrUpdate");
+    Route::post("order-items/{orderItem}/change-quantity", "OrderItemController@changeQuantity");
     Route::get("order-items/{orderItem}/delete", "OrderItemController@delete");
 
     // Orders
@@ -69,21 +70,6 @@ Route::namespace("Api")->group(function () {
 
     // Offers
     Route::get("offers/{offer}", "OfferController@show")->name("offers.show");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -20,7 +20,8 @@ class OrderItemController extends Controller
 {
     use ResponseTrait;
 
-    public function myCart() {
+    public function myCart()
+    {
         $result = DB::table("order_item")
             ->join("items",  "items.id", "=" ,"order_item.item_id")
             ->join("units", "units.id", "=", "order_item.unit_id")
@@ -55,7 +56,8 @@ class OrderItemController extends Controller
         );
     }
 
-    public function createOrUpdate() {
+    public function createOrUpdate()
+    {
         $user = User::find(request()->input("user"));
 
         if (!$user)
@@ -95,7 +97,19 @@ class OrderItemController extends Controller
         return $this->simpleResponseWithMessage(true, "success");
     }
 
-    public function delete($orderItem) {
+    public function changeQuantity($orderItem)
+    {
+        $orderItem  = OrderItem::where("id", $orderItem)
+            ->update(["quantity" => request()->input("quantity")]);
+
+        if (!$orderItem)
+            return $this->simpleResponseWithMessage(false, "try again");
+
+        return $this->simpleResponseWithMessage(true, "success");
+    }
+
+    public function delete($orderItem)
+    {
         $orderItem = OrderItem::find($orderItem);
 
         if (!$orderItem)
