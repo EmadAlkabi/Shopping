@@ -15,32 +15,42 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
-Route::get('/', function () {
-    return view('dashboard.main');
-});
+//Route::get("/", function () {
+//    return view("dashboard.main");
+//});
 
-Route::get('/foo', function () {
-    Artisan::call('storage:link');
-});
+//
+//Route::get("/foo", function () {
+//    Artisan::call("storage:link");
+//});
+//
+//Route::post("/upload", function () {
+//    if (!is_null(request()->file("file")))
+//    {
+//        $image = Storage::put("public/item", request()->file("file"));
+//        dd($image);
+//    }
+//});
 
-Route::post('/upload', function () {
-    if (!is_null(request()->file('file')))
-    {
-        $image = Storage::put("public/item", request()->file('file'));
-        dd($image);
-    }
-});
 
 
-
-Route::namespace('Dashboard')
-    ->prefix('dashboard')
-    ->name('dashboard.')
+Route::namespace("Dashboard")
+    ->prefix("dashboard")
+    ->name("dashboard.")
     ->group(function () {
+        // Categories
+        Route::resource("categories", "CategoryController");
+
+
+
+
+
+
+
         // Items
-        Route::namespace('Item')->group(function () {
+        Route::namespace("Item")->group(function () {
             // Resource
-            Route::resource('items', 'ItemController');
+            Route::resource("items", "ItemController");
             Route::post("items/change-deleted","ItemController@changeDeleted");
             // Api
             Route::post("api/items/change-deleted","ApiItemController@changeDeleted");
@@ -53,4 +63,6 @@ Route::namespace('Dashboard')
             Route::put("media-images/select","MediaController@imageSelect")->name("media-images.select");
             Route::delete("media-images/delete","MediaController@imageDelete")->name("media-images.delete");
         });
+
+
     });

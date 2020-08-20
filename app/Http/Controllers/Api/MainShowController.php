@@ -12,7 +12,7 @@ use App\Models\Offer;
 
 class MainShowController extends Controller
 {
-    use ApiResponseTrait;
+    use ResponseTrait;
 
     public function announcements() {
         $numberOfAnnouncements = request()->input('numberOfAnnouncements', 5);

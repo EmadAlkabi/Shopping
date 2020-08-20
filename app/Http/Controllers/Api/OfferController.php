@@ -8,7 +8,7 @@ use App\Models\Offer;
 
 class OfferController extends Controller
 {
-    use ApiResponseTrait;
+    use ResponseTrait;
 
     public function show($offer) {
         $offer = Offer::where('id', $offer)

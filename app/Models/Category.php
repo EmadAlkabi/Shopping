@@ -10,11 +10,15 @@ class Category extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
     protected $fillable = [
-        "id",
-        "parent_id",
         "name",
         "image",
+        "parent_id",
         "created_at",
         "updated_at"
     ];
+
+    public function parent()
+    {
+        return Category::where("id", $this->parent_id)->first();
+    }
 }
