@@ -33,7 +33,9 @@
                {{ $category->parent()->name ?? "---" }}
             </td>
             <td class="align-middle">
-                ----
+                <a class="btn-floating btn-sm primary-color mx-2" href="{{route("dashboard.categories.edit",["category" => $category->id])}}" target="_blank">
+                    <i class="far fa-edit"></i>
+                </a>
             </td>
         </tr>
     @endforeach
@@ -56,27 +58,6 @@
             @endif
         } );
 
-
-        $('[data-action="btn-change-deleted"]').on('click', function () {
-            let item = $(this).parent().data('content');
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: 'post',
-                url: '/dashboard/api/items/change-deleted',
-                data: {item: item},
-                datatype: 'json',
-                encode: true,
-                success: function(result) {
-                    $('#modal-change-deleted').html(result.data.html)
-                },
-                error: function() {
-                    console.log('error');
-                } ,
-                complete : function() {
-                    $('#modal-change-deleted .modal').modal('show');
-                }
-            });
-        });
         @if(session()->has("message"))
         $.toast({
             title: '{{session()->get("message")}}',

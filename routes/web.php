@@ -41,10 +41,8 @@ Route::namespace("Dashboard")
         // Categories
         Route::resource("categories", "CategoryController");
 
-
-
-
-
+        // Category Items
+        Route::get("category-item","CategoryItemController@index");
 
 
         // Items
