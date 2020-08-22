@@ -53,6 +53,9 @@
                             <a class="list-item" href="{{ route("dashboard.categories.index", ["f" => "sub"]) }}">
                                 @lang("dashboard/layout.side-nav.block-categories.sub")
                             </a>
+                            <a class="list-item" href="/dashboard/category-item">
+                                تطنيف المواد
+                            </a>
                         </div>
                     </div>
                 </div>
