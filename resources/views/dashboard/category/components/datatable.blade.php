@@ -42,11 +42,6 @@
     </tbody>
 </table>
 
-@section("extra-content")
-    @parent
-    <div id="modal-change-deleted"></div>
-@endsection
-
 @section("script")
     @parent
     <script>

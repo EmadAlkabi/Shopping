@@ -22,4 +22,18 @@ class CategoryItemController extends Controller
             "items"      => $items
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $items = Item::whereIn("id", $request->input("items"))->get();
+
+        foreach ($items as $item) {
+            $item->category_id = $request->input("category");
+            $item->save();
+        }
+
+        return response()->json([
+            "success"
+        ]);
+    }
 }

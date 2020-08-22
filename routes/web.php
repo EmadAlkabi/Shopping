@@ -43,6 +43,7 @@ Route::namespace("Dashboard")
 
         // Category Items
         Route::get("category-item","CategoryItemController@index");
+        Route::post("category-item/store","CategoryItemController@store");
 
 
         // Items
