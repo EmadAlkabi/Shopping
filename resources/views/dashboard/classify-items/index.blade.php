@@ -1,12 +1,12 @@
 @extends("dashboard.layout.app")
 
-@section("title", __("dashboard/category-item.index.title"))
+@section("title", __("dashboard/classify-items.index.title"))
 
 @section("content")
     <div class="container-fluid">
         <div class="row">
             <div class="col-6">
-                <div class="h5-responsive text-center">@lang("dashboard/category-item.index.header-1")</div>
+                <div class="h5-responsive text-center">@lang("dashboard/classify-items.index.header-1")</div>
                 <div class="list-group overflow-auto scrollbar-blue-gray thin" style="height: 400px;" id="old-list">
                     @foreach($items as $item)
                         <div class="list-group-item d-flex justify-content-between" data-content="{{ $item->id }}">
@@ -25,13 +25,15 @@
             </div>
 
             <div class="col-6">
-                <div class="h5-responsive text-center">@lang("dashboard/category-item.index.header-2")</div>
+                <div class="h5-responsive text-center">@lang("dashboard/classify-items.index.header-2")</div>
                 <div class="list-group overflow-auto scrollbar-blue-gray thin" style="max-height: 300px;" id="new-list"></div>
+                <div class="text-warning" id="items-error"></div>
                 <div class="dropdown pt-3">
                     <input type="text" class="form-control" id="category" value=""
-                           placeholder="@lang("dashboard/category-item.placeholder.select-category")" autocomplete="off"
+                           placeholder="@lang("dashboard/classify-items.placeholder.select-category")" autocomplete="off"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <input type="hidden" name="category" value="">
+                    <div class="text-warning" id="category-error"></div>
                     <div class="dropdown-menu dropdown-default w-100" aria-labelledby="category" id="dropdown-category">
                         @foreach($categories as $category)
                             <div class="dropdown-item" data-value="{{ $category->id }}">
@@ -42,7 +44,7 @@
                 </div>
                 <div class="text-center mt-3">
                     <button class="btn btn-outline-primary">
-                        @lang("dashboard/category-item.index.btn-send")
+                        @lang("dashboard/classify-items.index.btn-send")
                     </button>
                 </div>
             </div>
@@ -77,28 +79,38 @@
             $("#new-list div").each(function(index, item) {
                 items.push(item.dataset.content);
             });
+            $(this).addClass("disabled");
 
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 type: 'post',
-                url: '/dashboard/category-item/store',
+                url: '/dashboard/classify-items',
                 data: {category: category, items: items},
                 datatype: 'json',
                 encode: true,
-                success: function(result) {
-                    $.toast({
-                        title: 'تم تصنيف المواد',
-                        type:  'success',
-                        delay: 2500
-                    });
-                    $("#new-list").html('');
-                    $('input#category').val('');
-                    $('input[name="category"]').val('');
-
+                success: function(response) {
+                    if (response.status === false) {
+                        $("#category-error").html(response.message.category);
+                        $("#items-error").html(response.message.items);
+                    } else {
+                        $("#category-error").html('');
+                        $("#items-error").html('');
+                        $("#new-list").html('');
+                        $('input#category').val('');
+                        $('input[name="category"]').val('');
+                        $.toast({
+                            title: response.message.title,
+                            type:  response.message.type,
+                            delay: 2500
+                        });
+                    }
                 },
                 error: function() {
                 } ,
                 complete : function() {
+                    setTimeout(function (){
+                        $('button').removeClass("disabled");
+                    }, 500);
                 }
             });
         });

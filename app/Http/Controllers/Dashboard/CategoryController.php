@@ -24,7 +24,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        switch ($request->input("f")) {
+        $f = $request->input("f", "all");
+        switch ($f) {
             case "all":
                 $categories = Category::orderBy("id")->get();
                 break;
@@ -38,12 +39,11 @@ class CategoryController extends Controller
                     ->orderBy("id")
                     ->get();
                 break;
-            default:
-                $categories = Category::orderBy("id")->get();
         }
 
         return view("dashboard.category.index")->with([
-            "categories" => $categories
+            "f" => $f,
+            "categories" => $categories ?? null
         ]);
     }
 
@@ -144,9 +144,8 @@ class CategoryController extends Controller
                         : Storage::put("public/category", $request->file("image"))
                 ];
                 break;
-            default: $data = array();
         }
-        Category::where("id", $category->id)->update($data);
+        Category::where("id", $category->id)->update($data ?? null);
 
         if (!$category)
             return redirect()

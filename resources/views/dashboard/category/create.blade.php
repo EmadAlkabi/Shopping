@@ -42,7 +42,7 @@
                                 @lang("dashboard/category.label.parent")
                             </label>
                             <div class="dropdown">
-                                <input type="text" class="form-control" id="parent" value="{{ $categories->filter(function ($category) {return $category->id == old("parent");})->first()->name ?? ""}}"
+                                <input type="text" class="form-control" id="parent" value="{{ $categories->filter(function ($category) {return $category->id == old("parent");})->first()->name ?? "" }}"
                                        placeholder="@lang("dashboard/category.placeholder.parent")" autocomplete="off"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <input type="hidden" name="parent" value="{{ old("parent") }}">

@@ -4,8 +4,8 @@
         <th rowspan="2">
             @lang("dashboard/item.components.datatable.column.number")
         </th>
-        <th colspan="2" class="align-middle text-capitalize">
-            @lang("dashboard/item.components.datatable.title-$f")
+        <th colspan="1" class="align-middle text-capitalize">
+            @lang("dashboard/item.components.datatable.header-$f")
         </th>
         <th colspan="1">
             <a class="btn btn-flat waves-effect waves-light" type="button" href="{{route("dashboard.items.create")}}">
@@ -16,7 +16,6 @@
     </tr>
     <tr>
         <th class="th-sm">@lang("dashboard/item.components.datatable.column.name")</th>
-        <th class="th-sm">@lang("dashboard/item.components.datatable.column.quantity&price")</th>
         <th class="th-sm">---</th>
     </tr>
     </thead>
@@ -28,21 +27,6 @@
                 <a href="{{route("dashboard.items.show",["item" => $item->id])}}" target="_blank">
                     {{$item->name}}
                 </a>
-            </td>
-            <td class="align-middle">
-                <table class="table table-borderless text-center mb-0">
-                    @forelse($item->units as $unit)
-                        <tr>
-                            <td class="th-sm">{{$unit->quantity . " " . $unit->name}}</td>
-                            <td class="th-sm">{{$unit->price . " " . $item->currency}}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td class="th-sm">---</td>
-                            <td class="th-sm">---</td>
-                        </tr>
-                    @endforelse
-                </table>
             </td>
             <td class="align-middle">
                 <div class="d-flex justify-content-center" data-content="{{$item->id}}">
@@ -78,7 +62,7 @@
     <script>
         $('#items').DataTable( {
             order: [],
-            columnDefs: [{targets: [3], orderable: false}],
+            columnDefs: [{targets: [2], orderable: false}],
             @if(app()->getLocale() == App\Enum\Language::ARABIC)
             language: {url: 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json'},
             @endif

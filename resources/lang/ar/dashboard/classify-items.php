@@ -8,6 +8,11 @@ return [
         "btn-send" => "ارسال"
     ],
 
+    "store" => [
+        "success" => "تم تصنيف المواد بنجاح.",
+        "failed"  => "لم يتم تصنيف المواد، اعد المحاولة."
+    ],
+
     "placeholder" => [
         "select-category"  => "اختر الصنف"
     ]

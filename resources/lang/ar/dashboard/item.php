@@ -2,7 +2,8 @@
 
 return [
     "index" => [
-        "title" => "المواد"
+        "title"  => "المواد",
+        "filter" => "فلترة المواد حسب الصنف"
     ],
 
     "create" => [
@@ -33,12 +34,10 @@ return [
 
     "components" => [
         "datatable" => [
-            "title-all"            => "جميع المواد",
-            "title-categorized"    => "المواد المصنفة",
-            "title-un-categorized" => "المواد غير المصنفة",
-            "title-deleted"        => "المواد المحذوفة (المؤرشفة)",
-            "btn-add"              => "اضافة",
-            "column"               => [
+            "header-all"     => "جميع المواد",
+            "header-deleted" => "المواد المحذوفة (المؤرشفة)",
+            "btn-add"        => "اضافة",
+            "column"         => [
                 "number"   => "رقم",
                 "name"     => "الاسم",
                 "quantity&price" => "الكمية والسعر"

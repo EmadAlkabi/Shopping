@@ -5,7 +5,7 @@
             @lang("dashboard/category.components.datatable.column.number")
         </th>
         <th colspan="2" class="align-middle text-capitalize">
-            @lang("dashboard/category.components.datatable.header")
+            @lang("dashboard/category.components.datatable.header-$f")
         </th>
         <th colspan="1">
             <a class="btn btn-flat waves-effect waves-light" type="button" href="{{ route("dashboard.categories.create") }}">
@@ -25,9 +25,7 @@
         <tr>
             <td class="align-middle">{{ $category->id }}</td>
             <td class="align-middle">
-                <a href="{{ route("dashboard.categories.show", ["category" => $category->id]) }}" target="_blank">
-                    {{ $category->name }}
-                </a>
+                {{ $category->name }}
             </td>
             <td class="align-middle">
                {{ $category->parent()->name ?? "---" }}

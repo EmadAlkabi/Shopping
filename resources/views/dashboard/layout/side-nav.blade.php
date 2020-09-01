@@ -17,17 +17,17 @@
                     </div>
                     <div class="list-item-body collapse" id="collapse-items" aria-labelledby="heading-items" data-parent="#accordion-side-nav">
                         <div class="sup-list">
-                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "all"])}}">
-                                @lang("dashboard/layout.side-nav.block-items.all-items")
+                            <a class="list-item" href="{{ route("dashboard.items.create") }}">
+                                @lang("dashboard/layout.side-nav.block-items.add")
                             </a>
-                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "categorized"])}}">
-                                @lang("dashboard/layout.side-nav.block-items.categorized-items")
+                            <a class="list-item" href="{{ route("dashboard.items.index", ["f" => "all"]) }}">
+                                @lang("dashboard/layout.side-nav.block-items.all")
                             </a>
-                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "un-categorized"])}}">
-                                @lang("dashboard/layout.side-nav.block-items.un-categorized-items")
+                            <a class="list-item" href="{{ route("dashboard.items.index", ["f" => "deleted"]) }}">
+                                @lang("dashboard/layout.side-nav.block-items.deleted")
                             </a>
-                            <a class="list-item" href="{{route("dashboard.items.index", ["f" => "deleted"])}}">
-                                @lang("dashboard/layout.side-nav.block-items.deleted-items")
+                            <a class="list-item" href="{{ route("dashboard.classify-items.index") }}">
+                                @lang("dashboard/layout.side-nav.block-items.classification")
                             </a>
                         </div>
                     </div>
@@ -44,6 +44,9 @@
                     </div>
                     <div class="list-item-body collapse" id="collapse-categories" aria-labelledby="heading-categories" data-parent="#accordion-side-nav">
                         <div class="sup-list">
+                            <a class="list-item" href="{{ route("dashboard.categories.create") }}">
+                                @lang("dashboard/layout.side-nav.block-categories.add")
+                            </a>
                             <a class="list-item" href="{{ route("dashboard.categories.index", ["f" => "all"]) }}">
                                 @lang("dashboard/layout.side-nav.block-categories.all")
                             </a>
@@ -52,9 +55,6 @@
                             </a>
                             <a class="list-item" href="{{ route("dashboard.categories.index", ["f" => "sub"]) }}">
                                 @lang("dashboard/layout.side-nav.block-categories.sub")
-                            </a>
-                            <a class="list-item" href="/dashboard/category-item">
-                                تطنيف المواد
                             </a>
                         </div>
                     </div>

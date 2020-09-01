@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Item;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Dashboard\ApiResponseTrait;
+use App\Http\Controllers\Dashboard\ResponseTrait;
 use App\Models\Item;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 
 class ApiItemController extends Controller
 {
-    use ApiResponseTrait;
+    use ResponseTrait;
 
     /**
      * Display model change deleted.

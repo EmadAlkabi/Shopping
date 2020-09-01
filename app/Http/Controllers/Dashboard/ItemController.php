@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Item;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Enum\ItemDeleted;
 use App\Http\Controllers\Controller;
@@ -12,6 +12,7 @@ use App\Models\Unit;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -21,46 +22,57 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $f = \request()->input('f');
         $vendor = 1;
-        switch ($f) {
+        $filter = $request->input("f", "all");
+        $category = $request->input("c", null);
+        $items = array();
+        $categories = Category::orderBy("id")->get();
+
+        switch ($filter) {
             case "all":
-                $items = Item::where('vendor_id', $vendor)
-                    ->latest("id")
-                    ->get();
-                break;
-            case "categorized":
-                $items = Item::where('vendor_id', $vendor)
-                    ->whereNotNull('category_id')
-                    ->where('deleted', ItemDeleted::FALSE)
-                    ->latest()
-                    ->get();
-                break;
-            case "un-categorized":
-                $items = Item::where('vendor_id', $vendor)
-                    ->whereNull('category_id')
-                    ->where('deleted', ItemDeleted::FALSE)
-                    ->latest()
-                    ->get();
+                $items = ($category)
+                    ? Item::select(["id", "name", "deleted"])
+                        ->where([
+                            "vendor_id"   => $vendor,
+                            "category_id" => $category
+                        ])
+                        ->latest("id")
+                        ->get()
+                    : Item::select(["id", "name", "deleted"])
+                        ->where("vendor_id", $vendor)
+                        ->latest("id")
+                        ->get();;
                 break;
             case "deleted":
-                $items = Item::where('vendor_id', $vendor)
-                    ->where('deleted', ItemDeleted::TRUE)
-                    ->latest()
-                    ->get();
+                $items = ($category)
+                    ? Item::select(["id", "name", "deleted"])
+                        ->where([
+                            "vendor_id"   => $vendor,
+                            "category_id" => $category,
+                            "deleted"     => ItemDeleted::TRUE
+                        ])
+                        ->latest()
+                        ->get()
+                    : Item::select(["id", "name", "deleted"])
+                        ->where([
+                            "vendor_id"   => $vendor,
+                            "deleted"     => ItemDeleted::TRUE
+                        ])
+                        ->latest()
+                        ->get();
                 break;
-            default: $items = Item::where('vendor_id', $vendor)
-                ->latest("id")
-                ->get();
         }
 
-        return view('dashboard.item.index')->with([
-            "f" => $f,
-            "items" => $items
+        return view("dashboard.item.index")->with([
+            "f"          => $filter,
+            "c"          => $category,
+            "items"      => $items,
+            "categories" => $categories
         ]);
     }
 
@@ -71,7 +83,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('dashboard.item.create')->with([
+        return view("dashboard.item.create")->with([
             "categories" => Category::all()
         ]);
     }
@@ -86,17 +98,17 @@ class ItemController extends Controller
     {
         DB::transaction(function () use ($request) {
             $item = Item::create([
-                'vendor_id'   => 1,
-                'offline_id'  => null,
-                'name'        => $request->input("name"),
-                'company'     => $request->input("company"),
-                'tags'        => $request->input("tags"),
-                'details'     => $request->input("details"),
-                'barcode'     => $request->input("barcode"),
-                'code'        => $request->input("code"),
-                'currency'    => $request->input("currency"),
-                'category_id' => $request->input("category"),
-                'deleted'     => ItemDeleted::FALSE
+                "vendor_id"   => 1,
+                "offline_id"  => null,
+                "name"        => $request->input("name"),
+                "company"     => $request->input("company"),
+                "tags"        => $request->input("tags"),
+                "details"     => $request->input("details"),
+                "barcode"     => $request->input("barcode"),
+                "code"        => $request->input("code"),
+                "currency"    => $request->input("currency"),
+                "category_id" => $request->input("category"),
+                "deleted"     => ItemDeleted::FALSE
             ]);
 
             for ($i=1; $i<4; $i++)
@@ -141,7 +153,7 @@ class ItemController extends Controller
     {
         return "OK";
 
-        return view('dashboard.item.edit')->with([
+        return view("dashboard.item.edit")->with([
             "categories" => Category::all(),
             "item" => $item
         ]);
@@ -157,17 +169,17 @@ class ItemController extends Controller
     public function update(UpdateItemRequest $request, Item $item)
     {
         $state = $item = Item::where("id", $item->id)->update([
-            'name'        => $request->input("name"),
-            'company'     => $request->input("company"),
-            'tags'        => $request->input("tags"),
-            'details'     => $request->input("details"),
-            'barcode'     => $request->input("barcode"),
-            'code'        => $request->input("code"),
-            'currency'    => $request->input("currency"),
-            'price'       => $request->input("price"),
-            'unit'        => $request->input("unit"),
-            'quantity'    => $request->input("quantity"),
-            'category_id' => $request->input("category")
+            "name"        => $request->input("name"),
+            "company"     => $request->input("company"),
+            "tags"        => $request->input("tags"),
+            "details"     => $request->input("details"),
+            "barcode"     => $request->input("barcode"),
+            "code"        => $request->input("code"),
+            "currency"    => $request->input("currency"),
+            "price"       => $request->input("price"),
+            "unit"        => $request->input("unit"),
+            "quantity"    => $request->input("quantity"),
+            "category_id" => $request->input("category")
         ]);
 
         return redirect()

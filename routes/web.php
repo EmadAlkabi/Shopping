@@ -41,15 +41,14 @@ Route::namespace("Dashboard")
         // Categories
         Route::resource("categories", "CategoryController");
 
-        // Category Items
-        Route::get("category-item","CategoryItemController@index");
-        Route::post("category-item/store","CategoryItemController@store");
+        // Classify Items
+        Route::resource("classify-items", "ClassifyItemsController");
 
+        // Items
+        Route::resource("items", "ItemController");
 
         // Items
         Route::namespace("Item")->group(function () {
-            // Resource
-            Route::resource("items", "ItemController");
             Route::post("items/change-deleted","ItemController@changeDeleted");
             // Api
             Route::post("api/items/change-deleted","ApiItemController@changeDeleted");

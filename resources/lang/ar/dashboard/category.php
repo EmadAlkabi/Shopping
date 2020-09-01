@@ -34,9 +34,11 @@ return [
 
     "components" => [
         "datatable" => [
-            "header"  => "الاصناف",
-            "btn-add" => "اضافة",
-            "column"  => [
+            "header-all"  => "جميع الاصناف",
+            "header-main" => " الاصناف الرئيسية",
+            "header-sub"  => "الاصناف الفرعية",
+            "btn-add"     => "اضافة",
+            "column"      => [
                 "number" => "رقم",
                 "name"   => "الاسم",
                 "parent" => "الصنف الرئيسي"
