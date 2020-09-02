@@ -29,22 +29,20 @@ class CreateItemRequest extends FormRequest
     {
         return [
             "name"          => ["required"],
-            "category"      => ["nullable", Rule::in(Category::all()->pluck("id")->toArray())],
+            "category"      => ["required", Rule::in(Category::all()->pluck("id")->toArray())],
             "currency"      => ["required", Rule::in(Currency::getCurrencies())],
-            "mainImage"     => ["nullable", "mimes:png", "max:2048"],
+            "mainImage"     => ["required", "mimes:png", "max:2048"],
             "otherImages.*" => ["nullable", "mimes:png", "max:2048"],
-
-
-
-            "quantity-1" => ["exclude_if:unit-1,", "required", "integer", "min:0"],
-            "quantity-2" => ["exclude_if:unit-2,", "required", "integer", "min:0"],
-            "quantity-3" => ["exclude_if:unit-3,", "required", "integer", "min:0"],
-            "name-1"     => ["exclude_if:unit-1," , "required"],
-            "name-2"     => ["exclude_if:unit-2," , "required"],
-            "name-3"     => ["exclude_if:unit-3," , "required"],
-            "price-1"    => ["exclude_if:unit-1,", "required", "numeric", "min:0"],
-            "price-2"    => ["exclude_if:unit-2,", "required", "numeric", "min:0"],
-            "price-3"    => ["exclude_if:unit-3,", "required", "numeric", "min:0"]
+            "quantity-1"    => ["required", "integer", "min:0"],
+            "quantity-2"    => ["exclude_if:unit-2,", "required", "integer", "min:0"],
+            "quantity-3"    => ["exclude_if:unit-3,", "required", "integer", "min:0"],
+            "name-1"        => ["required"],
+            "name-2"        => ["exclude_if:unit-2,", "required"],
+            "name-3"        => ["exclude_if:unit-3,", "required"],
+            "price-1"       => ["required", "numeric", "min:0"],
+            "price-2"       => ["exclude_if:unit-2,", "required", "numeric", "min:0"],
+            "price-3"       => ["exclude_if:unit-3,", "required", "numeric", "min:0"],
+            "mainUnit"      => ["required", Rule::in(array(1,2,3))]
         ];
     }
 
@@ -55,18 +53,18 @@ class CreateItemRequest extends FormRequest
      */
     public function messages()
     {
-        app()->setLocale("en");
         if(app()->getLocale() == Language::ARABIC)
             return [
                 "name.required"       => "حقل الاسم مطلوب.",
+                "category.required"   => "حقل الصنف مطلوب.",
                 "category.in"         => "الصنف المحدد غير مقبول.",
                 "currency.required"   => "حقل العملة مطلوب.",
                 "currency.in"         => "العملة المحدد غير مقبول.",
+                "mainImage.required"  => "حقل الصورة الرئيسية مطلوب.",
                 "mainImage.mimes"     => "يجب أن يكون نوع الصورة فقط png.",
                 "mainImage.max"       => "يجب ان يكون حجم الصورة اقل من (2MB).",
                 "otherImages.*.mimes" => "يجب أن يكون نوع الصورة فقط png.",
                 "otherImages.*.max"   => "يجب ان يكون حجم الصورة اقل من (2MB).",
-
                 "quantity-1.required" => "حقل الكمية مطلوب.",
                 "quantity-2.required" => "حقل الكمية مطلوب.",
                 "quantity-3.required" => "حقل الكمية مطلوب.",
@@ -87,7 +85,9 @@ class CreateItemRequest extends FormRequest
                 "price-3.numeric"     => "يجب أن يكون السعر رقماً.",
                 "price-1.min"         => "يجب أن يكون السعر 0 على الأقل.",
                 "price-2.min"         => "يجب أن يكون السعر 0 على الأقل.",
-                "price-3.min"         => "يجب أن يكون السعر 0 على الأقل."
+                "price-3.min"         => "يجب أن يكون السعر 0 على الأقل.",
+                "mainUnit.required"   => "حقل التعبة مطلوب.",
+                "mainUnit.in"         => "الصنف المحدد غير مقبول."
             ];
 
         return parent::messages();

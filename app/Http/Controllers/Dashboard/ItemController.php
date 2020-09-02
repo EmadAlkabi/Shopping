@@ -96,6 +96,8 @@ class ItemController extends Controller
      */
     public function store(CreateItemRequest $request)
     {
+        return $request->input();
+
         DB::transaction(function () use ($request) {
             $item = Item::create([
                 "vendor_id"   => 1,
