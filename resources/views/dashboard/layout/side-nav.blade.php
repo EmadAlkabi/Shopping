@@ -59,6 +59,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="list-item">
+                    <div class="list-item-header collapsed" id="heading-orders" data-toggle="collapse" data-target="#collapse-orders" aria-expanded="false" aria-controls="collapse-orders">
+                        <div class="d-flex align-items-baseline">
+                            <i class="fa fa-sitemap"></i>
+                            <div class="px-2">
+                                @lang("dashboard/layout.side-nav.block-orders.header")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item-body collapse" id="collapse-orders" aria-labelledby="heading-orders" data-parent="#accordion-side-nav">
+                        <div class="sup-list">
+                            <a class="list-item" href="{{ route("dashboard.orders.index") }}">
+                                @lang("dashboard/layout.side-nav.block-orders.all")
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
