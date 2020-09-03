@@ -63,4 +63,8 @@ Route::namespace("Dashboard")
         });
 
 
+
+        // Orders
+        Route::resource("orders","OrderController");
+
     });
