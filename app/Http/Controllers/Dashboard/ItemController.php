@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Enum\ItemDeleted;
+use App\Enum\MediaItemType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\CreateItemRequest;
 use App\Http\Requests\Dashboard\UpdateItemRequest;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\MediaItem;
 use App\Models\Unit;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -15,6 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ItemController extends Controller
@@ -96,9 +99,8 @@ class ItemController extends Controller
      */
     public function store(CreateItemRequest $request)
     {
-        return $request->input();
-
-        DB::transaction(function () use ($request) {
+        $exception = DB::transaction(function () use ($request) {
+            // Item
             $item = Item::create([
                 "vendor_id"   => 1,
                 "offline_id"  => null,
@@ -113,7 +115,8 @@ class ItemController extends Controller
                 "deleted"     => ItemDeleted::FALSE
             ]);
 
-            for ($i=1; $i<4; $i++)
+            // Units
+            for ($i=1; $i <= 3; $i++) {
                 if ($request->input("unit-$i"))
                     Unit::create([
                         "item_id"    => $item->id,
@@ -121,10 +124,38 @@ class ItemController extends Controller
                         "quantity"   => $request->input("quantity-$i"),
                         "name"       => $request->input("name-$i"),
                         "price"      => $request->input("price-$i"),
-                        "main"       => 0,
-                        "deleted"    => 0
+                        "content"    => $request->input("content-$i"),
+                        "child_id"   => 999999,
+                        "main"       => ($request->input("mainUnit") == $request->input("unit-$i"))
                     ]);
+            }
+
+            // Main Image
+            MediaItem::create([
+                "item_id"    => $item->id,
+                "type"       => MediaItemType::IMAGE,
+                "url"        => Storage::put("public/item", $request->file("mainImage")),
+                "main"       => 0
+            ]);
+
+            // Other Images
+            foreach ($request->file("otherImages") as $file)
+                MediaItem::create([
+                    "item_id"    => $item->id,
+                    "type"       => MediaItemType::IMAGE,
+                    "url"        => Storage::put("public/item", $file),
+                    "main"       => 0
+                ]);
         });
+
+        if ($exception)
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with([
+                    "message" => __("dashboard/item.store.failed"),
+                    "type"    => "success"
+                ]);
 
         return redirect()
             ->back()

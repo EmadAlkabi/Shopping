@@ -38,14 +38,16 @@ Route::namespace("Dashboard")
     ->prefix("dashboard")
     ->name("dashboard.")
     ->group(function () {
+        // Items
+        Route::resource("items", "ItemController");
+
         // Categories
         Route::resource("categories", "CategoryController");
 
         // Classify Items
         Route::resource("classify-items", "ClassifyItemsController");
 
-        // Items
-        Route::resource("items", "ItemController");
+
 
         // Items
         Route::namespace("Item")->group(function () {

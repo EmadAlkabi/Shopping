@@ -134,7 +134,7 @@
                             <div class="row">
                                 <div class="col-sm-2 py-2">
                                     <div class="custom-control custom-checkbox mt-2">
-                                        <input type="checkbox" class="custom-control-input" name="unit-1" id="unit-1" checked disabled>
+                                        <input type="checkbox" class="custom-control-input" name="unit-1" id="unit-1" value="1" checked disabled>
                                         <label class="custom-control-label d-inline" for="unit-1">
                                             @lang("dashboard/item.label.unit") 1
                                             <span class="text-danger">*</span>
@@ -158,6 +158,11 @@
                                                    placeholder="@lang("dashboard/item.placeholder.unit.price")">
                                             @error("price-1") <div class="text-warning">{{$message}}</div> @enderror
                                         </div>
+                                        <div class="col py-2">
+                                            <input type="text" class="form-control" name="content-1" value="{{old("content-1")}}"
+                                                   placeholder="@lang("dashboard/item.placeholder.unit.content")">
+                                            @error("content-1") <div class="text-warning">{{$message}}</div> @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +171,7 @@
                             <div class="row">
                                 <div class="col-sm-2 py-2">
                                     <div class="custom-control custom-checkbox mt-2">
-                                        <input type="checkbox" class="custom-control-input" name="unit-2" id="unit-2" {{(old("unit-2"))? "checked" : ""}}>
+                                        <input type="checkbox" class="custom-control-input" name="unit-2" id="unit-2" value="2" {{(old("unit-2"))? "checked" : ""}}>
                                         <label class="custom-control-label" for="unit-2">
                                             @lang("dashboard/item.label.unit") 2
                                         </label>
@@ -189,6 +194,11 @@
                                                    placeholder="@lang("dashboard/item.placeholder.unit.price")" {{(!old("unit-2"))? "disabled" : ""}}>
                                             @error("price-2") <div class="text-warning">{{$message}}</div> @enderror
                                         </div>
+                                        <div class="col py-2">
+                                            <input type="text" class="form-control" name="content-2" value="{{old("content-2")}}"
+                                                   placeholder="@lang("dashboard/item.placeholder.unit.content")" {{(!old("unit-2"))? "disabled" : ""}}>
+                                            @error("content-2") <div class="text-warning">{{$message}}</div> @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +207,7 @@
                             <div class="row">
                                 <div class="col-sm-2 py-2">
                                     <div class="custom-control custom-checkbox mt-2">
-                                        <input type="checkbox" class="custom-control-input" name="unit-3" id="unit-3" {{(old("unit-3"))? "checked" : ""}}>
+                                        <input type="checkbox" class="custom-control-input" name="unit-3" id="unit-3" value="3" {{(old("unit-3"))? "checked" : ""}}>
                                         <label class="custom-control-label" for="unit-3">
                                             @lang("dashboard/item.label.unit") 3
                                         </label>
@@ -220,6 +230,11 @@
                                                    placeholder="@lang("dashboard/item.placeholder.unit.price")" {{(!old("unit-3"))? "disabled" : ""}}>
                                             @error("price-3") <div class="text-warning">{{$message}}</div> @enderror
                                         </div>
+                                        <div class="col py-2">
+                                            <input type="text" class="form-control" name="content-3" value="{{old("content-3")}}"
+                                                   placeholder="@lang("dashboard/item.placeholder.unit.content")" {{(!old("unit-3"))? "disabled" : ""}}>
+                                            @error("content-3") <div class="text-warning">{{$message}}</div> @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -234,10 +249,10 @@
                                 </div>
                                 <div class="col-sm-10 py-2">
                                     <div class="dropdown">
-                                        <input type="text" class="form-control" id="main-unit" value=""
+                                        <input type="text" class="form-control" id="main-unit" value="{{ (old("mainUnit")) ? __("dashboard/item.create.fill") . " " . old("mainUnit") : "" }}"
                                                placeholder="@lang("dashboard/item.placeholder.main-unit")"
                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <input type="hidden" name="mainUnit" value="">
+                                        <input type="hidden" name="mainUnit" value="{{ old("mainUnit") }}">
                                         @error("mainUnit") <div class="text-warning">{{ $message }}</div> @enderror
                                         <div class="dropdown-menu dropdown-default w-100" aria-labelledby="main-unit" id="dropdown-main-unit">
                                             <div class="dropdown-item" data-value="1">
@@ -310,6 +325,9 @@
                 if ($(this).attr("id") === "unit-3")
                     dd[2].classList.add("disabled")
             }
+        });
+        $('button').on('click', function () {
+            $('input#unit-1').removeAttr("disabled");
         });
 
         @if(session()->has("message"))
