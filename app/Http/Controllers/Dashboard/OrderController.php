@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Enum\ItemDeleted;
 use App\Enum\Language;
 use App\Enum\OrderState;
 use App\Http\Controllers\Controller;
@@ -11,10 +10,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Throwable;
 
 class OrderController extends Controller
 {
@@ -46,25 +45,36 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * * Store a newly created resource in storage.
+     *
+     * @param Request $request
      */
     public function store(Request $request)
     {
         abort(404);
     }
 
+
     /**
-     * Display the specified resource.
+     * * Display the specified resource.
+     *
+     * @param $order
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function show($id)
+    public function show($order)
     {
-        abort(404);
+        $order = Order::find($order);
+        $view = view("dashboard.order.components.modal-show", compact("order"))->render();
+        return $this->response(["html" => $view]);
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param Order $order
      */
-    public function edit($id)
+    public function edit(Order $order)
     {
         abort(404);
     }
@@ -73,30 +83,28 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param $id
+     * @param $order
      * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $order)
     {
-        $rules = [
-            "state" => ["required", Rule::in(array(OrderState::ACCEPT, OrderState::REJECT))]
-        ];
-        $messages = (app()->getLocale() == Language::ENGLISH)
-            ? ["state.required" => "Select state required.",
-                "state.in"      => "State invalid."]
-            : ["state.required" => "يرجى اختيار الحالة.",
-                "state.in"      => "الحالة غير مقبولة."];
-
-        $validation = Validator::make($request->all(), $rules, $messages);
-
-        if (!$validation->passes())
-            return $this->responseWithMessage(false, $validation->errors());
-
-        $state = $request->input("state");
-        $order = Order::where("id", $request->input("order"))
-            ->update(["state" => $state]);
+        $order = Order::where([
+            "id"      => $order,
+            "user_id" => $request->input("user"),
+            "state"   => OrderState::REVIEW
+        ])->first();
 
         if (!$order)
+            return $this->responseWithMessage(false, "Order not found");
+
+        $state = $request->input("state");
+        if (!in_array($state, array(OrderState::ACCEPT, OrderState::REJECT)))
+            return $this->responseWithMessage(false, "State not valid");
+
+        $order->state = $state;
+        $success = $order->save();
+
+        if (!$success)
             return $this->responseWithMessage(true, [
                 "title" => __("dashboard/order.update.failed-$state"),
                 "type"  => "error"
@@ -111,11 +119,10 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Order $order
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        //
+        abort(404);
     }
 }

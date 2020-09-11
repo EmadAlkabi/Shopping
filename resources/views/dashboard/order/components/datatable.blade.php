@@ -16,7 +16,7 @@
     </thead>
     <tbody>
     @foreach($orders as $order)
-        <tr>
+        <tr data-content="{{$order->id}}">
             <td class="align-middle">{{$order->id}}</td>
             <td class="align-middle">
                 {{$order->user->name}}
@@ -25,32 +25,25 @@
                 {{$order->request_at}}
             </td>
             <td class="align-middle">
-                <div class="form-inline">
-                    <input type="hidden" name="order" value="{{ $order->id }}">
-                    <div class="dropdown">
-                        <input type="text" class="form-control" value="" autocomplete="off"
-                               placeholder="@lang("dashboard/order.placeholder.state")"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <input type="hidden" name="state" value="">
-                        <div class="text-warning"></div>
-                        <div class="dropdown-menu dropdown-default w-100" data-action="state">
-                            <div class="dropdown-item" data-value="{{ \App\Enum\OrderState::ACCEPT }}">
-                                {{ \App\Enum\OrderState::getStateName(\App\Enum\OrderState::ACCEPT) }}
-                            </div>
-                            <div class="dropdown-item" data-value="{{ \App\Enum\OrderState::REJECT }}">
-                                {{ \App\Enum\OrderState::getStateName(\App\Enum\OrderState::REJECT) }}
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-sm btn-outline-primary" data-action="update">
-                        <span class="fa fa-paper-plane"></span>
-                    </button>
+                <div class="d-flex justify-content-center">
+                    <a class="btn-floating btn-sm info-color mx-2" data-action="btn-show">
+                        <i class="far fa-eye"></i>
+                    </a>
+
+                    <a class="btn-floating btn-sm secondary-color mx-2">
+                        <i class="fa fa-print"></i>
+                    </a>
                 </div>
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+
+@section("extra-content")
+    @parent
+    <div id="modal-show"></div>
+@endsection
 
 @section("script")
     @parent
@@ -62,53 +55,58 @@
             language: {url: 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json'},
             @endif
         } );
-        $('[data-action="state"] .dropdown-item').on('click', function () {
-            $(this).parent().parent().find('input[type="text"]').val($(this).html().trim());
-            $(this).parent().parent().find('input[name="state"]').val($(this).data('value'));
+        $('[data-action="btn-show"]').on('click', function () {
+            let order = $(this).parent().parent().parent().data('content');
+            $.ajax({
+                type: 'get',
+                url: '/dashboard/orders/' + order,
+                datatype: 'json',
+                encode: true,
+                success: function(response) {
+                    $('#modal-show').html(response.data.html)
+                },
+                error: function() {
+                } ,
+                complete : function() {
+                    $('#modal-show .modal').modal('show');
+                }
+            });
         });
 
-        $('button[data-action="update"]').on('click', function () {
-            let method = "PUT";
-            let order = $(this).parent().find('input[name="order"]').val();
-            let state = $(this).parent().find('input[name="state"]').val();
-            let btn = $(this);
+        function action(id, order, user, state) {
+            let btn = document.getElementById(id);
+            btn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div>';
+
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 type: 'post',
-                url: '/dashboard/orders/'+ order +'/update',
-                data: {_method: method, order: order, state: state},
+                url: '/dashboard/orders/'+ order,
+                data: {_method: "PUT", order: order, user:user, state: state},
                 datatype: 'json',
                 encode: true,
                 success: function(response) {
                     if (response.status === false) {
-                        btn.parent().find(".text-warning").html(response.message.state);
+                        btn.parent().find(".text-danger").html(response.message);
                     } else {
-                        console.log(response)
-                        return ;
-                        btn.parent().parent().parent().hide();
                         $.toast({
                             title: response.message.title,
                             type:  response.message.type,
                             delay: 2500
                         });
+                        if (state === 2)
+                            $('[data-content="' + order + '"]').addClass("success-ic");
+                        else
+                            $('[data-content="' + order + '"]').addClass("danger-ic");
                     }
                 },
                 error: function() {
 
                 } ,
                 complete : function() {
-
+                    $('#modal-show .modal').modal('hide');
                 }
             });
-        });
-
-        @if(session()->has("message"))
-        $.toast({
-            title: '{{session()->get("message")}}',
-            type:  '{{session()->get("type")}}',
-            delay: 2500
-        });
-        @endif
+        }
     </script>
 @endsection
 

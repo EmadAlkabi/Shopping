@@ -13,7 +13,7 @@ return [
     ],
 
     "components" => [
-        "datatable" => [
+        "datatable"  => [
             "header" => "جميع الطلبات",
             "column" => [
                 "number"     => "رقم",
@@ -21,6 +21,27 @@ return [
                 "request-at" => "تاريخ الطلب"
             ]
         ],
+        "modal-show" => [
+            "main-header"   => "عرض الطلب رقم :number",
+            "header"        => "تفاصيل الطلب",
+            "error-message" => "الطلب غير موجود",
+            "label"         => [
+                "user"        => "اسم المستخدم",
+                "state"       => "حالة الطلب",
+                "request_at"  => "تاريخ الطلب",
+                "response_at" => "تاريخ الاستجابة"
+            ],
+            "column"        => [
+                "item"      => "المادة",
+                "price"     => "السعر",
+                "quantity"  => "العدد",
+                "total"     => "المجموع",
+                "total-IQD" => "المجموع بالدينار",
+                "total-USD" => "المجموع بالدولار"
+            ],
+            "btn-accept"    => "قبول",
+            "btn-reject"    => "رفض"
+        ]
     ],
 
     "placeholder" => [
