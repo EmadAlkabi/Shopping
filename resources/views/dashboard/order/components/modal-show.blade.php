@@ -99,15 +99,25 @@
             </div>
             @if($order)
                 <div class="modal-footer justify-content-center">
-                    <button class="btn btn-success" id="btn-accept" onclick="action('btn-accept', {{$order->id}}, {{$order->user_id}}, {{\App\Enum\OrderState::ACCEPT}})">
-                        <i class="fas fa-check"></i>
-                        @lang("dashboard/order.components.modal-show.btn-accept")
-                    </button>
+                    @if($order->state == \App\Enum\OrderState::REVIEW)
+                        <button class="btn btn-success" id="btn-accept" onclick="action('btn-accept', {{$order->id}}, {{$order->user_id}}, {{\App\Enum\OrderState::ACCEPT}})">
+                            <i class="fas fa-check"></i>
+                            @lang("dashboard/order.components.modal-show.btn-accept")
+                        </button>
 
-                    <button class="btn btn-danger" id="btn-reject" onclick="action('btn-reject', {{$order->id}}, {{$order->user_id}}, {{\App\Enum\OrderState::REJECT}})">
-                        <i class="fas fa-times"></i>
-                        @lang("dashboard/order.components.modal-show.btn-reject")
-                    </button>
+                        <button class="btn btn-danger" id="btn-reject" onclick="action('btn-reject', {{$order->id}}, {{$order->user_id}}, {{\App\Enum\OrderState::REJECT}})">
+                            <i class="fas fa-times"></i>
+                            @lang("dashboard/order.components.modal-show.btn-reject")
+                        </button>
+                    @elseif($order->state == \App\Enum\OrderState::ACCEPT)
+                        <div class="w-100 alert alert-success text-center">
+                            @lang("dashboard/order.components.modal-show.accept-message")
+                        </div>
+                    @else
+                        <div class="w-100 alert alert-danger text-center">
+                            @lang("dashboard/order.components.modal-show.reject-message")
+                        </div>
+                    @endif
                 </div>
             @endif
         </div>

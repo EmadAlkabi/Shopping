@@ -22,16 +22,15 @@ return [
             ]
         ],
         "modal-show" => [
-            "main-header"   => "عرض الطلب رقم :number",
-            "header"        => "تفاصيل الطلب",
-            "error-message" => "الطلب غير موجود",
-            "label"         => [
+            "main-header"    => "عرض الطلب رقم :number",
+            "header"         => "تفاصيل الطلب",
+            "label"          => [
                 "user"        => "اسم المستخدم",
                 "state"       => "حالة الطلب",
                 "request_at"  => "تاريخ الطلب",
                 "response_at" => "تاريخ الاستجابة"
             ],
-            "column"        => [
+            "column"         => [
                 "item"      => "المادة",
                 "price"     => "السعر",
                 "quantity"  => "العدد",
@@ -39,8 +38,11 @@ return [
                 "total-IQD" => "المجموع بالدينار",
                 "total-USD" => "المجموع بالدولار"
             ],
-            "btn-accept"    => "قبول",
-            "btn-reject"    => "رفض"
+            "btn-accept"     => "قبول",
+            "btn-reject"     => "رفض",
+            "accept-message" => "تم قبول الطلب مسبقا",
+            "reject-message" => "تم رفض الطلب مسبقا",
+            "error-message"  => "الطلب غير موجود"
         ]
     ],
 
