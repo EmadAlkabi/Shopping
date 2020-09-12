@@ -75,7 +75,8 @@
 
         function action(id, order, user, state) {
             let btn = document.getElementById(id);
-            btn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div>';
+            btn.firstElementChild.classList.remove("d-none");
+            btn.lastElementChild.classList.add("d-none");
 
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -86,24 +87,29 @@
                 encode: true,
                 success: function(response) {
                     if (response.status === false) {
-                        btn.parent().find(".text-danger").html(response.message);
+                        document.getElementById("error").innerHTML = response.message;
+
                     } else {
+                        if (state === 2)
+                            $('[data-content="' + order + '"]').addClass("success-ic");
+                        else
+                            $('[data-content="' + order + '"]').addClass("danger-ic");
+
                         $.toast({
                             title: response.message.title,
                             type:  response.message.type,
                             delay: 2500
                         });
-                        if (state === 2)
-                            $('[data-content="' + order + '"]').addClass("success-ic");
-                        else
-                            $('[data-content="' + order + '"]').addClass("danger-ic");
+
+                        $('#modal-show .modal').modal('hide');
                     }
                 },
                 error: function() {
 
                 } ,
                 complete : function() {
-                    $('#modal-show .modal').modal('hide');
+                    btn.firstElementChild.classList.add("d-none");
+                    btn.lastElementChild.classList.remove("d-none");
                 }
             });
         }

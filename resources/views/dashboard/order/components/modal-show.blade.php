@@ -82,7 +82,7 @@
                             </p>
                         </div>
                         <div class="col-12 text-center">
-                            <div class="text-danger text-center"></div>
+                            <div class="text-danger text-center" id="error"></div>
                         </div>
                     </div>
                 @else
@@ -101,13 +101,18 @@
                 <div class="modal-footer justify-content-center">
                     @if($order->state == \App\Enum\OrderState::REVIEW)
                         <button class="btn btn-success" id="btn-accept" onclick="action('btn-accept', {{$order->id}}, {{$order->user_id}}, {{\App\Enum\OrderState::ACCEPT}})">
-                            <i class="fas fa-check"></i>
-                            @lang("dashboard/order.components.modal-show.btn-accept")
+                            <div class="spinner-border spinner-border-sm d-none" role="status"></div>
+                            <div class="content">
+                                <i class="fas fa-check"></i>
+                                @lang("dashboard/order.components.modal-show.btn-accept")
+                            </div>
                         </button>
-
                         <button class="btn btn-danger" id="btn-reject" onclick="action('btn-reject', {{$order->id}}, {{$order->user_id}}, {{\App\Enum\OrderState::REJECT}})">
-                            <i class="fas fa-times"></i>
-                            @lang("dashboard/order.components.modal-show.btn-reject")
+                            <div class="spinner-border spinner-border-sm d-none" role="status"></div>
+                            <div class="content">
+                                <i class="fas fa-times"></i>
+                                @lang("dashboard/order.components.modal-show.btn-reject")
+                            </div>
                         </button>
                     @elseif($order->state == \App\Enum\OrderState::ACCEPT)
                         <div class="w-100 alert alert-success text-center">
