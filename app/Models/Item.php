@@ -97,7 +97,12 @@ class Item extends Model
 
 
     public function discountRate() {
-        $offers = OfferItem::where('item_id', $this->id)
+
+        return 0;
+
+
+
+        $offers = OfferUnit::where('item_id', $this->id)
             ->orderByDesc('discount_rate')
             ->get();
 

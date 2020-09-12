@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OfferItem extends Model
+class OfferUnit extends Model
 {
-    protected $table = 'offer_item';
+    protected $table = 'offer_unit';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
