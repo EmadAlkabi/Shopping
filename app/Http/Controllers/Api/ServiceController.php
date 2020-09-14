@@ -39,10 +39,10 @@ class ServiceController extends Controller
                     "offline_id" => $unit["id"]
                 ], [
                     "name"      => $unit["name"],
-                    "quantity"  => (integer)$unit["quantity"],
-                    "price"     => (double)$unit["price"],
-                    "main"      => (integer)$unit["isMain"],
-                    "content"   => (integer)$unit["content"],
+                    "quantity"  => $unit["quantity"],
+                    "price"     => $unit["price"],
+                    "main"      => $unit["isMain"],
+                    "content"   => $unit["content"],
                     "child_id"  => $unit["childId"]
                 ]);
             });

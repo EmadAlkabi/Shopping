@@ -96,12 +96,17 @@ class OrderItemController extends Controller
         return $this->simpleResponseWithMessage(true, "success");
     }
 
-    public function changeQuantity($orderItem)
+    public function changeQuantity()
     {
-        $orderItem  = OrderItem::where("id", $orderItem)
-            ->update(["quantity" => request()->input("quantity")]);
+        $orderItem = OrderItem::find(request()->input("id"));
 
         if (!$orderItem)
+            return $this->simpleResponseWithMessage(false, "Order item not found");
+
+        $orderItem->quantity = request()->input("quantity");
+        $success = $orderItem->save();
+
+        if (!$success)
             return $this->simpleResponseWithMessage(false, "try again");
 
         return $this->simpleResponseWithMessage(true, "success");

@@ -47,9 +47,8 @@ class ReviewController extends Controller
                 "item_id" => request()->input("item"),
             ],
             [
-                "rating"  => request()->input("rating"),
-                "comment" => request()->input("comment"),
-                "created_at" => date("Y-m-d h:i:s")
+                "rate"    => request()->input("rating"),
+                "comment" => request()->input("comment")
             ]
         );
 
