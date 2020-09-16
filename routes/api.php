@@ -32,10 +32,6 @@ Route::namespace("Api")->group(function () {
     Route::get("items/top-collection", "ItemController@topCollection");
     Route::get("items/best-top-collection", "ItemController@bestTopCollection");
 
-
-
-
-
     // User
     Route::post("users/store", "UserController@store");
     Route::post("users/update", "UserController@update");

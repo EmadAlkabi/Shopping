@@ -8,26 +8,27 @@ use App\Http\Resources\Item\SingleItem;
 use App\Http\Resources\Item\ItemsCollection;
 use App\Models\Category;
 use App\Models\Item;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class ItemController extends Controller
 {
-
     use ResponseTrait;
 
-    public function index() {
-        $items = self::getItemsWithQuery(request()->input("query"), (integer)request()->input("vendor"), (integer)request()->input("category"));
+    public function index(Request $request) {
+        $items = self::getItemsWithQuery($request->input("query"), (integer)$request->input("vendor"), (integer)$request->input("category"));
+        $sort = $request->input("sort");
 
-        switch (request()->input("order")) {
+        switch ($request->input("order")) {
             // By alphabets
             case 1:
-                $items = (request()->input("sort") == 2)
+                $items = ($sort == 2)
                     ? $items->sortByDesc("name")
                     : $items->sortBy("name");
                 break;
             // By price
             case 2:
-                $items = (request()->input("sort") == 2)
+                $items = ($sort == 2)
                     ? $items->sortByDesc("price")
                     : $items->sortBy("price");
                 break;
@@ -40,7 +41,7 @@ class ItemController extends Controller
                         "rating" => $item->rating()
                     ]);
 
-                $collection = (request()->input("sort") == 2)
+                $collection = ($sort == 2)
                     ? $collection->sortByDesc("rating")
                     : $collection->sortBy("rating");
                 $items = $collection->pluck("item");
@@ -54,14 +55,14 @@ class ItemController extends Controller
                         "count" => $item->orders->count()
                     ]);
 
-                $collection = (request()->input("sort") == 2)
+                $collection = ($sort == 2)
                     ? $collection->sortByDesc("count")
                     : $collection->sortBy("count");
                 $items = $collection->pluck("item");
                 break;
             // Default by alphabets
             default:
-                $items = (request()->input("sort") == 2)
+                $items = ($sort == 2)
                     ? $items->sortByDesc("name")
                     : $items->sortBy("name");
         }
@@ -134,37 +135,37 @@ class ItemController extends Controller
         return $this->simpleResponse(new SingleItem($item));
     }
 
-    public function newProduct() {
-        $items = self::getItems(request()->input("vendor"));
-        $items = self::getNewProductItems($items, request()->input("numberOfItems", 10));
+    public function newProduct(Request $request) {
+        $items = self::getItems($request->input("vendor"));
+        $items = self::getNewProductItems($items, $request->input("numberOfItems", 10));
 
         return $this->simpleResponse(ItemsCollection::collection($items));
     }
 
-    public function topSell() {
-        $items = self::getItems(request()->input("vendor"));
-        $items = self::getTopSellItems($items, request()->input("numberOfItems", 10));
+    public function topSell(Request $request) {
+        $items = self::getItems($request->input("vendor"));
+        $items = self::getTopSellItems($items, $request->input("numberOfItems", 10));
 
         return $this->simpleResponse(ItemsCollection::collection($items));
     }
 
-    public function topRating() {
-        $items = self::getItems(request()->input("vendor"));
-        $items = self::getTopRatingItems($items, request()->input("numberOfItems", 10));
+    public function topRating(Request $request) {
+        $items = self::getItems($request->input("vendor"));
+        $items = self::getTopRatingItems($items, $request->input("numberOfItems", 10));
 
         return $this->simpleResponse(ItemsCollection::collection($items));
     }
 
-    public function topDiscount() {
-        $items = self::getItems(request()->input("vendor"));
-        $items = self::getTopDiscountItems($items, request()->input("numberOfItems", 10));
+    public function topDiscount(Request $request) {
+        $items = self::getItems($request->input("vendor"));
+        $items = self::getTopDiscountItems($items, $request->input("numberOfItems", 10));
 
         return $this->simpleResponse(ItemsCollection::collection($items));
     }
 
-    public function topCollection() {
-        $numberOfItems = request()->input('numberOfItems', 10);
-        $items = self::getItems(request()->input("vendor"));
+    public function topCollection(Request $request) {
+        $numberOfItems = $request->input('numberOfItems', 10);
+        $items = self::getItems($request->input("vendor"));
 
         return $this->simpleResponse(($items->isEmpty())
             ? null
@@ -176,9 +177,9 @@ class ItemController extends Controller
             ]);
     }
 
-    public function bestTopCollection() {
-        $numberOfItems = request()->input("numberOfItems", 2);
-        $items = self::getItems(request()->input("vendor"));
+    public function bestTopCollection(Request $request) {
+        $numberOfItems = $request->input("numberOfItems", 2);
+        $items = self::getItems($request->input("vendor"));
         $topItems = collect([
             self::getNewProductItems($items, $numberOfItems),
             self::getTopSellItems($items, $numberOfItems),

@@ -39,11 +39,13 @@ class OrderItemController extends Controller
                 "total_items"     => $items->count(),
                 "total_price_IQD" => $items->map(function ($item){
                     if ($item->item_currency == Currency::IQD)
-                        return $item->unit_price * $item->order_item_quantity;
+                        $total = $item->unit_price * $item->order_item_quantity;
+                    return $total ?? 0;
                 })->sum(),
                 "total_price_USD" => $items->map(function ($item){
                     if ($item->item_currency == Currency::USD)
-                        return $item->unit_price * $item->order_item_quantity;
+                        $total = $item->unit_price * $item->order_item_quantity;
+                    return $total ?? 0;
                 })->sum(),
                 "order_items"     => CartItemCollection::collection($items)
             ]);

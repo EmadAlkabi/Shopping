@@ -25,8 +25,7 @@ class Unit extends Model
 
     public function child()
     {
-        return Unit::where("item_id", $this->item_id)
-            ->where("offline_id", $this->child_id)
+        return Unit::where("id", $this->child_id)
             ->first();
     }
 }

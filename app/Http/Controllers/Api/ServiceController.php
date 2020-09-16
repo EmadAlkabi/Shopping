@@ -22,6 +22,7 @@ class ServiceController extends Controller
             return $this->simpleResponseWithMessage(false, "file is empty");
 
         $items->map(function ($item) use ($vendor) {
+            // create or update item
             $newItem = Item::updateOrCreate([
                 "vendor_id"  => $vendor,
                 "offline_id" => $item["id"]
@@ -31,8 +32,10 @@ class ServiceController extends Controller
                 "deleted"    => 0
             ]);
 
+            // make units collection
             $units = collect($item["units"]);
 
+            // create or update units
             $units->map(function ($unit) use ($newItem) {
                 Unit::updateOrCreate([
                     "item_id"    => $newItem->id,
@@ -47,9 +50,25 @@ class ServiceController extends Controller
                 ]);
             });
 
-            Unit::where("item_id", $newItem->id)
+            // remove unused units
+            $newItem->units()
                 ->whereNotIn("offline_id", $units->pluck("id"))
                 ->delete();
+
+            // update child id unit
+            $units = $newItem->units;
+            $units->map(function ($unit) use ($units) {
+                $childUnit = $units->filter(function ($childUnit) use ($unit) {
+                    return ($unit->child_id == $childUnit->offline_id)
+                        ? $childUnit
+                        : null;
+                })->first();
+
+                if ($childUnit) {
+                    $unit->child_id = $childUnit->id;
+                    $unit->save();
+                }
+            });
         });
 
         Item::where("vendor_id", $vendor)

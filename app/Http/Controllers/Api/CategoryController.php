@@ -7,17 +7,16 @@ use App\Http\Resources\Category\CategoriesCollection;
 use App\Http\Resources\Category\CategoriesCollectionTree;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     use ResponseTrait;
 
-    public function index()
+    public function index(Request $request)
     {
-        $category = request()->input("category");
-        $categories = ($category == 0)
-            ? Category::where("parent_id", null)->get()
-            : Category::where("parent_id", $category)->get();
+        $category = $request->input("category", null);
+        $categories = Category::where("parent_id", $category)->get();
 
         return $this->simpleResponse(CategoriesCollection::collection($categories));
     }
