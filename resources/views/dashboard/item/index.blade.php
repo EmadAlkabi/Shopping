@@ -9,7 +9,7 @@
 @section("content")
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-sm-12 mb-4">
+            <div class="col-12 mb-4">
                 <a class="text-dark text-capitalize mb-1" type="button" data-toggle="collapse" href="#collapse-document-type-filter" aria-expanded="false" aria-controls="collapse-document-type-filter">
                     <i class="fa fa-filter"></i>
                     {{ $categories->filter(function ($category) use ($c) {return $category->id == $c;})->first()->name ?? __("dashboard/item.index.filter") }}

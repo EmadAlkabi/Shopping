@@ -5,7 +5,7 @@
 @section("content")
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6">
+            <div class="col-sm-6">
                 <div class="h5-responsive text-center">@lang("dashboard/classify-items.index.header-1")</div>
                 <div class="list-group overflow-auto scrollbar-blue-gray thin" style="height: 400px;" id="old-list">
                     @foreach($items as $item)
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="col-6">
+            <div class="col-sm-6">
                 <div class="h5-responsive text-center">@lang("dashboard/classify-items.index.header-2")</div>
                 <div class="list-group overflow-auto scrollbar-blue-gray thin" style="max-height: 300px;" id="new-list"></div>
                 <div class="text-warning" id="items-error"></div>
@@ -59,6 +59,19 @@
         $('#dropdown-category .dropdown-item').on('click', function () {
             $('input#category').val($(this).html().trim());
             $('input[name="category"]').val($(this).data('value'));
+        });
+
+        $('input#category').on('keyup', function () {
+            let value = $(this).val();
+            let items = $('#dropdown-category .dropdown-item');
+
+            $.each(items, function(index, item) {
+                item.classList.add('d-none');
+                item.classList.remove('d-block');
+                let str = item.textContent.trim();
+                if(str.includes(value))
+                    item.classList.add('d-block');
+            });
         });
 
         $('span[data-action="btn-add"]').on('click', function () {

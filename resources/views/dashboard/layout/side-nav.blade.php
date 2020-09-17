@@ -47,14 +47,12 @@
                             <a class="list-item" href="{{ route("dashboard.categories.create") }}">
                                 @lang("dashboard/layout.side-nav.block-categories.add")
                             </a>
-                            <a class="list-item" href="{{ route("dashboard.categories.index", ["f" => "all"]) }}">
+                            <a class="list-item" href="{{ route("dashboard.categories.index", ["filter" => "all"]) }}">
                                 @lang("dashboard/layout.side-nav.block-categories.all")
                             </a>
-                            <a class="list-item" href="{{ route("dashboard.categories.index", ["f" => "main"]) }}">
-                                @lang("dashboard/layout.side-nav.block-categories.main")
-                            </a>
-                            <a class="list-item" href="{{ route("dashboard.categories.index", ["f" => "sub"]) }}">
-                                @lang("dashboard/layout.side-nav.block-categories.sub")
+
+                            <a class="list-item" href="{{ route("dashboard.main-show-category.index") }}">
+                                @lang("dashboard/layout.side-nav.block-categories.main-show")
                             </a>
                         </div>
                     </div>

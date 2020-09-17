@@ -13,6 +13,7 @@ class Category extends Model
         "name",
         "image",
         "parent_id",
+        "main_show",
         "created_at",
         "updated_at"
     ];

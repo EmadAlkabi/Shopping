@@ -5,7 +5,7 @@
             @lang("dashboard/category.components.datatable.column.number")
         </th>
         <th colspan="2" class="align-middle text-capitalize">
-            @lang("dashboard/category.components.datatable.header-$f")
+            @lang("dashboard/category.components.datatable.header-$filter")
         </th>
         <th colspan="1">
             <a class="btn btn-flat waves-effect waves-light" type="button" href="{{ route("dashboard.categories.create") }}">

@@ -24,8 +24,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $f = $request->input("f", "all");
-        switch ($f) {
+        $filter = $request->input("filter", "all");
+        switch ($filter) {
             case "all":
                 $categories = Category::orderBy("id")->get();
                 break;
@@ -42,7 +42,7 @@ class CategoryController extends Controller
         }
 
         return view("dashboard.category.index")->with([
-            "f" => $f,
+            "filter"     => $filter,
             "categories" => $categories ?? null
         ]);
     }
@@ -78,7 +78,7 @@ class CategoryController extends Controller
         if (!$category)
             return redirect()
                 ->back()
-                ->exceptInput()
+                ->withInput()
                 ->with([
                     "message" => __("dashboard/category.store.failed"),
                     "type"    => "warning"
