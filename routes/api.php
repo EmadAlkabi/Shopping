@@ -20,6 +20,7 @@ Route::namespace("Api")->group(function () {
 
     // Categories
     Route::get("categories", "CategoryController@index");
+    Route::get("categories/main-show", "CategoryController@mainShow");
     Route::get("categories/tree", "CategoryController@tree");
 
     // Items

@@ -21,6 +21,12 @@ class CategoryController extends Controller
         return $this->simpleResponse(CategoriesCollection::collection($categories));
     }
 
+    public function mainShow() {
+        $categories = Category::where("main_show", 1)->get();
+
+        return $this->simpleResponse(CategoriesCollection::collection($categories));
+    }
+
     public function tree()
     {
         $categories = Category::all();
