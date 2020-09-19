@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
         return view("dashboard.category.index")->with([
             "filter"     => $filter,
-            "categories" => $categories ?? null
+            "categories" => $categories ?? []
         ]);
     }
 
@@ -81,7 +81,7 @@ class CategoryController extends Controller
                 ->withInput()
                 ->with([
                     "message" => __("dashboard/category.store.failed"),
-                    "type"    => "warning"
+                    "type"    => "error"
                 ]);
 
         return redirect()
@@ -99,7 +99,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-       return abort(404);
+        abort(404);
     }
 
     /**
@@ -145,14 +145,15 @@ class CategoryController extends Controller
                 ];
                 break;
         }
-        Category::where("id", $category->id)->update($data ?? null);
+
+        Category::where("id", $category->id)->update($data ?? []);
 
         if (!$category)
             return redirect()
                 ->back()
                 ->with([
                     "message" => __("dashboard/category.update.failed"),
-                    "type"    => "warning"
+                    "type"    => "error"
                 ]);
 
         return redirect()
@@ -171,6 +172,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        return abort(404);
+        abort(404);
     }
 }

@@ -44,14 +44,13 @@
                     </div>
                     <div class="list-item-body collapse" id="collapse-categories" aria-labelledby="heading-categories" data-parent="#accordion-side-nav">
                         <div class="sup-list">
-                            <a class="list-item" href="{{ route("dashboard.categories.create") }}">
+                            <a class="list-item" href="{{route("dashboard.categories.create")}}">
                                 @lang("dashboard/layout.side-nav.block-categories.add")
                             </a>
-                            <a class="list-item" href="{{ route("dashboard.categories.index", ["filter" => "all"]) }}">
+                            <a class="list-item" href="{{route("dashboard.categories.index", ["filter" => "all"])}}">
                                 @lang("dashboard/layout.side-nav.block-categories.all")
                             </a>
-
-                            <a class="list-item" href="{{ route("dashboard.main-show-category.index") }}">
+                            <a class="list-item" href="{{route("dashboard.main-show-category.index")}}">
                                 @lang("dashboard/layout.side-nav.block-categories.main-show")
                             </a>
                         </div>

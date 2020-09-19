@@ -15,13 +15,13 @@
                     @lang("dashboard/category.index.filter.header")
                 </a>
                 <div class="collapse" id="collapse-category-filter">
-                    <a class="badge blue-gray p-2 m-1" href="{{ route("dashboard.categories.index", ["filter" => "all"]) }}">
+                    <a class="badge blue-gray p-2 m-1" href="{{route("dashboard.categories.index", ["filter" => "all"])}}">
                         @lang("dashboard/category.index.filter.all")
                     </a>
-                    <a class="badge blue-gray p-2 m-1" href="{{ route("dashboard.categories.index", ["filter" => "main"]) }}">
+                    <a class="badge blue-gray p-2 m-1" href="{{route("dashboard.categories.index", ["filter" => "main"])}}">
                         @lang("dashboard/category.index.filter.main")
                     </a>
-                    <a class="badge blue-gray p-2 m-1" href="{{ route("dashboard.categories.index", ["filter" => "sub"]) }}">
+                    <a class="badge blue-gray p-2 m-1" href="{{route("dashboard.categories.index", ["filter" => "sub"])}}">
                         @lang("dashboard/category.index.filter.sub")
                     </a>
                 </div>

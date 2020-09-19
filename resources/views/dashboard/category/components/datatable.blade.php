@@ -1,4 +1,4 @@
-<table class="table table-hover text-center w-100 table-responsive-xl" id="categories">
+<table class="table table-hover text-center w-100 table-responsive-sm" id="categories">
     <thead class="blue-gray-darken-4 text-white">
     <tr>
         <th rowspan="2">
@@ -8,7 +8,7 @@
             @lang("dashboard/category.components.datatable.header-$filter")
         </th>
         <th colspan="1">
-            <a class="btn btn-flat waves-effect waves-light" type="button" href="{{ route("dashboard.categories.create") }}">
+            <a class="btn btn-flat waves-effect waves-light" type="button" href="{{route("dashboard.categories.create")}}">
                 <i class="fa fa-plus light-green-text mx-1"></i>
                 @lang("dashboard/category.components.datatable.btn-add")
             </a>
@@ -25,13 +25,13 @@
         <tr>
             <td class="align-middle">{{ $category->id }}</td>
             <td class="align-middle">
-                {{ $category->name }}
+                {{$category->name}}
             </td>
             <td class="align-middle">
-               {{ $category->parent()->name ?? "---" }}
+               {{$category->parent()->name ?? "---"}}
             </td>
             <td class="align-middle">
-                <a class="btn-floating btn-sm primary-color mx-2" href="{{route("dashboard.categories.edit",["category" => $category->id])}}" target="_blank">
+                <a class="btn-floating btn-sm primary-color mx-2" href="{{route("dashboard.categories.edit", ["category" => $category->id])}}" target="_blank">
                     <i class="far fa-edit"></i>
                 </a>
             </td>
@@ -50,14 +50,6 @@
             language: {url: 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json'},
             @endif
         } );
-
-        @if(session()->has("message"))
-        $.toast({
-            title: '{{session()->get("message")}}',
-            type:  '{{session()->get("type")}}',
-            delay: 2500
-        });
-        @endif
     </script>
 @endsection
 

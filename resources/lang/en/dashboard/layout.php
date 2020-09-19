@@ -1,17 +1,29 @@
 <?php
 
 return [
-    'nav' => [
-        "brand" => "Al-Fosool Company"
+    "nav" => [
+        "brand" => "شركة الفصول"
     ],
 
-    'side-nav' => [
-        'block-items' => [
-            'header'               => 'Items',
-            'all-items'            => "All items",
-            'categorized-items'    => 'Categorized items',
-            'un-categorized-items' => 'Un-categorized items',
-            'deleted-items'        => 'Deleted (Archived) items'
-        ]
+    "side-nav" => [
+        "block-items" => [
+            "header"         => "المواد",
+            "add"            => "اضافة مادة",
+            "all"            => "جميع المواد",
+            "deleted"        => "المواد المحذوفه (المؤرشفة)",
+            "classification" => "تصنيف المواد"
+        ],
+
+        "block-categories" => [
+            "header"    => "Categories",
+            "add"       => "Add Category",
+            "all"       => "All Categories",
+            "main-show" => "Main Show Categories"
+        ],
+
+        "block-orders" => [
+            "header" => "الطلبات",
+            "all"    => "الطلبات تحت المراجعة"
+        ],
     ]
 ];

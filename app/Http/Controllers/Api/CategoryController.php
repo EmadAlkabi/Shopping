@@ -15,8 +15,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $category = $request->input("category", null);
-        $categories = Category::where("parent_id", $category)->get();
+        $categories = Category::where("parent_id", $request->input("category", null))->get();
 
         return $this->simpleResponse(CategoriesCollection::collection($categories));
     }

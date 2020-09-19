@@ -38,11 +38,14 @@ Route::namespace("Dashboard")
     ->prefix("dashboard")
     ->name("dashboard.")
     ->group(function () {
+        // Categories
+        Route::resource("categories", "CategoryController");
+
+
         // Items
         Route::resource("items", "ItemController");
 
-        // Categories
-        Route::resource("categories", "CategoryController");
+
 
         // Main Show Categories
         Route::resource("main-show-category", "MainShowCategoryController");
