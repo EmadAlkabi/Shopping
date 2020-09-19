@@ -135,29 +135,33 @@
 @endsection
 
 @section("script")
+    @parent
     <script>
         $('#dropdown-parent .dropdown-item').on('click', function () {
             $('input#parent').val($(this).html().trim());
             $('input[name="parent"]').val($(this).data('value'));
         });
-
-        $('input#parent').on('focusout', function () {
-            if ($(this).val() === "")
-                $('input[name="parent"]').val("");
+        $('input#parent').on('keyup', function () {
+            let value = $(this).val();
+            let items = $('#dropdown-parent .dropdown-item');
+            $.each(items, function(index, item) {
+                item.classList.add('d-none');
+                item.classList.remove('d-block');
+                let str = item.textContent.trim();
+                if(str.includes(value))
+                    item.classList.add('d-block');
+            });
         });
-
         $('#view').on('click', function () {
             let src = $(this).parent().parent().find('img').attr('src');
             let modal = $('#modal-category-view');
             modal.find('img').attr('src', src);
             modal.modal('show');
         });
-
         $('#delete').on('click', function () {
             $(this).parent().parent().parent().addClass('d-none');
             $('input[name="deleted"]').val(1);
         });
-
         @if(session()->has("message"))
         $.toast({
             title: '{{session()->get("message")}}',

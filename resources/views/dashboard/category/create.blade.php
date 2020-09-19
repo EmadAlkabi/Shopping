@@ -69,6 +69,7 @@
 @endsection
 
 @section("script")
+    @parent
     <script>
         $('#dropdown-parent .dropdown-item').on('click', function () {
             $('input#parent').val($(this).html().trim());
@@ -77,7 +78,6 @@
         $('input#parent').on('keyup', function () {
             let value = $(this).val();
             let items = $('#dropdown-parent .dropdown-item');
-
             $.each(items, function(index, item) {
                 item.classList.add('d-none');
                 item.classList.remove('d-block');
