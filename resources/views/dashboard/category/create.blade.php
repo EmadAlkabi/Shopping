@@ -86,10 +86,10 @@
                     item.classList.add('d-block');
             });
         });
-        @if(session()->has("message"))
+        @if(session()->has("toast"))
             $.toast({
-                title: '{{session()->get("message")}}',
-                type:  '{{session()->get("type")}}',
+                title: '{{session()->get("toast.message")}}',
+                type:  '{{session()->get("toast.type")}}',
                 delay: 2500
             });
         @endif

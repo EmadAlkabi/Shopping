@@ -80,15 +80,19 @@ class CategoryController extends Controller
                 ->back()
                 ->withInput()
                 ->with([
-                    "message" => __("dashboard/category.store.failed"),
-                    "type"    => "error"
+                    "toast" => [
+                        "message" => __("dashboard/category.store.failed"),
+                        "type"    => "error"
+                    ]
                 ]);
 
         return redirect()
             ->back()
             ->with([
-                "message" => __("dashboard/category.store.success"),
-                "type"    => "success"
+                "toast" => [
+                    "message" => __("dashboard/category.store.success"),
+                    "type"    => "success"
+                ]
             ]);
     }
 
@@ -152,15 +156,19 @@ class CategoryController extends Controller
             return redirect()
                 ->back()
                 ->with([
-                    "message" => __("dashboard/category.update.failed"),
-                    "type"    => "error"
+                    "toast" => [
+                        "message" => __("dashboard/category.update.failed"),
+                        "type"    => "error"
+                    ]
                 ]);
 
         return redirect()
             ->back()
             ->with([
-                "message" => __("dashboard/category.update.success"),
-                "type"    => "success"
+                "toast" => [
+                    "message" => __("dashboard/category.update.success"),
+                    "type"    => "success"
+                ]
             ]);
     }
 

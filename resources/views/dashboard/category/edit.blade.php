@@ -162,12 +162,12 @@
             $(this).parent().parent().parent().addClass('d-none');
             $('input[name="deleted"]').val(1);
         });
-        @if(session()->has("message"))
-        $.toast({
-            title: '{{session()->get("message")}}',
-            type:  '{{session()->get("type")}}',
-            delay: 2500
-        });
+        @if(session()->has("toast"))
+            $.toast({
+                title: '{{session()->get("toast.message")}}',
+                type:  '{{session()->get("toast.type")}}',
+                delay: 2500
+            });
         @endif
     </script>
 @endsection

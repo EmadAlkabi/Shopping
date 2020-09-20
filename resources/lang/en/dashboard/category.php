@@ -2,7 +2,7 @@
 
 return [
     "index" => [
-        "title" => "Categories",
+        "title"  => "Categories",
         "filter" => [
             "header" => "Categories Filter",
             "all"    => "All Categories",
@@ -49,14 +49,14 @@ return [
     ],
 
     "label" => [
-        "name"  => "Name",
-        "image" => "Image",
+        "name"   => "Name",
+        "image"  => "Image",
         "parent" => "Parent Category"
     ],
 
     "placeholder" => [
-        "name"  => "category name",
-        "image" => "select image",
+        "name"   => "category name",
+        "image"  => "select image",
         "parent" => "select parent category"
     ]
 ];

@@ -22,8 +22,8 @@
                     <div class="text-warning" id="category-error"></div>
                     <div class="dropdown-menu dropdown-default w-100" aria-labelledby="category" id="dropdown-category">
                         @foreach($categories as $category)
-                            <div class="dropdown-item" data-value="{{ $category->id }}">
-                                {{ $category->name }}
+                            <div class="dropdown-item" data-value="{{$category->id}}">
+                                {{$category->name}}
                             </div>
                         @endforeach
                     </div>
@@ -46,9 +46,9 @@
                     @foreach($mainShowCategories as $category)
                         <div class="list-group-item d-flex justify-content-between">
                             <span class="d-inline-block text-truncate">
-                                {{ $category->name }}
+                                {{$category->name}}
                             </span>
-                            <button class="btn p-1 btn-outline-danger waves-effect waves-light" id="{{ $category->id }}" onclick="remove({{ $category->id }})">
+                            <button class="btn p-1 btn-outline-danger waves-effect waves-light" id="{{$category->id}}" onclick="remove({{$category->id}})">
                                 <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                                 <span class="content">
                                     <i class="fa fa-times text-danger"></i>
@@ -63,6 +63,7 @@
 @endsection
 
 @section("script")
+    @parent
     <script>
         $('#dropdown-category .dropdown-item').on('click', function () {
             $('input#category').val($(this).html().trim());
@@ -71,7 +72,6 @@
         $('input#category').on('keyup', function () {
             let value = $(this).val();
             let items = $('#dropdown-category .dropdown-item');
-
             $.each(items, function(index, item) {
                 item.classList.add('d-none');
                 item.classList.remove('d-block');
@@ -130,8 +130,8 @@
                 } ,
                 complete : function() {
                     setTimeout(function (){
-                        btn.find('.spinner-border').addClass("d-none");
-                        btn.find('.content').removeClass("d-none");
+                        btn.find('.spinner-border').addClass('d-none');
+                        btn.find('.content').removeClass('d-none');
                     }, 500);
                 }
             });

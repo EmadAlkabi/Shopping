@@ -41,14 +41,15 @@ Route::namespace("Dashboard")
         // Categories
         Route::resource("categories", "CategoryController");
 
+        // Main Show Categories
+        Route::resource("main-show-category", "MainShowCategoryController");
+
+
+
+
 
         // Items
         Route::resource("items", "ItemController");
-
-
-
-        // Main Show Categories
-        Route::resource("main-show-category", "MainShowCategoryController");
 
         // Classify Items
         Route::resource("classify-items", "ClassifyItemsController");
