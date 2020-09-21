@@ -44,6 +44,10 @@ Route::namespace("Dashboard")
         // Main Show Categories
         Route::resource("main-show-category", "MainShowCategoryController");
 
+
+
+
+
         // Items
         Route::resource("items", "ItemController");
 
@@ -60,5 +64,4 @@ Route::namespace("Dashboard")
 
         // Orders
         Route::resource("orders","OrderController");
-
     });

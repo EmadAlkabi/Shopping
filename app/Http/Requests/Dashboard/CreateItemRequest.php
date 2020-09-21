@@ -42,9 +42,9 @@ class CreateItemRequest extends FormRequest
             "price-1"       => ["required", "numeric", "min:1"],
             "price-2"       => ["exclude_if:unit-2,", "required", "numeric", "min:1"],
             "price-3"       => ["exclude_if:unit-3,", "required", "numeric", "min:1"],
-            "content-1"     => ["required", "integer", "min:1"],
-            "content-2"     => ["exclude_if:unit-2,", "required", "integer", "min:1"],
-            "content-3"     => ["exclude_if:unit-3,", "required", "integer", "min:1"],
+            "content-1"     => ["required", "integer", "min:0"],
+            "content-2"     => ["exclude_if:unit-2,", "required", "integer", "min:0"],
+            "content-3"     => ["exclude_if:unit-3,", "required", "integer", "min:0"],
             "mainUnit"      => ["required", Rule::in(array(1,2,3))]
         ];
     }
@@ -95,9 +95,9 @@ class CreateItemRequest extends FormRequest
                 "content-1.integer"   => "يجب أن تكون التعبئة رقماً صحيحاً.",
                 "content-2.integer"   => "يجب أن تكون التعبئة رقماً صحيحاً.",
                 "content-3.integer"   => "يجب أن تكون التعبئة رقماً صحيحاً.",
-                "content-1.min"       => "يجب أن تكون التعبئة 1 على الأقل.",
-                "content-2.min"       => "يجب أن تكون التعبئة 1 على الأقل.",
-                "content-3.min"       => "يجب أن تكون التعبئة 1 على الأقل.",
+                "content-1.min"       => "يجب أن تكون التعبئة 0 على الأقل.",
+                "content-2.min"       => "يجب أن تكون التعبئة 0 على الأقل.",
+                "content-3.min"       => "يجب أن تكون التعبئة 0 على الأقل.",
                 "mainUnit.required"   => "حقل التعبة مطلوب.",
                 "mainUnit.in"         => "الصنف المحدد غير مقبول."
             ];

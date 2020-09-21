@@ -21,7 +21,7 @@ class CategoriesCollection extends JsonResource
             "name"  => $this->name,
             "image" => is_null($this->image)
                 ? null
-                : asset("images/large" . Storage::url($this->image))
+                : asset("images/original" . Storage::url($this->image))
         ];
     }
 }

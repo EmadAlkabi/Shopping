@@ -116,16 +116,16 @@ class ItemController extends Controller
             ]);
 
             // Units
-            for ($i=1; $i <= 3; $i++) {
+            for ($i=3; $i >= 1; $i--) {
                 if ($request->input("unit-$i"))
-                    Unit::create([
+                    $unit = Unit::create([
                         "item_id"    => $item->id,
                         "offline_id" => null,
                         "quantity"   => $request->input("quantity-$i"),
                         "name"       => $request->input("name-$i"),
                         "price"      => $request->input("price-$i"),
                         "content"    => $request->input("content-$i"),
-                        "child_id"   => 999999,
+                        "child_id"   => $unit->id ?? null,
                         "main"       => ($request->input("mainUnit") == $request->input("unit-$i"))
                     ]);
             }
