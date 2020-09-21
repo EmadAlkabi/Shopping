@@ -31,8 +31,8 @@ class SingleItem extends JsonResource
             "category"        => new CategoriesCollection($this->category),
             "media" => [
                 "images" => ($this->images->isEmpty())
-                 ? asset('images/large' . Storage::url("public/item/default.png"))
-                : $this->images->map(function ($image) {
+                    ? [asset('images/large' . Storage::url("public/item/default.png"))]
+                    : $this->images->map(function ($image) {
                         return asset("images/large" . Storage::url($image->url));
                     }),
                 "videos" => $this->videos->map(function ($video) {
