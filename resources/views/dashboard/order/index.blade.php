@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12">
-                @include("dashboard.order.components.datatable", ["orders" => $orders])
+                @include("dashboard.order.components.datatable", ["filter" => $filter, "orders" => $orders])
             </div>
         </div>
     </div>

@@ -59,10 +59,10 @@ class ClassifyItemsController extends Controller
             "category" => ["required", Rule::in(Category::all()->pluck("id")->toArray())]
         ];
         $messages = (app()->getLocale() == Language::ENGLISH)
-            ? ["items.required"    => "Please add some items.",
+            ? ["items.required"     => "Please add some items.",
                 "category.required" => "Select category required.",
                 "category.in"       => "Category invalid."]
-            : ["items.required"    => "يرجى اضافة بعض المواد",
+            : ["items.required"     => "يرجى اضافة بعض المواد",
                 "category.required" => "يرجى اختيار الصنف.",
                 "category.in"       => "الصنف غير مقبول."];
 

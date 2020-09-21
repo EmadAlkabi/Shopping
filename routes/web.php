@@ -44,24 +44,11 @@ Route::namespace("Dashboard")
         // Main Show Categories
         Route::resource("main-show-category", "MainShowCategoryController");
 
-
-
-
-
         // Items
         Route::resource("items", "ItemController");
 
         // Classify Items
         Route::resource("classify-items", "ClassifyItemsController");
-
-
-
-        // Items
-        Route::namespace("Item")->group(function () {
-            Route::post("items/change-deleted","ItemController@changeDeleted");
-            // Api
-            Route::post("api/items/change-deleted","ApiItemController@changeDeleted");
-        });
 
         // Media
         Route::namespace("Media")->group(function () {
@@ -70,8 +57,6 @@ Route::namespace("Dashboard")
             Route::put("media-images/select","MediaController@imageSelect")->name("media-images.select");
             Route::delete("media-images/delete","MediaController@imageDelete")->name("media-images.delete");
         });
-
-
 
         // Orders
         Route::resource("orders","OrderController");

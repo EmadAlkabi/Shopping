@@ -14,18 +14,27 @@ return [
 
     "components" => [
         "datatable"  => [
-            "header" => "جميع الطلبات",
+            "header-all"    => "جميع الطلبات",
+            "header-review" => "الطلبات قيد المراجعه",
+            "header-accept" => "الطلبات المقبولة",
+            "header-reject" => "الطلبات المرفوضة",
             "column" => [
                 "number"     => "رقم",
-                "user"       => "المستخدم",
+                "user"       => "الزبون",
+                "state"      => "حالة الطلب",
                 "request-at" => "تاريخ الطلب"
             ]
         ],
         "modal-show" => [
-            "main-header"    => "عرض الطلب رقم :number",
+            "main-header"    => "عرض الطلب",
             "header"         => "تفاصيل الطلب",
             "label"          => [
-                "user"        => "اسم المستخدم",
+                "user"        => [
+                    "name"    => "اسم الزبون",
+                    "phone"   => "قم الهاتف",
+                    "address" => "العنوان"
+                ],
+                "number"      => "رقم الطلب",
                 "state"       => "حالة الطلب",
                 "request_at"  => "تاريخ الطلب",
                 "response_at" => "تاريخ الاستجابة"

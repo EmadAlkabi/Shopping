@@ -1,23 +1,40 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-notify" role="document">
         <div class="modal-content">
-            <div class="modal-header secondary-color text-white">
+            <div class="modal-header info-color text-white">
                 <p class="heading text-capitalize">
-                    @lang("dashboard/order.components.modal-show.main-header", ["number" => $order->id ?? 0])
+                    @lang("dashboard/order.components.modal-show.main-header")
                 </p>
             </div>
             <div class="modal-body">
                 @if($order)
                     <div class="row">
-                        <div class="col-12 d-flex justify-content-between">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>
+                                        <strong>@lang("dashboard/order.components.modal-show.label.number"): </strong>
+                                        <span>{{$order->id}}</span>
+                                    </p>
+                                    <p>
+                                        <strong>@lang("dashboard/order.components.modal-show.label.state"): </strong>
+                                        <span>{{\App\Enum\OrderState::getStateName($order->state)}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-6">
+                                    <p>
+                                        <strong>@lang("dashboard/order.components.modal-show.label.user.name"): </strong>
+                                        <span>{{$order->user->name}}</span>
+                                    </p>
+                                    <p>
+                                        <strong>@lang("dashboard/order.components.modal-show.label.user.phone"): </strong>
+                                        <span>{{$order->user->phone}}</span>
+                                    </p>
+                                </div>
+                            </div>
                             <p>
-                                <strong>@lang("dashboard/order.components.modal-show.label.user"): </strong>
-                                <span>{{ $order->user->name }}</span>
-                            </p>
-
-                            <p>
-                                <strong>@lang("dashboard/order.components.modal-show.label.state"): </strong>
-                                <span>{{ \App\Enum\OrderState::getStateName($order->state) }}</span>
+                                <strong>@lang("dashboard/order.components.modal-show.label.user.address"): </strong>
+                                <span>{{$order->user->address_1 . $order->user->address_2}}</span>
                             </p>
                         </div>
                         <div class="col-12">
@@ -41,9 +58,15 @@
                                     @php $item = $orderItem->item; @endphp
 
                                     <tr>
-                                        <td class="align-middle">{{ $item->name }}</td>
-                                        <td class="align-middle">{{ $orderItem->price . " " . $item->currency}}</td>
-                                        <td class="align-middle">{{ $orderItem->quantity . " " . $orderItem->unit->name}}</td>
+                                        <td class="align-middle">{{$item->name}}</td>
+                                        <td class="align-middle">
+                                            <span>{{$orderItem->price}}</span>
+                                            <strong>{{$item->currency}}</strong>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span>{{$orderItem->quantity}}</span>
+                                            <strong>{{$orderItem->unit->name}}</strong>
+                                        </td>
                                         <td class="align-middle">{{ $orderItem->price * $orderItem->quantity }}</td>
                                     </tr>
 
@@ -54,14 +77,18 @@
                                     @endif
                                 @endforeach
                                 <tr>
-                                    <td colspan="2">@lang("dashboard/order.components.modal-show.column.total-IQD")</td>
-                                    <td colspan="2">
+                                    <td class="font-weight-bold" colspan="2">
+                                        @lang("dashboard/order.components.modal-show.column.total-IQD")
+                                    </td>
+                                    <td class="font-weight-bold" colspan="2">
                                         {{ $totalIQD }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">@lang("dashboard/order.components.modal-show.column.total-USD")</td>
-                                    <td colspan="2">
+                                    <td class="font-weight-bold" colspan="2">
+                                        @lang("dashboard/order.components.modal-show.column.total-USD")
+                                    </td>
+                                    <td class="font-weight-bold" colspan="2">
                                         {{ $totalUSD }}
                                     </td>
                                 </tr>

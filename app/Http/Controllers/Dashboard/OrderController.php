@@ -19,17 +19,39 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::where([
-            "vendor_id" => 1,
-            "state" => OrderState::REVIEW
-        ])->get();
+        $filter = $request->input("filter", "all");
+        switch ($filter) {
+            case "all":
+                $orders = Order::where("vendor_id", 1)->get();
+                break;
+            case "review":
+                $orders = Order::where([
+                    "vendor_id" => 1,
+                    "state" => OrderState::REVIEW
+                ])->get();
+                break;
+            case "accept":
+                $orders = Order::where([
+                    "vendor_id" => 1,
+                    "state" => OrderState::ACCEPT
+                ])->get();
+                break;
+            case "reject":
+                $orders = Order::where([
+                    "vendor_id" => 1,
+                    "state" => OrderState::REJECT
+                ])->get();
+                break;
+        }
 
         return view("dashboard.order.index")->with([
-            "orders" => $orders
+            "filter" => $filter,
+            "orders" => $orders ?? []
         ]);
     }
 

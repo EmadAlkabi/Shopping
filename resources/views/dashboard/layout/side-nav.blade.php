@@ -68,8 +68,17 @@
                     </div>
                     <div class="list-item-body collapse" id="collapse-orders" aria-labelledby="heading-orders" data-parent="#accordion-side-nav">
                         <div class="sup-list">
-                            <a class="list-item" href="{{ route("dashboard.orders.index") }}">
+                            <a class="list-item" href="{{route("dashboard.orders.index", ["filter" => "all"])}}">
                                 @lang("dashboard/layout.side-nav.block-orders.all")
+                            </a>
+                            <a class="list-item" href="{{route("dashboard.orders.index", ["filter" => "review"])}}">
+                                @lang("dashboard/layout.side-nav.block-orders.review")
+                            </a>
+                            <a class="list-item" href="{{route("dashboard.orders.index", ["filter" => "accept"])}}">
+                                @lang("dashboard/layout.side-nav.block-orders.accept")
+                            </a>
+                            <a class="list-item" href="{{route("dashboard.orders.index", ["filter" => "reject"])}}">
+                                @lang("dashboard/layout.side-nav.block-orders.reject")
                             </a>
                         </div>
                     </div>

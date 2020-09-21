@@ -1,25 +1,37 @@
-<table class="table table-hover text-center w-100 table-responsive-xl" id="orders">
+<table class="table table-hover text-center w-100 table-responsive-sm" id="orders">
     <thead class="blue-gray-darken-4 text-white">
     <tr>
         <th rowspan="2">
             @lang("dashboard/order.components.datatable.column.number")
         </th>
-        <th colspan="3" class="align-middle text-capitalize">
-            @lang("dashboard/order.components.datatable.header")
+        <th colspan="4" class="align-middle text-capitalize">
+            @lang("dashboard/order.components.datatable.header-$filter")
         </th>
     </tr>
     <tr>
         <th class="th-sm">@lang("dashboard/order.components.datatable.column.user")</th>
+        <th class="th-sm">@lang("dashboard/order.components.datatable.column.state")</th>
         <th class="th-sm">@lang("dashboard/order.components.datatable.column.request-at")</th>
         <th class="th-sm">---</th>
     </tr>
     </thead>
     <tbody>
     @foreach($orders as $order)
-        <tr data-content="{{$order->id}}">
+        @php
+            if ($order->state == \App\Enum\OrderState::ACCEPT)
+                $color = "success-ic";
+            elseif ($order->state == \App\Enum\OrderState::REJECT)
+                $color = "danger-ic";
+            else
+                $color = "";
+        @endphp
+        <tr data-content="{{$order->id}}" class="{{$color}}">
             <td class="align-middle">{{$order->id}}</td>
             <td class="align-middle">
                 {{$order->user->name}}
+            </td>
+            <td class="align-middle">
+                {{\App\Enum\OrderState::getStateName($order->state)}}
             </td>
             <td class="align-middle">
                 {{$order->request_at}}
@@ -50,7 +62,7 @@
     <script>
         $('#orders').DataTable( {
             order: [],
-            columnDefs: [{targets: [3], orderable: false}],
+            columnDefs: [{targets: [4], orderable: false}],
             @if(app()->getLocale() == App\Enum\Language::ARABIC)
             language: {url: 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json'},
             @endif
