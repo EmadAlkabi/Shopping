@@ -22,6 +22,8 @@ class AnnouncementsCollection extends JsonResource
             'title'       => $this->title,
             'description' => $this->description,
             'image'       => asset('images/x-large' . Storage::url($this->image)),
+            'target'      => $this->target_id,
+            'type'        => $this->type,
             'link'        => ($this->type == AnnouncementType::OFFER)
                                 ? route('offers.show', ['offer' => $this->target_id])
                                 : route('items.show', ['item' => $this->target_id]),
