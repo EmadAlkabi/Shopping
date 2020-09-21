@@ -58,12 +58,9 @@ Route::namespace("Api")->group(function () {
 
 
 
+    // Announcements
+    Route::get("announcements/all", "AnnouncementController@all");
 
-
-
-    // Main Show
-    Route::get("main-show/announcements", "MainShowController@announcements");
-    Route::get("main-show/offers", "MainShowController@offers");
 
     // Offers
     Route::get("offers/{offer}", "OfferController@show")->name("offers.show");

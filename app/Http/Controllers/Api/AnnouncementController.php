@@ -10,9 +10,11 @@ use App\Models\MainShow;
 
 class AnnouncementController extends Controller
 {
-    use ApiResponseTrait;
+    use ResponseTrait;
 
-    public function index() {
-
+    public function all()
+    {
+        $announcements = Announcement::all();
+        return $this->simpleResponse(AnnouncementsCollection::collection($announcements));
     }
 }
