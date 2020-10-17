@@ -6,12 +6,18 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-sm-10">
-                <form method="post" action="{{route("dashboard.items.store")}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="{{route("dashboard.items.store")}}" enctype="multipart/form-data">
                     @csrf()
                     {{-- Item --}}
                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info text-center mt-3">
+                                <i class="far fa-star text-danger"></i>
+                                @lang("dashboard/item.create.note-1")
+                            </div>
+                        </div>
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="name" >
+                            <label class="col-form-label" for="name">
                                 @lang("dashboard/item.label.name")
                                 <span class="text-danger">*</span>
                             </label>
@@ -20,32 +26,39 @@
                             @error("name") <div class="text-warning">{{$message}}</div> @enderror
                         </div>
                         <div class="col-sm-6">
+                            <label class="col-form-label" for="public-name">
+                                @lang("dashboard/item.label.public-name")
+                            </label>
+                            <input type="text" class="form-control" name="public_name" id="public-name" value="{{old("public_name")}}"
+                                   placeholder="@lang("dashboard/item.placeholder.public-name")">
+                        </div>
+                        <div class="col-sm-4">
                             <label class="col-form-label" for="company">
                                 @lang("dashboard/item.label.company")
                             </label>
                             <input type="text" class="form-control" name="company" id="company" value="{{old("company")}}"
                                    placeholder="@lang("dashboard/item.placeholder.company")">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label class="col-form-label" for="tags">
                                 @lang("dashboard/item.label.tags")
                             </label>
                             <input type="text" class="form-control" name="tags" id="tags" value="{{old("tags")}}"
                                    placeholder="@lang("dashboard/item.placeholder.tags")">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label class="col-form-label" for="category">
                                 @lang("dashboard/item.label.category")
                                 <span class="text-danger">*</span>
                             </label>
                             <div class="dropdown">
-                                <input type="text" class="form-control" id="category"
+                                <input type="text" class="form-control" id="category" autocomplete="off"
                                        value="{{$categories->filter(function ($category) {return $category->id == old("category");})->first()->name ?? ""}}"
                                        placeholder="@lang("dashboard/item.placeholder.category")"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       data-toggle="dropdown" data-action="search" aria-haspopup="true" aria-expanded="false">
                                 <input type="hidden" name="category" value="{{old("category")}}">
                                 @error("category") <div class="text-warning">{{$message}}</div> @enderror
-                                <div class="dropdown-menu dropdown-default w-100" aria-labelledby="category" id="dropdown-category">
+                                <div class="dropdown-menu dropdown-default w-100" aria-labelledby="category">
                                     @foreach($categories as $category)
                                         <div class="dropdown-item" data-value="{{$category->id}}">
                                             {{$category->name}}
@@ -55,29 +68,30 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <label class="col-form-label" for="barcode" >
+                            <label class="col-form-label" for="barcode">
                                 @lang("dashboard/item.label.barcode")
                             </label>
                             <input type="text" class="form-control" name="barcode" id="barcode" value="{{old("barcode")}}">
                         </div>
                         <div class="col-sm-4">
-                            <label class="col-form-label" for="code" >
+                            <label class="col-form-label" for="code">
                                 @lang("dashboard/item.label.code")
                             </label>
                             <input type="text" class="form-control" name="code" id="code" value="{{old("code")}}">
                         </div>
                         <div class="col-sm-4">
-                            <label class="col-form-label" for="currency" >
+                            <label class="col-form-label" for="currency">
                                 @lang("dashboard/item.label.currency")
                                 <span class="text-danger">*</span>
                             </label>
                             <div class="dropdown">
-                                <input type="text" class="form-control" id="currency" value="{{App\Enum\Currency::getCurrencyName(old("currency"))}}"
+                                <input type="text" class="form-control" id="currency" autocomplete="off"
+                                       value="{{App\Enum\Currency::getCurrencyName(old("currency"))}}"
                                        placeholder="@lang("dashboard/item.placeholder.currency")"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       data-toggle="dropdown" data-action="search" aria-haspopup="true" aria-expanded="false">
                                 <input type="hidden" name="currency" value="{{old("currency")}}">
                                 @error("currency") <div class="text-warning">{{$message}}</div> @enderror
-                                <div class="dropdown-menu dropdown-default w-100" aria-labelledby="currency" id="dropdown-currency">
+                                <div class="dropdown-menu dropdown-default w-100" aria-labelledby="currency">
                                     @foreach(\App\Enum\Currency::getCurrencies() as $currency)
                                         <div class="dropdown-item" data-value="{{$currency}}">
                                             {{App\Enum\Currency::getCurrencyName($currency)}}
@@ -90,12 +104,13 @@
                             <label class="col-form-label" for="details">
                                 @lang("dashboard/item.label.details")
                             </label>
-                            <textarea class="form-control" name="details" id="details">{{old("details")}}</textarea>
+                            <textarea class="form-control" rows="5" name="details" id="details">{{old("details")}}</textarea>
                         </div>
                     </div>
+
                     {{-- Media --}}
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label class="col-form-label" for="main-image" >
                                 @lang("dashboard/item.label.main-image")
                                 <span class="text-danger">*</span>
@@ -108,7 +123,7 @@
                             </div>
                             @error("mainImage") <div class="text-warning">{{ $message }}</div> @enderror
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label class="col-form-label" for="other-images" >
                                 @lang("dashboard/item.label.other-images")
                             </label>
@@ -121,16 +136,24 @@
                             @error("otherImages") <div class="text-warning">{{ $message }}</div> @enderror
                             @error("otherImages.*") <div class="text-warning">{{ $message }}</div> @enderror
                         </div>
+                        <div class="col-sm-4">
+                            <label class="col-form-label" for="video">
+                                @lang("dashboard/item.label.video")
+                            </label>
+                            <input type="text" class="form-control" name="video" id="video" value="{{old("video")}}"
+                                   placeholder="@lang("dashboard/item.placeholder.video")">
+                            @error("video") <div class="text-warning">{{$message}}</div> @enderror
+                        </div>
                     </div>
                     {{-- Units --}}
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-sm-12">
                             <div class="alert alert-info text-center mt-3">
                                 <i class="far fa-star text-danger"></i>
-                                @lang("dashboard/item.create.note")
+                                @lang("dashboard/item.create.note-2")
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-2 py-2">
                                     <div class="custom-control custom-checkbox mt-2">
@@ -284,14 +307,26 @@
 
 @section("script")
     <script>
-        $('#dropdown-category .dropdown-item').on('click', function () {
-            $('input#category').val($(this).html().trim());
-            $('input[name="category"]').val($(this).data('value'));
+        $('.dropdown-menu .dropdown-item').on('click', function () {
+            $(this).parent().parent().find('input[type="text"]').val($(this).html().trim());
+            $(this).parent().parent().find('input[type="hidden"]').val($(this).data('value'));
         });
-        $('#dropdown-currency .dropdown-item').on('click', function () {
-            $('input#currency').val($(this).html().trim());
-            $('input[name="currency"]').val($(this).data('value'));
+        $('input[data-action="search"]').on('keyup', function () {
+            let value = $(this).val();
+            let items = $(this).parent().find('.dropdown-menu .dropdown-item');
+            $.each(items, function(index, item) {
+                item.classList.add('d-none');
+                item.classList.remove('d-block');
+                str = item.textContent.trim();
+                if(str.includes(value))
+                    item.classList.add('d-block');
+            });
         });
+
+
+
+
+
         $('#dropdown-main-unit .dropdown-item').on('click', function () {
             $('input#main-unit').val($(this).html().trim());
             $('input[name="mainUnit"]').val($(this).data('value'));

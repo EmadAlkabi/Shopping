@@ -105,6 +105,7 @@ class ItemController extends Controller
                 "vendor_id"   => 1,
                 "offline_id"  => null,
                 "name"        => $request->input("name"),
+                "public_name" => $request->input("public_name"),
                 "company"     => $request->input("company"),
                 "tags"        => $request->input("tags"),
                 "details"     => $request->input("details"),
@@ -139,13 +140,24 @@ class ItemController extends Controller
             ]);
 
             // Other Images
-            foreach ($request->file("otherImages") as $file)
+            if ($request->file("otherImages")) {
+                foreach ($request->file("otherImages") as $file)
+                    MediaItem::create([
+                        "item_id"    => $item->id,
+                        "type"       => MediaItemType::IMAGE,
+                        "url"        => Storage::put("public/item", $file),
+                        "main"       => 0
+                    ]);
+            }
+
+            // Video
+            if ($request->input("video"))
                 MediaItem::create([
-                    "item_id"    => $item->id,
-                    "type"       => MediaItemType::IMAGE,
-                    "url"        => Storage::put("public/item", $file),
-                    "main"       => 0
-                ]);
+                        "item_id"    => $item->id,
+                        "type"       => MediaItemType::VIDEO,
+                        "url"        => $request->input("video"),
+                        "main"       => 0
+                    ]);
         });
 
         if ($exception)

@@ -15,6 +15,7 @@ class Item extends Model
         "vendor_id",
         "offline_id",
         "name",
+        "public_name",
         "company",
         "tags",
         "details",
