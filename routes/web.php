@@ -35,33 +35,57 @@ use Illuminate\Support\Facades\Storage;
 
 
 Route::namespace("Dashboard")
+    ->name("dashboard")
     ->prefix("dashboard")
-    ->name("dashboard.")
     ->group(function () {
-        // Categories
-        Route::resource("categories", "CategoryController");
+        Route::get("", "MainController@index");
 
-        // Main Show Categories
-        Route::resource("main-show-category", "MainShowCategoryController");
+        Route::name(".")->group(function () {
+            // Login
+            Route::get("login", function () {
+                return redirect()->route("dashboard");
+            });
+            Route::post("login", "LoginController@login")->name("login");
+
+            // Logout
+            Route::get("logout", "LogoutController@logout")->name("logout");
+
+            // Items
+            Route::resource("items", "ItemController");
 
 
 
 
 
-        // Items
-        Route::resource("items", "ItemController");
 
-        // Classify Items
-        Route::resource("classify-items", "ClassifyItemsController");
 
-        // Media
-        Route::namespace("Media")->group(function () {
-            Route::get("media","MediaController@index")->name("media.index");
-            Route::post("media-images/store","MediaController@imageStore")->name("media-images.store");
-            Route::put("media-images/select","MediaController@imageSelect")->name("media-images.select");
-            Route::delete("media-images/delete","MediaController@imageDelete")->name("media-images.delete");
+
+
+
+
+
+
+
+            // Categories
+            Route::resource("categories", "CategoryController");
+
+            // Main Show Categories
+            Route::resource("main-show-category", "MainShowCategoryController");
+
+
+
+            // Classify Items
+            Route::resource("classify-items", "ClassifyItemsController");
+
+            // Media
+            Route::namespace("Media")->group(function () {
+                Route::get("media","MediaController@index")->name("media.index");
+                Route::post("media-images/store","MediaController@imageStore")->name("media-images.store");
+                Route::put("media-images/select","MediaController@imageSelect")->name("media-images.select");
+                Route::delete("media-images/delete","MediaController@imageDelete")->name("media-images.delete");
+            });
+
+            // Orders
+            Route::resource("orders","OrderController");
         });
-
-        // Orders
-        Route::resource("orders","OrderController");
     });

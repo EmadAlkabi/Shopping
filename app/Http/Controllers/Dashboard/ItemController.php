@@ -22,6 +22,14 @@ use Illuminate\View\View;
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware("dashboard.auth");
+        $this->middleware("dashboard.role:Item");
+        $this->middleware("filter:item-f")->only(["index"]);
+        $this->middleware("filter:item-c")->only(["index"]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,12 +38,9 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        $vendor = 1;
+        $vendor = session()->get("dashboard.admin.vendor");
         $filter = $request->input("f", "all");
-        $category = $request->input("c", null);
-        $items = array();
-        $categories = Category::orderBy("id")->get();
-
+        $category = $request->input("c");
         switch ($filter) {
             case "all":
                 $items = ($category)
@@ -74,8 +79,8 @@ class ItemController extends Controller
         return view("dashboard.item.index")->with([
             "f"          => $filter,
             "c"          => $category,
-            "items"      => $items,
-            "categories" => $categories
+            "items"      => $items ?? [],
+            "categories" => Category::all()
         ]);
     }
 
@@ -102,7 +107,7 @@ class ItemController extends Controller
         $exception = DB::transaction(function () use ($request) {
             // Item
             $item = Item::create([
-                "vendor_id"   => 1,
+                "vendor_id"   => session()->get("dashboard.admin.vendor"),
                 "offline_id"  => null,
                 "name"        => $request->input("name"),
                 "public_name" => $request->input("public_name"),
