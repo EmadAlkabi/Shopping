@@ -110,7 +110,7 @@ class ItemController extends Controller
                 "vendor_id"   => session()->get("dashboard.admin.vendor"),
                 "offline_id"  => null,
                 "name"        => $request->input("name"),
-                "public_name" => $request->input("public_name"),
+                "public_name" => $request->input("publicName"),
                 "company"     => $request->input("company"),
                 "tags"        => $request->input("tags"),
                 "details"     => $request->input("details"),

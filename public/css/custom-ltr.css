@@ -259,3 +259,35 @@ table.dataTable thead .sorting_desc:after {
     opacity: 0;
 }
 
+.scrollbar-blue-gray::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.scrollbar-blue-gray::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar-blue-gray::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #607d8b;
+}
+
+.scrollbar-blue-gray {
+    scrollbar-color: #607d8b #F5F5F5;
+}
+
+.thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.square::-webkit-scrollbar-track,
+.square::-webkit-scrollbar-thumb {
+    border-radius: 0;
+}
+
+

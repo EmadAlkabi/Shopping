@@ -15,11 +15,11 @@ class Role
      * @param $role
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $role)
     {
         //For dashboard
         if (request()->is("dashboard*")) {
-            $roles = session()->get("dashboard.admin.roles");
+            $roles = session()->get("dashboard.roles");
             if (!in_array($role, $roles))
                 abort(403, __("dashboard/middleware.auth"));
         }

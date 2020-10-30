@@ -64,4 +64,7 @@ Route::namespace("Api")->group(function () {
 
     // Offers
     Route::get("offers/{offer}", "OfferController@show")->name("offers.show");
+
+    // Notifications
+    Route::get("notifications", "NotificationController@all");
 });

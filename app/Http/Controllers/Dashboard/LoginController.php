@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\LoginRequest;
 use App\Models\Admin;
+use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cookie;
 
@@ -18,7 +19,8 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $admin = Admin::where(["username" => $request->input("username"), "password" => md5($request->input("password"))])->first();
+        $admin = Admin::where(["username" => $request->input("username"), "password" => md5($request->input("password"))])
+            ->first();
 
         if (!$admin)
             return redirect()
@@ -37,15 +39,13 @@ class LoginController extends Controller
      * @param Admin $admin
      */
     public static function generateSession(Admin $admin) {
-        self::updateLoginDate($admin);
-        session()->put("dashboard.admin.vendor", $admin->vendor_id);
-        session()->put("dashboard.admin.lang", app()->getLocale());
-        session()->put("dashboard.admin.token", $admin->token);
-        session()->put("dashboard.admin.roles", $admin->roles
-            ->pluck("name")
-            ->toArray()
-        );
+        $vendor = Vendor::find($admin->vendor_id);
+        session()->put("dashboard.lang", app()->getLocale());
+        session()->put("dashboard.vendor", $vendor->name);
+        session()->put("dashboard.token", $admin->token);
+        session()->put("dashboard.roles", $admin->roles->pluck("name")->toArray());
         session()->save();
+        self::updateLoginDate($admin);
     }
 
     /**

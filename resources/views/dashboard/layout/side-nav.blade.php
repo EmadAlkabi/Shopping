@@ -7,6 +7,27 @@
             <hr class="hr-light"/>
             <div class="accordion main-list" id="accordion-side-nav">
                 <div class="list-item">
+                    <div class="list-item-header collapsed" id="heading-vendors" data-toggle="collapse" data-target="#collapse-vendors" aria-expanded="false" aria-controls="collapse-vendors">
+                        <div class="d-flex align-items-baseline">
+                            <i class="fa fa-bars"></i>
+                            <div class="px-2">
+                                @lang("dashboard/layout.side-nav.block-vendors.header")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item-body collapse" id="collapse-vendors" aria-labelledby="heading-vendors" data-parent="#accordion-side-nav">
+                        <div class="sup-list">
+                            <a class="list-item" href="{{route("dashboard.vendors.create")}}">
+                                @lang("dashboard/layout.side-nav.block-vendors.add")
+                            </a>
+                            <a class="list-item" href="{{route("dashboard.vendors.index")}}">
+                                @lang("dashboard/layout.side-nav.block-vendors.all")
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item">
                     <div class="list-item-header collapsed" id="heading-items" data-toggle="collapse" data-target="#collapse-items" aria-expanded="false" aria-controls="collapse-items">
                         <div class="d-flex align-items-baseline">
                             <i class="fa fa-bars"></i>

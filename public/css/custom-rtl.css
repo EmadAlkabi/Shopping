@@ -332,3 +332,8 @@ table.dataTable thead .sorting_desc:after {
     width: 6px;
     height: 6px;
 }
+
+.square::-webkit-scrollbar-track,
+.square::-webkit-scrollbar-thumb {
+    border-radius: 0;
+}

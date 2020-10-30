@@ -65,7 +65,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'filter' => \App\Http\Middleware\Dashboard\Filter::class,
         'dashboard.auth' => \App\Http\Middleware\Dashboard\Auth::class,
-        'dashboard.role' => \App\Http\Middleware\Dashboard\Role::class
+        'dashboard.role' => \App\Http\Middleware\Dashboard\Role::class,
+        'getCurrentVendor' =>\App\Http\Middleware\Dashboard\GetCurrentVendor::class,
+        'getCurrentAdmin' =>\App\Http\Middleware\Dashboard\GetCurrentAdmin::class
     ];
 
     /**

@@ -1,16 +1,31 @@
 <nav class="mb-1 navbar fixed-top scrolling-navbar navbar-dark blue-gray">
     <a class="navbar-brand m-0" href="javascript:void(0)">
-        @lang("dashboard/layout.nav.brand")
+        {{session()->get("dashboard.vendor")}}
     </a>
     <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbar-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user"></i>
             </a>
-            <div class="dropdown-menu dropdown-default" aria-labelledby="navbar-dropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-menu dropdown-default overflow-auto scrollbar-blue-gray square thin" aria-labelledby="navbar-dropdown">
+                @if(in_array("SuperAdmin", session()->get("dashboard.roles")))
+                    <a class="dropdown-item" href="{{route("dashboard.profile.index", ["part" => "v"])}}">
+                        @lang("dashboard/layout.nav.profile.action-1")
+                    </a>
+                @endif
+                <a class="dropdown-item" href="{{route("dashboard.profile.index", ["part" => "a"])}}">
+                    @lang("dashboard/layout.nav.profile.action-2")
+                </a>
+                <a class="dropdown-item" href="{{route("dashboard.profile.index", ["part" => "c"])}}">
+                    @lang("dashboard/layout.nav.profile.action-3")
+                </a>
+                <hr/>
+                <a class="dropdown-item" href="{{route("dashboard.profile.logoutFromCurrentDevice")}}">
+                    @lang("dashboard/layout.nav.profile.action-4")
+                </a>
+                <a class="dropdown-item" href="{{route("dashboard.profile.logoutFromAllDevices")}}">
+                    @lang("dashboard/layout.nav.profile.action-5")
+                </a>
             </div>
         </li>
 

@@ -10,8 +10,12 @@ class Vendor extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
     protected $fillable = [
-        "id",
         "name",
+        "email",
+        "phone",
+        "gps",
+        "detail",
+        "state",
         "created_at",
         "updated_at",
     ];

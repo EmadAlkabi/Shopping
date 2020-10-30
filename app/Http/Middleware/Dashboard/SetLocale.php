@@ -21,12 +21,12 @@ class SetLocale
             $locale = request()->input("locale");
 
             if (in_array($locale, Language::getLanguages())) {
-                session()->put("dashboard.admin.lang", $locale);
+                session()->put("dashboard.lang", $locale);
                 session()->save();
             }
 
-            if (session()->has("dashboard.admin.lang"))
-                app()->setLocale(session()->get("dashboard.admin.lang"));
+            if (session()->has("dashboard.lang"))
+                app()->setLocale(session()->get("dashboard.lang"));
         }
 
         return $next($request);

@@ -29,7 +29,7 @@
                             <label class="col-form-label" for="public-name">
                                 @lang("dashboard/item.label.public-name")
                             </label>
-                            <input type="text" class="form-control" name="public_name" id="public-name" value="{{old("public_name")}}"
+                            <input type="text" class="form-control" name="publicName" id="public-name" value="{{old("publicName")}}"
                                    placeholder="@lang("dashboard/item.placeholder.public-name")">
                         </div>
                         <div class="col-sm-4">
@@ -121,7 +121,7 @@
                                     @lang("dashboard/item.placeholder.main-image")
                                 </div>
                             </div>
-                            @error("mainImage") <div class="text-warning">{{ $message }}</div> @enderror
+                            @error("mainImage") <div class="text-warning">{{$message}}</div> @enderror
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label" for="other-images" >
@@ -133,8 +133,8 @@
                                     @lang("dashboard/item.placeholder.other-images")
                                 </div>
                             </div>
-                            @error("otherImages") <div class="text-warning">{{ $message }}</div> @enderror
-                            @error("otherImages.*") <div class="text-warning">{{ $message }}</div> @enderror
+                            @error("otherImages") <div class="text-warning">{{$message}}</div> @enderror
+                            @error("otherImages.*") <div class="text-warning">{{$message}}</div> @enderror
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label" for="video">
@@ -142,9 +142,9 @@
                             </label>
                             <input type="text" class="form-control" name="video" id="video" value="{{old("video")}}"
                                    placeholder="@lang("dashboard/item.placeholder.video")">
-                            @error("video") <div class="text-warning">{{$message}}</div> @enderror
                         </div>
                     </div>
+
                     {{-- Units --}}
                     <div class="row">
                         <div class="col-sm-12">

@@ -42,13 +42,23 @@ Route::namespace("Dashboard")
 
         Route::name(".")->group(function () {
             // Login
-            Route::get("login", function () {
-                return redirect()->route("dashboard");
-            });
             Route::post("login", "LoginController@login")->name("login");
 
-            // Logout
-            Route::get("logout", "LogoutController@logout")->name("logout");
+            // Profile
+            Route::name("profile.")
+                ->prefix("profile")
+                ->group(function (){
+
+                    Route::get("{part?}", "ProfileController@index")->name("index");
+                    Route::post("update-vendor", "ProfileController@updateVendor")->name("updateVendor");
+                    Route::post("update-account", "ProfileController@updateAccount")->name("updateAccount");
+                    Route::post("change-password", "ProfileController@changePassword")->name("changePassword");
+                    Route::get("logout/from-current-device", "ProfileController@logoutFromCurrentDevice")->name("logoutFromCurrentDevice");
+                    Route::get("logout/from-all-devices", "ProfileController@logoutFromAllDevices")->name("logoutFromAllDevices");
+                });
+
+            // Vendors
+            Route::resource("vendors", "VendorController");
 
             // Items
             Route::resource("items", "ItemController");
