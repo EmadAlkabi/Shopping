@@ -19,7 +19,9 @@ class ItemsCollection extends JsonResource
     {
         return [
             "id"            => $this->id,
-            "name"          => $this->name,
+            "name"          => ($this->public_name)
+                ? $this->public_name
+                : $this->name,
             "currency"      => $this->currency,
             "image"         => (is_null($this->mainImage()))
                 ? asset('images/large' . Storage::url("public/item/default.png"))

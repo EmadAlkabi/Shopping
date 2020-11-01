@@ -13,8 +13,8 @@ class NotificationController extends Controller
     public function all()
     {
         $notifications = Notification::whereIn('receiver', [
-            "users",
-            "order_id"
+            "all",
+            "user_id"
         ])->paginate(20);
         NotificationsCollection::collection($notifications);
 

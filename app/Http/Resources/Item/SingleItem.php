@@ -21,7 +21,9 @@ class SingleItem extends JsonResource
     {
         return [
             "id"              => $this->id,
-            "name"            => $this->name,
+            "name"          => ($this->public_name)
+                ? $this->public_name
+                : $this->name,
             "details"         => $this->details,
             "currency"        => $this->currency,
             "rating"          => $this->rating(),

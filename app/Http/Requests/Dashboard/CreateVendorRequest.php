@@ -28,7 +28,7 @@ class CreateVendorRequest extends FormRequest
     public function rules()
     {
         return [
-            "vendorName"     => ["required"],
+            "vendorName"     => ["required", "unique:vendors,name"],
             "vendorEmail"    => ["required", "email", "unique:vendors,email"],
             "vendorPhone"    => ["required", "unique:vendors,phone"],
             "vendorState"    => ["required", Rule::in(VendorState::getStates())],
@@ -48,7 +48,8 @@ class CreateVendorRequest extends FormRequest
     {
         if(app()->getLocale() == Language::ARABIC)
             return [
-                "vendorName.required"    => "حقل الاسم مطلوب.",
+                "vendorName.required"    => "حقل اسم الفرع مطلوب.",
+                "vendorName.unique"      => "اسم الفرع محجوز.",
                 "vendorEmail.required"   => "حقل البريد الإلكتروني مطلوب.",
                 "vendorEmail.email"      => "البريد الالكتروني غير مقبول.",
                 "vendorEmail.unique"     => "البريد الالكتروني محجوز.",
@@ -59,11 +60,9 @@ class CreateVendorRequest extends FormRequest
                 "adminName.required"     => "حقل الاسم الحقيقي مطلوب.",
                 "adminUsername.required" => "حقل اسم المستخدم مطلوب.",
                 "adminUsername.unique"   => "اسم المستخدم محجوز.",
-
                 "adminPassword.required"  => "حقل كلمة المرور مطلوب.",
                 "adminPassword.min"       => "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
                 "adminPassword.confirmed" => "كلمتا المرور غير متطابقتان.",
-
                 "adminState.required"    => "حقل الحالة مطلوب.",
                 "adminState.in"          => "الحالة المحدد غير مقبول."
             ];

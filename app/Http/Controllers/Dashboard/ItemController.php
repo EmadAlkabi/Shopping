@@ -28,6 +28,8 @@ class ItemController extends Controller
         $this->middleware("dashboard.role:Item");
         $this->middleware("filter:item-f")->only(["index"]);
         $this->middleware("filter:item-c")->only(["index"]);
+
+        $this->middleware("getCurrentVendor");
     }
 
     /**
@@ -38,7 +40,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        $vendor = session()->get("dashboard.admin.vendor");
+        $vendor = $request->vendor->id;
         $filter = $request->input("f", "all");
         $category = $request->input("c");
         switch ($filter) {

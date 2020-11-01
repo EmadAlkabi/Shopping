@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Kreait\Firebase\Messaging;
 
 class VendorController extends Controller
 {
@@ -25,7 +26,6 @@ class VendorController extends Controller
     {
         $this->middleware("dashboard.auth");
         $this->middleware("dashboard.role:Vendor");
-//        $this->middleware("filter:item-f")->only(["index"]);
     }
 
     /**
@@ -52,11 +52,13 @@ class VendorController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateVendorRequest $request
+     * @param Messaging $messaging
      * @return RedirectResponse
      */
-    public function store(CreateVendorRequest $request)
+    public function store(CreateVendorRequest $request, Messaging $messaging)
     {
-        $exception = DB::transaction(function () use ($request){
+        $vendor = null;
+        $exception = DB::transaction(function () use ($request, &$vendor){
             $vendor = Vendor::create([
                 "name"   => $request->input("vendorName"),
                 "email"  => $request->input("vendorEmail"),
@@ -74,7 +76,7 @@ class VendorController extends Controller
                 "state"     => $request->input("adminState")
             ]);
 
-            $roles = Role::where("name","!=", "Vendor")->get();
+            $roles = Role::where("name", "!=", "Vendor")->get();
             foreach ($roles as $role) {
                 AdminRole::create([
                     "admin_id" => $admin->id,
@@ -89,8 +91,10 @@ class VendorController extends Controller
                 ->withInput()
                 ->with([
                     "message" => __("dashboard/vendor.store.failed"),
-                    "type"    => "success"
+                    "type"    => "error"
                 ]);
+
+        NotificationController::send("all", __("dashboard/vendor.create.notification.title"), __("dashboard/vendor.create.notification.body", ["string" => $vendor->name]), "SHOW_VENDOR_INFO", $vendor->id, $messaging);
 
         return redirect()
             ->back()
