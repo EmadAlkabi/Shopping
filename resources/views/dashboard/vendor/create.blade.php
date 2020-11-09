@@ -170,48 +170,6 @@
             });
         });
 
-
-
-
-
-        $('#dropdown-main-unit .dropdown-item').on('click', function () {
-            $('input#main-unit').val($(this).html().trim());
-            $('input[name="mainUnit"]').val($(this).data('value'));
-        });
-        $('input#category').on('keyup', function () {
-            let value = $(this).val();
-            let items = $('#dropdown-category .dropdown-item');
-
-            $.each(items, function(index, item) {
-                item.classList.add('d-none');
-                item.classList.remove('d-block');
-                let str = item.textContent.trim();
-                if(str.includes(value))
-                    item.classList.add('d-block');
-            });
-        });
-        $('input[type="checkbox"]').on('click', function () {
-            let dd = $("#dropdown-main-unit .dropdown-item");
-            if ($(this).attr('checked') === undefined) {
-                $(this).attr('checked', 'checked');
-                $(this).parent().parent().parent().find('input[type="text"]').removeAttr('disabled');
-                if ($(this).attr("id") === "unit-2")
-                    dd[1].classList.remove("disabled");
-                if ($(this).attr("id") === "unit-3")
-                    dd[2].classList.remove("disabled")
-            } else {
-                $(this).removeAttr('checked');
-                $(this).parent().parent().parent().find('input[type="text"]').attr('disabled', 'disabled');
-                if ($(this).attr("id") === "unit-2")
-                    dd[1].classList.add("disabled");
-                if ($(this).attr("id") === "unit-3")
-                    dd[2].classList.add("disabled")
-            }
-        });
-        $('button').on('click', function () {
-            $('input#unit-1').removeAttr("disabled");
-        });
-
         @if(session()->has("message"))
         $.toast({
             title: '{{session()->get("message")}}',

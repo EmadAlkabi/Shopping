@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4 text-center d-none d-md-block">
-                            <img src="{{asset("images/square".\Illuminate\Support\Facades\Storage::url("public/admin/default.png"))}}" class="img-fluid z-depth-1 rounded-circle" alt="Responsive image">
+                            <img src="{{asset("images/square".\Illuminate\Support\Facades\Storage::url("public/admin/default.jpg"))}}" class="img-fluid z-depth-1 rounded-circle" alt="Square Image">
                             <p class="my-3 font-weight-bold">{{$admin->name}}</p>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 <div class="tab-content">
                     @if(in_array("SuperAdmin", session()->get("dashboard.roles")))
                         <div class="tab-pane fade pt-4" id="vendor" role="tabpanel" aria-labelledby="vendor-tab">
-                            Vendor
+                            @include("dashboard.profile.components.change-vendor-info", ["vendor" => $vendor])
                         </div>
                     @endif
                     <div class="tab-pane fade pt-4" id="account" role="tabpanel" aria-labelledby="account-tab">

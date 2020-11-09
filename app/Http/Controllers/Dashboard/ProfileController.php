@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\UpdateVendorRequest;
 use App\Models\Admin;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -19,8 +20,6 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware("dashboard.auth");
-        $this->middleware("getCurrentVendor")->only(["index"]);
-        $this->middleware("getCurrentAdmin")->only(["index", "logoutFromAllDevices"]);
     }
 
     /**
@@ -33,9 +32,14 @@ class ProfileController extends Controller
     public function index(Request $request, $part = null)
     {
         return view("dashboard.profile.index")->with([
-            "admin"  => $request->admin,
-            "vendor" => $request->vendor
+            "vendor" => $request->vendor,
+            "admin"  => $request->admin
         ]);
+    }
+
+    public function updateVendor(UpdateVendorRequest $request)
+    {
+
     }
 
     /**

@@ -48,7 +48,6 @@ Route::namespace("Dashboard")
             Route::name("profile.")
                 ->prefix("profile")
                 ->group(function (){
-
                     Route::get("{part?}", "ProfileController@index")->name("index");
                     Route::post("update-vendor", "ProfileController@updateVendor")->name("updateVendor");
                     Route::post("update-account", "ProfileController@updateAccount")->name("updateAccount");
